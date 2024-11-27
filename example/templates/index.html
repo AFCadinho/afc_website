@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h2>Play game</h2>
+
+{% if message %}
+<p>{{ message }}</p>
+{% endif %}
+
+{% if not game_over %}
+<form method="POST">
+    <input name="word" type="text" placeholder="Your 5-letter guess" required>
+    <button type="submit">Guess</button>
+</form>
+
+{% else %}
+<form method="POST">
+    <button type="submit" name="reset">New game</button>
+</form>
+{% endif %}
+
+<ul>
+    {% for hint in hints %}
+    <li class="hint">
+        {% for letter, status in hint %}
+        <span class="{{ status }}">{{ letter }}</span>
+        {% endfor %}
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

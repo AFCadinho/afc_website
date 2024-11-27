@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+
+{% block content %}
+<p>Current secret word: {{ current_secret_word }}</p>
+<h1>Game History</h1>
+<ul>
+    {% for game in games %}
+        {% if game.result %}   
+            <li>
+                <a href="{{ url_for('view_game', game_id=game.id)}}">Secret word: {{ game.secret }} - {% if game.result == 'failed' %}Failed{% else %} attempts: {{ game.result }} {% endif %}</a>
+            </li>
+        {% endif %}
+    {% endfor %}
+</ul>
+<!--    <a href="{{ url_for('index') }}">Back to Game</a>-->
+{% endblock %}

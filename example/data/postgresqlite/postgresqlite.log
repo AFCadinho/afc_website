@@ -1,0 +1,357 @@
+The files belonging to this database system will be owned by user "adinho".
+This user must also own the server process.
+
+The database cluster will be initialized with locales
+  COLLATE:  en_US.UTF-8
+  CTYPE:    en_US.UTF-8
+  MESSAGES: en_US.UTF-8
+  MONETARY: nl_NL.UTF-8
+  NUMERIC:  nl_NL.UTF-8
+  TIME:     nl_NL.UTF-8
+The default database encoding has accordingly been set to "UTF8".
+The default text search configuration will be set to "english".
+
+Data page checksums are disabled.
+
+creating directory /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/pgdata ... ok
+creating subdirectories ... ok
+selecting dynamic shared memory implementation ... posix
+selecting default max_connections ... 100
+selecting default shared_buffers ... 128MB
+selecting default time zone ... Europe/Amsterdam
+creating configuration files ... ok
+running bootstrap script ... ok
+performing post-bootstrap initialization ... ok
+syncing data to disk ... ok
+
+initdb: warning: enabling "trust" authentication for local connections
+You can change this by editing pg_hba.conf or using the option -A, or
+--auth-local and --auth-host, the next time you run initdb.
+
+Success. You can now start the database server using:
+
+    /home/adinho/.cache/postgresqlite/14.3/bin/pg_ctl -D /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/pgdata -l logfile start
+
+PostgreSQL daemon is starting..
+2024-11-18 11:17:54.582 CET [5759] LOG:  starting PostgreSQL 14.3 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 12.1.0, 64-bit
+2024-11-18 11:17:54.582 CET [5759] LOG:  listening on IPv6 address "::1", port 56495
+2024-11-18 11:17:54.582 CET [5759] LOG:  listening on IPv4 address "127.0.0.1", port 56495
+2024-11-18 11:17:54.584 CET [5759] LOG:  listening on Unix socket "/tmp/postgresqlite-NrdzEDGn/.s.PGSQL.56495"
+2024-11-18 11:17:54.587 CET [5761] LOG:  database system was shut down at 2024-11-18 11:17:54 CET
+2024-11-18 11:17:54.591 CET [5759] LOG:  database system is ready to accept connections
+PostgreSQLite now has 1 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/eQTFgCyLCiqs as it was no longer locked
+PostgreSQLite now has 0 client(s)
+PostgreSQLite now has 1 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/oMOseOaIMgZg as it was no longer locked
+PostgreSQLite now has 0 client(s)
+PostgreSQLite shutting down idle server...
+2024-11-18 11:22:18.065 CET [5759] LOG:  received smart shutdown request
+2024-11-18 11:22:18.077 CET [5759] LOG:  background worker "logical replication launcher" (PID 5767) exited with exit code 1
+2024-11-18 11:22:18.077 CET [5762] LOG:  shutting down
+2024-11-18 11:22:18.104 CET [5759] LOG:  database system is shut down
+PostgreSQLite shutdown successful
+PostgreSQL daemon is starting..
+2024-11-21 11:30:25.213 CET [10975] LOG:  starting PostgreSQL 14.3 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 12.1.0, 64-bit
+2024-11-21 11:30:25.213 CET [10975] LOG:  listening on IPv6 address "::1", port 56495
+2024-11-21 11:30:25.213 CET [10975] LOG:  listening on IPv4 address "127.0.0.1", port 56495
+2024-11-21 11:30:25.215 CET [10975] LOG:  listening on Unix socket "/tmp/postgresqlite-NrdzEDGn/.s.PGSQL.56495"
+2024-11-21 11:30:25.219 CET [10980] LOG:  database system was shut down at 2024-11-18 11:22:18 CET
+2024-11-21 11:30:25.228 CET [10975] LOG:  database system is ready to accept connections
+PostgreSQLite now has 1 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/hLimiUPtbggH as it was no longer locked
+PostgreSQLite now has 0 client(s)
+PostgreSQLite now has 2 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/yzyTcqVUgeAs as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/lqsNwdebszHZ as it was no longer locked
+PostgreSQLite now has 0 client(s)
+PostgreSQLite now has 2 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/xkESmNXKzBNv as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/UaWaISiuxufS as it was no longer locked
+PostgreSQLite now has 0 client(s)
+PostgreSQLite now has 2 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/VIDqyRTrQnUb as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/iSlzsKDdpADO as it was no longer locked
+PostgreSQLite now has 0 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/UqTuUCxXrAkm as it was no longer locked
+PostgreSQLite now has 2 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/jLFYJWvQPFGZ as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/EncdjxEjcYZV as it was no longer locked
+PostgreSQLite now has 0 client(s)
+PostgreSQLite shutting down idle server...
+2024-11-21 11:39:02.966 CET [10975] LOG:  received smart shutdown request
+2024-11-21 11:39:02.978 CET [10975] LOG:  background worker "logical replication launcher" (PID 10986) exited with exit code 1
+2024-11-21 11:39:02.978 CET [10981] LOG:  shutting down
+2024-11-21 11:39:02.998 CET [10975] LOG:  database system is shut down
+PostgreSQLite shutdown successful
+PostgreSQL daemon is starting..
+2024-11-21 12:05:00.859 CET [14947] LOG:  starting PostgreSQL 14.3 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 12.1.0, 64-bit
+2024-11-21 12:05:00.859 CET [14947] LOG:  listening on IPv6 address "::1", port 56495
+2024-11-21 12:05:00.859 CET [14947] LOG:  listening on IPv4 address "127.0.0.1", port 56495
+2024-11-21 12:05:00.860 CET [14947] LOG:  listening on Unix socket "/tmp/postgresqlite-NrdzEDGn/.s.PGSQL.56495"
+2024-11-21 12:05:00.864 CET [14951] LOG:  database system was shut down at 2024-11-21 11:39:02 CET
+2024-11-21 12:05:00.868 CET [14947] LOG:  database system is ready to accept connections
+PostgreSQLite now has 1 client(s)
+PostgreSQLite now has 2 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/UftsjZdnecsp as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/MkITXocBgyXJ as it was no longer locked
+PostgreSQLite now has 1 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/aXjgXaTkPqaJ as it was no longer locked
+PostgreSQLite now has 0 client(s)
+PostgreSQLite shutting down idle server...
+2024-11-21 13:25:36.107 CET [14947] LOG:  received smart shutdown request
+2024-11-21 13:25:36.131 CET [14947] LOG:  background worker "logical replication launcher" (PID 14958) exited with exit code 1
+2024-11-21 13:25:36.131 CET [14952] LOG:  shutting down
+2024-11-21 13:25:36.143 CET [14947] LOG:  database system is shut down
+PostgreSQLite shutdown successful
+PostgreSQL daemon is starting..
+2024-11-21 14:43:14.840 CET [23619] LOG:  starting PostgreSQL 14.3 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 12.1.0, 64-bit
+2024-11-21 14:43:14.841 CET [23619] LOG:  listening on IPv6 address "::1", port 56495
+2024-11-21 14:43:14.841 CET [23619] LOG:  listening on IPv4 address "127.0.0.1", port 56495
+2024-11-21 14:43:14.842 CET [23619] LOG:  listening on Unix socket "/tmp/postgresqlite-NrdzEDGn/.s.PGSQL.56495"
+2024-11-21 14:43:14.846 CET [23622] LOG:  database system was shut down at 2024-11-21 13:25:36 CET
+2024-11-21 14:43:14.850 CET [23619] LOG:  database system is ready to accept connections
+PostgreSQLite now has 1 client(s)
+PostgreSQLite now has 2 client(s)
+2024-11-21 14:43:35.165 CET [23644] ERROR:  null value in column "word" of relation "guess" violates not-null constraint
+2024-11-21 14:43:35.165 CET [23644] DETAIL:  Failing row contains (1, 1, null, 2024-11-21 14:43:35.165128).
+2024-11-21 14:43:35.165 CET [23644] STATEMENT:  
+	                            INSERT INTO guess (game_id)
+	                            VALUES($1)
+	                            RETURNING id;
+	                            
+2024-11-21 14:43:38.647 CET [23644] ERROR:  null value in column "word" of relation "guess" violates not-null constraint
+2024-11-21 14:43:38.647 CET [23644] DETAIL:  Failing row contains (2, 1, null, 2024-11-21 14:43:38.647289).
+2024-11-21 14:43:38.647 CET [23644] STATEMENT:  
+	                            INSERT INTO guess (game_id)
+	                            VALUES($1)
+	                            RETURNING id;
+	                            
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/fzoozSVtBGKT as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/bYywrYVVoudQ as it was no longer locked
+PostgreSQLite now has 0 client(s)
+PostgreSQLite now has 2 client(s)
+2024-11-21 14:44:11.561 CET [24023] ERROR:  null value in column "word" of relation "guess" violates not-null constraint
+2024-11-21 14:44:11.561 CET [24023] DETAIL:  Failing row contains (3, 1, null, 2024-11-21 14:44:11.560984).
+2024-11-21 14:44:11.561 CET [24023] STATEMENT:  
+	                            INSERT INTO guess (game_id)
+	                            VALUES($1)
+	                            RETURNING id;
+	                            
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/HLVJuTgvsIXR as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/liVNNHlpdpPC as it was no longer locked
+PostgreSQLite now has 0 client(s)
+PostgreSQLite now has 1 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/XvtOHXtunuyG as it was no longer locked
+PostgreSQLite now has 0 client(s)
+PostgreSQLite now has 1 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/DReyCPhnXWxn as it was no longer locked
+PostgreSQLite now has 0 client(s)
+PostgreSQLite now has 1 client(s)
+PostgreSQLite now has 2 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/uJEerrfVzhkE as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/ldQYrBplLAJu as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/jFQZFtxbRoVl as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/UUyIUAkUAgfX as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/EIlwergZLkza as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/AKtTXpxjNdJo as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/AErUdVRzXpSO as it was no longer locked
+PostgreSQLite now has 0 client(s)
+PostgreSQLite shutting down idle server...
+2024-11-21 15:18:09.925 CET [23619] LOG:  received smart shutdown request
+2024-11-21 15:18:09.936 CET [23619] LOG:  background worker "logical replication launcher" (PID 23628) exited with exit code 1
+2024-11-21 15:18:09.936 CET [23623] LOG:  shutting down
+2024-11-21 15:18:09.950 CET [23619] LOG:  database system is shut down
+PostgreSQLite shutdown successful
+PostgreSQL daemon is starting..
+2024-11-21 15:23:09.793 CET [27517] LOG:  starting PostgreSQL 14.3 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 12.1.0, 64-bit
+2024-11-21 15:23:09.793 CET [27517] LOG:  listening on IPv6 address "::1", port 56495
+2024-11-21 15:23:09.793 CET [27517] LOG:  listening on IPv4 address "127.0.0.1", port 56495
+2024-11-21 15:23:09.795 CET [27517] LOG:  listening on Unix socket "/tmp/postgresqlite-NrdzEDGn/.s.PGSQL.56495"
+2024-11-21 15:23:09.798 CET [27520] LOG:  database system was shut down at 2024-11-21 15:18:09 CET
+2024-11-21 15:23:09.802 CET [27517] LOG:  database system is ready to accept connections
+PostgreSQLite now has 1 client(s)
+PostgreSQLite now has 2 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/poVGhOLvueXk as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/VYABWzZiuxiw as it was no longer locked
+PostgreSQLite now has 0 client(s)
+PostgreSQLite now has 2 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/ieCNmjuQjTVk as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/vIelWpQXZRBj as it was no longer locked
+PostgreSQLite now has 0 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/GryBJiVQGIfu as it was no longer locked
+PostgreSQLite now has 1 client(s)
+PostgreSQLite now has 2 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/POtxTpQuGXlT as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/bSsaYwOJOuTH as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/eIJhmJHPMtzb as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/OJkQcZUHVXQG as it was no longer locked
+PostgreSQLite now has 1 client(s)
+PostgreSQLite now has 2 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/LXYKpzWmsTHO as it was no longer locked
+PostgreSQLite now has 1 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/bIWLGShYVXtA as it was no longer locked
+PostgreSQLite now has 0 client(s)
+PostgreSQLite now has 2 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/lHuodCdLnmdv as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/AwZfHaewqUkA as it was no longer locked
+PostgreSQLite now has 0 client(s)
+PostgreSQL daemon is starting..
+2024-11-25 10:42:48.165 CET [3352] LOG:  starting PostgreSQL 14.3 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 12.1.0, 64-bit
+2024-11-25 10:42:48.165 CET [3352] LOG:  listening on IPv6 address "::1", port 56495
+2024-11-25 10:42:48.165 CET [3352] LOG:  listening on IPv4 address "127.0.0.1", port 56495
+2024-11-25 10:42:48.167 CET [3352] LOG:  listening on Unix socket "/tmp/postgresqlite-NrdzEDGn/.s.PGSQL.56495"
+2024-11-25 10:42:48.171 CET [3358] LOG:  database system was interrupted; last known up at 2024-11-21 15:38:19 CET
+2024-11-25 10:42:48.228 CET [3358] LOG:  database system was not properly shut down; automatic recovery in progress
+2024-11-25 10:42:48.230 CET [3358] LOG:  redo starts at 0/17F2DE0
+2024-11-25 10:42:48.231 CET [3358] LOG:  invalid record length at 0/17F3568: wanted 24, got 0
+2024-11-25 10:42:48.231 CET [3358] LOG:  redo done at 0/17F3530 system usage: CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+2024-11-25 10:42:48.252 CET [3352] LOG:  database system is ready to accept connections
+PostgreSQLite now has 1 client(s)
+PostgreSQLite now has 2 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/dngoTOeoTjUA as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/HEgoSLjVMIvu as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/kcGdFxnSgCgy as it was no longer locked
+PostgreSQLite now has 0 client(s)
+PostgreSQLite shutting down idle server...
+2024-11-25 10:55:06.378 CET [3352] LOG:  received smart shutdown request
+2024-11-25 10:55:06.399 CET [3352] LOG:  background worker "logical replication launcher" (PID 3373) exited with exit code 1
+2024-11-25 10:55:06.399 CET [3368] LOG:  shutting down
+2024-11-25 10:55:06.432 CET [3352] LOG:  database system is shut down
+PostgreSQLite shutdown successful
+PostgreSQL daemon is starting..
+2024-11-25 10:56:15.208 CET [5095] LOG:  starting PostgreSQL 14.3 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 12.1.0, 64-bit
+2024-11-25 10:56:15.208 CET [5095] LOG:  listening on IPv6 address "::1", port 56495
+2024-11-25 10:56:15.208 CET [5095] LOG:  listening on IPv4 address "127.0.0.1", port 56495
+2024-11-25 10:56:15.210 CET [5095] LOG:  listening on Unix socket "/tmp/postgresqlite-NrdzEDGn/.s.PGSQL.56495"
+2024-11-25 10:56:15.213 CET [5097] LOG:  database system was shut down at 2024-11-25 10:55:06 CET
+2024-11-25 10:56:15.218 CET [5095] LOG:  database system is ready to accept connections
+PostgreSQLite now has 1 client(s)
+PostgreSQLite now has 2 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/isReYHuppgKO as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/gZRIwCqozPkf as it was no longer locked
+PostgreSQLite now has 0 client(s)
+PostgreSQLite now has 2 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/pGbGuurRnxDG as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/vWopfQoNLWIf as it was no longer locked
+PostgreSQLite now has 1 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/rBPQUmOZGvhz as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/FccbpmPECIWV as it was no longer locked
+PostgreSQLite now has 0 client(s)
+PostgreSQLite now has 2 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/dQbISQklbLcr as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/GFgmNnTGoYOq as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/CfCjFrRoRHrA as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/KaUXmqGmEPNp as it was no longer locked
+PostgreSQLite now has 1 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/kDddDRiKZVrg as it was no longer locked
+PostgreSQLite now has 0 client(s)
+PostgreSQLite now has 1 client(s)
+PostgreSQLite now has 2 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/fUmdXVvPJrUL as it was no longer locked
+PostgreSQLite now has 1 client(s)
+PostgreSQLite now has 2 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/fkHoKnujmwCS as it was no longer locked
+PostgreSQLite now has 1 client(s)
+PostgreSQLite now has 2 client(s)
+2024-11-25 11:08:04.879 CET [8112] ERROR:  syntax error at or near "." at character 35
+2024-11-25 11:08:04.879 CET [8112] STATEMENT:  SELECT game.id, game.secret player.id FROM game JOIN player ON game.player_id = player.id WHERE game.player_id = 1
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/KKNYRDNNVLJK as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/eQQQOyPeIGYt as it was no longer locked
+PostgreSQLite now has 0 client(s)
+PostgreSQLite now has 2 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/mLCCGKVcJwjb as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/WJKgnEsUdKPh as it was no longer locked
+PostgreSQLite now has 0 client(s)
+PostgreSQLite now has 2 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/uSffHQohgoJO as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/MRqrUTdgtYwl as it was no longer locked
+PostgreSQLite now has 1 client(s)
+PostgreSQLite now has 2 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/ZRMbDEyzZzxB as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/LXVrJyKlisEK as it was no longer locked
+PostgreSQLite now has 1 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/LqAJzmRSKWHK as it was no longer locked
+PostgreSQLite now has 2 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/CZJkniSiGubb as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/hQVPcxJmcqPJ as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/YdHbjWaTWkaG as it was no longer locked
+PostgreSQLite now has 1 client(s)
+PostgreSQLite now has 2 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/fHhZvMWGMuZH as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/YtjQFlvcEOKY as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/tHmoGRXwEXEc as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/vChmaYjalBJE as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/POkHDgFKXvyC as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/sZHFddTVuNWy as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/xFtsmcFihZoL as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/XWnrHKglbnAW as it was no longer locked
+PostgreSQLite now has 0 client(s)
+PostgreSQLite shutting down idle server...
+2024-11-25 11:35:39.968 CET [5095] LOG:  received smart shutdown request
+2024-11-25 11:35:39.970 CET [5095] LOG:  background worker "logical replication launcher" (PID 5103) exited with exit code 1
+2024-11-25 11:35:39.970 CET [5098] LOG:  shutting down
+2024-11-25 11:35:39.982 CET [5095] LOG:  database system is shut down
+PostgreSQLite shutdown successful
+PostgreSQL daemon is starting..
+2024-11-25 11:54:19.159 CET [14521] LOG:  starting PostgreSQL 14.3 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 12.1.0, 64-bit
+2024-11-25 11:54:19.159 CET [14521] LOG:  listening on IPv6 address "::1", port 56495
+2024-11-25 11:54:19.159 CET [14521] LOG:  listening on IPv4 address "127.0.0.1", port 56495
+2024-11-25 11:54:19.161 CET [14521] LOG:  listening on Unix socket "/tmp/postgresqlite-NrdzEDGn/.s.PGSQL.56495"
+2024-11-25 11:54:19.164 CET [14523] LOG:  database system was shut down at 2024-11-25 11:35:39 CET
+2024-11-25 11:54:19.168 CET [14521] LOG:  database system is ready to accept connections
+PostgreSQLite now has 1 client(s)
+PostgreSQLite now has 2 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/rsxCUhvvESVa as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/uWpbDkVzIDvO as it was no longer locked
+PostgreSQLite now has 1 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/VAtliirbExWX as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/ZFbPYEowHHKN as it was no longer locked
+PostgreSQLite now has 0 client(s)
+PostgreSQLite now has 2 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/sVYzkeGesEeh as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/tPjWxBKjulub as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/mnXKZcWGJggh as it was no longer locked
+PostgreSQLite now has 0 client(s)
+PostgreSQLite now has 2 client(s)
+2024-11-25 11:59:16.300 CET [15232] ERROR:  missing FROM-clause entry for table "game" at character 79
+2024-11-25 11:59:16.300 CET [15232] STATEMENT:  
+	                SELECT word
+	                FROM guess
+	                WHERE game.id = $1
+	                
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/WeCLiljaLWVP as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/BnywGjDpLSTJ as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/nCMbKUwSVDSV as it was no longer locked
+PostgreSQLite now has 1 client(s)
+PostgreSQLite now has 2 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/jvaoxpSotfUp as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/DQstuGKjXKIK as it was no longer locked
+PostgreSQLite now has 1 client(s)
+PostgreSQLite now has 2 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/OJDdGETcJKeY as it was no longer locked
+PostgreSQLite now has 1 client(s)
+PostgreSQLite now has 2 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/AFXVOHzHCtcz as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/XqNshTKPkjEA as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/ibvyiYPIPSZe as it was no longer locked
+PostgreSQLite now has 0 client(s)
+PostgreSQLite now has 2 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/MMYUZIpfIGkq as it was no longer locked
+PostgreSQLite now has 1 client(s)
+PostgreSQLite now has 2 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/OYZdwajsAcOf as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/fBLeYpeevRJI as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/YRNiGwxMRYVE as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/gpnKNfUICRxa as it was no longer locked
+PostgreSQLite now has 0 client(s)
+PostgreSQLite now has 2 client(s)
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/gMWXwnfdNCNq as it was no longer locked
+PostgreSQLite removed /home/adinho/lms/1b-webapps/03-flask-sql/data/postgresqlite/locks/MrjFoNUUhDXk as it was no longer locked
+PostgreSQLite now has 0 client(s)
+PostgreSQLite shutting down idle server...
+2024-11-25 12:22:29.165 CET [14521] LOG:  received smart shutdown request
+2024-11-25 12:22:29.185 CET [14521] LOG:  background worker "logical replication launcher" (PID 14529) exited with exit code 1
+2024-11-25 12:22:29.185 CET [14524] LOG:  shutting down
+2024-11-25 12:22:29.196 CET [14521] LOG:  database system is shut down
+PostgreSQLite shutdown successful

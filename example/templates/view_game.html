@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h2>Game Details</h2>
+    <p>Secret Word: {{ game.secret }}</p>
+
+    <h3>Guesses:</h3>
+
+    <ul>
+        {% for guess in guesses %}
+            <li>{{ guess }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
