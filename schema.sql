@@ -26,3 +26,6 @@ CREATE TABLE pokemmo_teams (
     name TEXT NOT NULL,
     pokepaste TEXT NOT NULL
 );
+
+INSERT INTO pokemmo_teams(name, pokepaste) VALUES('Arcanine', 'https://pokepast.es/7b2f7c2fa6065676');
+INSERT INTO pokemmo_teams(name, pokepaste) VALUES('Moltres', 'https://pokepast.es/b93d8a152ef16589');
