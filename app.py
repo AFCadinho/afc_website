@@ -1,12 +1,18 @@
-from flask import Flask, render_template, request, session, flash, redirect, url_for
 import postgresqlite
 
-app = Flask(__name__)
+from flask import Flask, render_template, request, redirect, url_for, session, flash
+
 db = postgresqlite.connect()
+
+app = Flask(__name__)
 app.secret_key = "my_secret_key"
 
 @app.route('/')
 def index():
+    if "user_id" not in session:
+        flash("You need to log in to view this page.", "warning")
+        return redirect(url_for('login'))
+
     return render_template("index.html")
 
 
@@ -27,26 +33,28 @@ def teams():
 # Login route
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    
     if request.method == 'POST':
-        username = request.form['username']
+        name = request.form['username']
         password = request.form['password']
 
-        # Fetch user from the database
-        query = "SELECT id, password FROM users WHERE username = %s;"
-        result = db.execute(query, (username,)).fetchone()
+        # Check the database if these values exist
+        player = db.query_row("""
+                        SELECT *
+                        FROM users
+                        WHERE name = :name
+                        """, name=name)
 
-        if result:
-            user_id, hashed_password = result
-            # Check password hash
-            if check_password_hash(hashed_password, password):
-                session['user_id'] = user_id
-                session['username'] = username
-                flash("Login successful!", "success")
-                return redirect(url_for('index'))
+        # Check if player exists
+        if player:
+            # Check if the password matches
+            if player["password"] == password:
+                session["user_id"] = player["id"]
+                flash("You have been successfully logged in!", category="info")
+                return redirect(url_for("index"))
             else:
-                flash("Invalid password.", "danger")
-        else:
-            flash("User not found.", "danger")
+                flash("Wrong password! Try again.", category="error")
+                return redirect(url_for("login"))
 
     return render_template("login.html")
 
