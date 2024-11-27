@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h2>Welcome to Pokémon PvP Teams</h2>
+{% if team %}
+    <h3>Random Team</h3>
+    <p>{{ team[0] }} - <a href="{{ team[1] }}" target="_blank">View Pokepaste</a></p>
+{% else %}
+    <p>No teams available yet. Add some to get started!</p>
+{% endif %}
+<a href="{{ url_for('teams') }}">View All Teams</a>
+{% endblock %}
