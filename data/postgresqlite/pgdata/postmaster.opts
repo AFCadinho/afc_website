@@ -1,0 +1,1 @@
+/home/adinho/.cache/postgresqlite/14.3/bin/postgres "-c" "dynamic_library_path=/home/adinho/.cache/postgresqlite/14.3/lib" "-D" "/home/adinho/pokepaste_website/data/postgresqlite/pgdata" "-p" "59228" "--unix_socket_directories=/tmp/postgresqlite-hVvVsEDl"
