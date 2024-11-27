@@ -1,6 +1,8 @@
 -- wsl
 -- source .venv/bin/activate
 -- poetry run postgresqlite < schema.sql
+-- poetry run postgresqlite pgcli
+
 
 
 -- Drop schema if exists
@@ -17,6 +19,7 @@ CREATE TABLE users (
 );
 
 INSERT INTO users(name, password) VALUES('Adinho', 'Gambler2010');
+INSERT INTO users(name, password) VALUES('Putra', 'Libra148');
 
 CREATE TABLE pokemmo_teams (
     id SERIAL PRIMARY KEY,
