@@ -1,1 +1,4 @@
 data/postgresqlite/pgdata/
+data/postgresqlite/locks/
+data/postgresqlite/postgresqlite.log
+data/postgresqlite/postgresqlite.json
