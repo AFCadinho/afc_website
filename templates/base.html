@@ -7,11 +7,25 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
+    {% with messages = get_flashed_messages(with_categories=true)  %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
     <header>
         <h1>Pokémon PvP Teams</h1>
         <nav>
             <a href="{{ url_for('index') }}">Home</a>
             <a href="{{ url_for('teams') }}">Teams</a>
+            {% if "user_id" in session %}
+            <form method="POST" action="{{ url_for('index') }}">
+                <button name="logout" value="true" >Logout</button>
+            </form>
+            {% endif %}
         </nav>
     </header>
     <main>

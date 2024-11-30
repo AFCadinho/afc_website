@@ -6,7 +6,7 @@
 
 
 -- Drop schema if exists
--- DROP SCHEMA IF EXISTS public CASCADE;
+DROP SCHEMA IF EXISTS public CASCADE;
 
 -- Create schema
 CREATE SCHEMA public;
@@ -14,17 +14,23 @@ CREATE SCHEMA public;
 -- Create tables
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL,
-    password TEXT NOT NULL
+    name TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    is_admin BOOLEAN DEFAULT FALSE
 );
 
-INSERT INTO users(name, password) VALUES('Adinho', 'Gambler2010');
-INSERT INTO users(name, password) VALUES('Putra', 'Libra148');
+
+
+INSERT INTO users(name, password) 
+VALUES('putra', 'Libra148'); 
+
+INSERT INTO users(name, password, is_admin) 
+VALUES('adinho', 'Gambler2010', TRUE); 
 
 -- Game Table
 CREATE TABLE game (
     id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL
+    name TEXT NOT NULL UNIQUE
 );
 
 
@@ -36,7 +42,7 @@ CREATE TABLE pokemmo_teams (
     id SERIAL PRIMARY KEY,
     game_id INTEGER NOT NULL REFERENCES game(id),
     name TEXT NOT NULL,
-    pokepaste TEXT NOT NULL
+    pokepaste TEXT NOT NULL UNIQUE
 );
 
 -- Team members table

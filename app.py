@@ -7,13 +7,18 @@ db = postgresqlite.connect()
 app = Flask(__name__)
 app.secret_key = "my_secret_key"
 
-@app.route('/')
+@app.route('/', methods=["GET", "POST"])
 def index():
     if "user_id" not in session:
         flash("You need to log in to view this page.", "warning")
         return redirect(url_for('login'))
 
-    return render_template("index.html")
+    if "logout" in request.form:
+        session.pop("user_id", None)
+        flash("Successfully logged out", category="info")
+        return redirect(url_for("login"))
+
+    return render_template("index.html", session=session)
 
 
 @app.route('/teams')
@@ -35,7 +40,7 @@ def teams():
 def login():
     
     if request.method == 'POST':
-        name = request.form['username']
+        name = request.form['username'].lower()
         password = request.form['password']
 
         # Check the database if these values exist
@@ -55,10 +60,11 @@ def login():
             else:
                 flash("Wrong password! Try again.", category="error")
                 return redirect(url_for("login"))
+        else:
+            flash("User doesn't exist. Try again")
+            return redirect(url_for("login"))
 
     return render_template("login.html")
-
-
 
 if __name__ == "__main__":
     app.run(debug=True)

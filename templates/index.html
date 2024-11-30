@@ -1,14 +1,15 @@
-{% extends "base.html" %}
-
-{% block title %}Home{% endblock %}
-
-{% block content %}
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
+%}
 <h2>Welcome to Pokémon PvP Teams</h2>
-{% if team %}
-    <h3>Random Team</h3>
-    <p>{{ team[0] }} - <a href="{{ team[1] }}" target="_blank">View Pokepaste</a></p>
-{% else %}
-    <p>No teams available yet. Add some to get started!</p>
-{% endif %}
-<a href="{{ url_for('teams') }}">View All Teams</a>
+<p>Welcome to my Website</p>
+<iframe
+  width="560"
+  height="315"
+  src="https://www.youtube.com/embed/rak1vVvetqo?si=c7s5JCcj1ucv9pAq"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen
+></iframe>
 {% endblock %}
