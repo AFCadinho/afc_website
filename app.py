@@ -24,7 +24,8 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-
+    next_url = request.args.get("next")
+    
     if request.method == 'POST':
         name = request.form['username'].lower()
         password = request.form['password']
@@ -40,7 +41,7 @@ def login():
                 session["username"] = name
                 session["is_admin"] = player["is_admin"]
                 flash("You have been successfully logged in!", category="info")
-                return redirect(url_for("index"))
+                return redirect(next_url or url_for("index"))
             else:
                 flash("Wrong password! Try again.", category="error")
                 return redirect(url_for("login"))
@@ -74,7 +75,7 @@ def signup():
 def games():
     if "user_id" not in session:
         flash("You need to log in to view this page.", "warning")
-        return redirect(url_for('login'))
+        return redirect(url_for('login', next=request.url))
 
     games_list = queries.get_all_games(db)
 
@@ -83,6 +84,10 @@ def games():
 
 @app.route("/release_year/<game_name>", methods=["GET", "POST"])
 def release_year(game_name):
+    if "user_id" not in session:
+        flash("You need to log in to view this page.", "warning")
+        return redirect(url_for('login', next=request.url))
+    
     if request.method == "POST":
         release_year = request.form["release_year"]
         return redirect(url_for("teams", name=game_name,
@@ -98,7 +103,7 @@ def release_year(game_name):
 def teams(name, release_year):
     if "user_id" not in session:
         flash("You need to log in to view this page.", "warning")
-        return redirect(url_for('login'))
+        return redirect(url_for('login', next=request.url))
 
     game_id = queries.get_game_id(db, name)
     release_year = int(release_year)
@@ -128,7 +133,7 @@ def admin():
 def view_team(team_id):
     if "user_id" not in session:
         flash("You need to log in to view this page.", "warning")
-        return redirect(url_for("login"))
+        return redirect(url_for('login', next=request.url))
 
     team = queries.get_team_from_id(db, team_id)
 
