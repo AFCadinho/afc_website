@@ -108,5 +108,5 @@ def restore_teams_table():
 
 if __name__ == "__main__":
     # python_csv.create_csv_from_teams(db)
-    restore_teams_table()
+    # restore_teams_table()
     app.run(debug=True)
