@@ -8,6 +8,7 @@ db = postgresqlite.connect()
 app = Flask(__name__)
 app.secret_key = "my_secret_key"
 
+
 @app.route('/', methods=["GET", "POST"])
 def index():
     if "logout" in request.form:
@@ -25,7 +26,7 @@ def teams():
     if "user_id" not in session:
         flash("You need to log in to view this page.", "warning")
         return redirect(url_for('login'))
-    
+
     teams = db.query("""
             SELECT *
             FROM pokemmo_teams
@@ -34,10 +35,9 @@ def teams():
     return render_template("teams.html", teams=teams)
 
 
-# Login route
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    
+
     if request.method == 'POST':
         name = request.form['username'].lower()
         password = request.form['password']
@@ -80,6 +80,7 @@ def signup():
             return redirect(url_for("index"))
 
     return render_template("signup.html")
+
 
 if __name__ == "__main__":
     app.run(debug=True)
