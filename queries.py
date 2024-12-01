@@ -52,3 +52,28 @@ def get_all_teams_from_game(db, game_id, release_year):
                 FROM teams
                 WHERE game_id = :game_id AND created_at >= :start_date AND created_at < :end_date
             """, game_id=game_id, start_date=start_date, end_date=end_date)
+
+
+def get_all_teams_data(db):
+    return db.query("""
+        SELECT *
+        FROM teams
+        """)
+
+
+def insert_data_into_teams(db, data):
+    for row in data:
+        db.execute(
+            """
+            INSERT INTO teams (id, game_id, name, pokepaste, created_at)
+            VALUES (:id, :game_id, :name, :pokepaste, :created_at)
+            ON CONFLICT (id) DO NOTHING
+            """,
+            {
+                "id": row["id"],
+                "game_id": row["game_id"],
+                "name": row["name"],
+                "pokepaste": row["pokepaste"],
+                "created_at": row["created_at"]
+            }
+        )

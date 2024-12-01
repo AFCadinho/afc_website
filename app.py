@@ -1,5 +1,6 @@
 import postgresqlite
 import queries
+import python_csv
 
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 
@@ -100,5 +101,12 @@ def teams(name, release_year):
     return render_template("teams.html", teams=teams)
 
 
+def restore_teams_table():
+    data = python_csv.read_csv_to_dict()
+    queries.insert_data_into_teams(db, data)
+
+
 if __name__ == "__main__":
+    # python_csv.create_csv_from_teams(db)
+    restore_teams_table()
     app.run(debug=True)
