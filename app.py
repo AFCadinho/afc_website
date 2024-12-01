@@ -15,7 +15,6 @@ def index():
 
     if "logout" in request.form:
         session.clear()
-        print(session)
 
         flash("Successfully logged out", category="info")
         return redirect(url_for("login"))

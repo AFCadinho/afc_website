@@ -4,7 +4,6 @@ def check_username(db, name):
                         FROM users
                         WHERE name = :name
                         """, name=name)
-    print(name)
     return name
 
 
@@ -60,6 +59,7 @@ def get_all_teams_from_game_id(db, game_id):
             FROM teams
             where game_id = :game_id
             """, game_id=game_id)
+
 
 def get_all_teams_data(db):
     return db.query("""
