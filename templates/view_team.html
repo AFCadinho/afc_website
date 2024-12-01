@@ -7,4 +7,28 @@ View Team
 {% block content %}
 <h2>{{ team["name"] }}</h2>
 <a href="{{ team['pokepaste'] }}">Click for Pokepaste</a>
+
+<!-- Add comment -->
+<a>Add a Comment</a>
+<form action="{{ url_for('view_team', team_id=team['id']) }}" method="POST">
+    <textarea name="comment" rows="4" cols="50" placeholder="Write your comment"></textarea><br>
+    <button type="submit">Comment</button>
+</form>
+
+<!-- Display comments -->
+<h3>Comments</h3>
+{% if comments %}
+<ul>
+    {% for comment in comments %}
+    <li>
+        <strong>From: {{ comment["name"] }} </strong>
+        <p>{{ comment["comment"] }}</p><br>
+        <small>Posted on {{ comment["created_at"].strftime('%Y-%m-%d %H:%M') }}</small>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No Comments yet. Be the first to comment brother!</p>
+
+{% endif %}
 {% endblock %}

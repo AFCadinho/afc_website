@@ -75,7 +75,7 @@ def games():
     if "user_id" not in session:
         flash("You need to log in to view this page.", "warning")
         return redirect(url_for('login'))
-    
+
     games_list = queries.get_all_games(db)
 
     return render_template("games.html", games_list=games_list)
@@ -86,8 +86,8 @@ def release_year(game_name):
     if request.method == "POST":
         release_year = request.form["release_year"]
         return redirect(url_for("teams", name=game_name,
-                 release_year=release_year))
-    
+                                release_year=release_year))
+
     game_id = queries.get_game_id(db, game_name)
     all_teams = queries.get_all_teams_from_game_id(db, game_id)
 
@@ -112,23 +112,55 @@ def teams(name, release_year):
 def admin():
     if not session["is_admin"]:
         return redirect(url_for("index"))
-    
+
     if request.method == "POST":
         if "save_teams" in request.form:
             python_csv.create_csv_from_teams(db)
         elif "restore_teams" in request.form:
             python_csv.restore_teams_table(db)
-    
+
     users = queries.fetch_all_users(db)
-    
+
     return render_template("admin.html", users=users)
 
 
-@app.route("/team/<team_id>")
+@app.route("/team/<team_id>", methods=["GET", "POST"])
 def view_team(team_id):
+    if "user_id" not in session:
+        flash("You need to log in to view this page.", "warning")
+        return redirect(url_for("login"))
+
     team = queries.get_team_from_id(db, team_id)
+    # comments = db.query("""
+    #              SELECT *
+    #              FROM comments
+    #              WHERE team_id = :team_id
+    #              """, team_id=team_id)
+    # username = db.query_value("""
+    #                 SELECT name
+    #                 FROM users
+    #                 WHERE id = :user_id
+    #                 """, user_id=session["user_id"])
     
-    return render_template("view_team.html", team=team)
+    comments = db.query("""
+                        SELECT u.name, c.comment, c.created_at
+                        FROM comments c
+                        JOIN users u ON u.id = c.user_id
+                        WHERE c.team_id = :team_id
+                        """, user_id=session["user_id"], team_id=team_id)
+
+    if request.method == "POST":
+        user_id = session["user_id"]
+        comment_text = request.form["comment"]
+
+        if comment_text:
+            db.execute("""
+                INSERT INTO comments(team_id, user_id, comment)
+                VALUES (:team_id, :user_id, :comment_text)
+                """, {"team_id": team_id, "user_id": user_id, "comment_text": comment_text})
+            return redirect(url_for("view_team", team_id=team_id))
+
+    return render_template("view_team.html", team=team, comments=comments)
 
 
 if __name__ == "__main__":

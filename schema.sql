@@ -54,6 +54,14 @@ CREATE TABLE pokemon (
     name TEXT NOT NULL
 );
 
+CREATE TABLE comments (
+    id SERIAL PRIMARY KEY,
+    team_id INTEGER REFERENCES teams(id) ON DELETE CASCADE,
+    user_id INTEGER REFERENCES users(id),
+    comment TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
 -- -- Insert sample teams
 -- INSERT INTO teams(game_id, name, pokepaste)
 -- VALUES
