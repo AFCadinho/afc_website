@@ -6,7 +6,7 @@
 
 
 -- Drop schema if exists
--- DROP SCHEMA IF EXISTS public CASCADE;
+DROP SCHEMA IF EXISTS public CASCADE;
 
 -- Create schema
 CREATE SCHEMA public;
@@ -20,7 +20,6 @@ CREATE TABLE users (
 );
 
 
-
 INSERT INTO users(name, password) 
 VALUES('putra', 'Libra148'); 
 
@@ -28,35 +27,42 @@ INSERT INTO users(name, password, is_admin)
 VALUES('adinho', 'Gambler2010', TRUE); 
 
 -- Game Table
-CREATE TABLE game (
+CREATE TABLE games (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL UNIQUE
 );
 
 
-INSERT INTO game(name) 
-VALUES ('pokemmo');
+INSERT INTO games(name) 
+VALUES 
+('pokemmo'),
+('pokemon blaze online'),
+('pokemon brick bronze');
+
 
 -- Teams table
-CREATE TABLE pokemmo_teams (
+CREATE TABLE teams (
     id SERIAL PRIMARY KEY,
-    game_id INTEGER NOT NULL REFERENCES game(id),
+    game_id INTEGER NOT NULL REFERENCES games(id),
     name TEXT NOT NULL,
-    pokepaste TEXT NOT NULL UNIQUE
+    pokepaste TEXT NOT NULL UNIQUE,
+    created_at DATE DEFAULT CURRENT_DATE NOT NULL
 );
 
 -- Team members table
 CREATE TABLE pokemon (
     id SERIAL PRIMARY KEY,
-    team_id INTEGER NOT NULL REFERENCES pokemmo_teams(id),
+    team_id INTEGER NOT NULL REFERENCES teams(id),
     name TEXT NOT NULL
 );
 
 -- Insert sample teams
-INSERT INTO pokemmo_teams(game_id, name, pokepaste)
+INSERT INTO teams(game_id, name, pokepaste)
 VALUES
 (1, 'ARCANINE ENTERS OU', 'https://pokepast.es/7b2f7c2fa6065676'),
-(1, 'MegaMoltres Duo Dual Defog', 'https://pokepast.es/b93d8a152ef16589');
+(1, 'MegaMoltres Duo Dual Defog', 'https://pokepast.es/b93d8a152ef16589'),
+(2, 'UU Intermediate Dual Pivot Spin', 'https://pokepast.es/4df3080c5a8af1b9'),
+(3, 'Lopunny Boost Draga HO', 'https://pokepast.es/e88f7c237ffdff96');
 
 -- Insert Pokémon for teams
 INSERT INTO pokemon(team_id, name)

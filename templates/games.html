@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Choose Game{% endblock %}
+
+{% block content %}
+<h2>Choose Game</h2>
+<nav>
+    {% if games_list %}
+        {% for game in games_list %}
+            <a href="{{ url_for('release_year', game_name=game) }}">{{ game.title() }}</a>
+        {% endfor %}
+    {% endif %}
+</nav>
+{% endblock %}

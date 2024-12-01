@@ -21,20 +21,6 @@ def index():
     return render_template("index.html", session=session)
 
 
-@app.route('/teams')
-def teams():
-    if "user_id" not in session:
-        flash("You need to log in to view this page.", "warning")
-        return redirect(url_for('login'))
-
-    teams = db.query("""
-            SELECT *
-            FROM pokemmo_teams
-        """)
-
-    return render_template("teams.html", teams=teams)
-
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 
@@ -80,6 +66,38 @@ def signup():
             return redirect(url_for("index"))
 
     return render_template("signup.html")
+
+
+@app.route("/games", methods=["POST", "GET"])
+def games():
+    games_list = queries.get_all_games(db)
+
+    return render_template("games.html", games_list=games_list)
+
+
+@app.route("/release_year/<game_name>", methods=["GET", "POST"])
+def release_year(game_name):
+    if request.method == "POST":
+        release_year = request.form["release_year"]
+
+        return redirect(url_for("teams", name=game_name,
+                 release_year=release_year))
+
+    return render_template("release_year.html", game_name=game_name)
+
+
+@app.route('/teams/<name>/<release_year>', methods=["GET", "POST"])
+def teams(name, release_year):
+    if "user_id" not in session:
+        flash("You need to log in to view this page.", "warning")
+        return redirect(url_for('login'))
+
+    game_id = queries.get_game_id(db, name)
+    release_year = int(release_year)
+
+    teams = queries.get_all_teams_from_game(db, game_id, release_year)
+
+    return render_template("teams.html", teams=teams)
 
 
 if __name__ == "__main__":

@@ -26,7 +26,7 @@
         </h1>
         <nav>
             <a href="{{ url_for('index') }}">Home</a>
-            <a href="{{ url_for('teams') }}">Teams</a>
+            <a href="{{ url_for('games') }}">Teams</a>
             {% if "user_id" in session %}
             <form method="POST" action="{{ url_for('index') }}">
                 <button name="logout" value="true" >Logout</button>
