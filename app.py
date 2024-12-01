@@ -131,17 +131,7 @@ def view_team(team_id):
         return redirect(url_for("login"))
 
     team = queries.get_team_from_id(db, team_id)
-    # comments = db.query("""
-    #              SELECT *
-    #              FROM comments
-    #              WHERE team_id = :team_id
-    #              """, team_id=team_id)
-    # username = db.query_value("""
-    #                 SELECT name
-    #                 FROM users
-    #                 WHERE id = :user_id
-    #                 """, user_id=session["user_id"])
-    
+
     comments = db.query("""
                         SELECT u.name, c.comment, c.created_at
                         FROM comments c
