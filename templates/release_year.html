@@ -20,7 +20,7 @@
         {% if teams %}
         <ul>
             {% for team in teams %}
-            <li>{{ team["name"] }} - <a href="{{ team['pokepaste'] }}">View Pokepaste</a> Posted: {{ team["created_at"] }}</li>
+            <li><a href="{{ url_for('view_team', team_id=team['id'] )}}">{{ team["name"] }}</a> - <a href="{{ team['pokepaste'] }}">View Pokepaste</a> Posted: {{ team["created_at"] }}</li>
             {% endfor %}
 
         </ul>

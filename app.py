@@ -124,6 +124,13 @@ def admin():
     return render_template("admin.html", users=users)
 
 
+@app.route("/team/<team_id>")
+def view_team(team_id):
+    team = queries.get_team_from_id(db, team_id)
+    
+    return render_template("view_team.html", team=team)
+
+
 if __name__ == "__main__":
 
     app.run(debug=True)

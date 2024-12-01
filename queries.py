@@ -99,3 +99,11 @@ def fetch_all_users(db):
         SELECT *
         FROM users
         """)
+
+
+def get_team_from_id(db, team_id):
+    return db.query_row("""
+                SELECT *
+                FROM teams
+                WHERE id = :team_id
+                """, team_id=team_id)
