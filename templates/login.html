@@ -14,9 +14,4 @@
 
     <button type="submit">Login</button>
 </form>
-
-{% for message in get_flashed_messages(with_categories=true) %}
-<p class="flash {{ message[0] }}">{{ message[1] }}</p>
-{% endfor %}
-
 {% endblock %}
