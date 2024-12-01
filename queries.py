@@ -43,7 +43,7 @@ def get_game_id(db, name):
                     """, name=name)
 
 
-def get_all_teams_from_game(db, game_id, release_year):
+def get_all_teams_from_game_release(db, game_id, release_year):
     start_date = f"{release_year}-01-01"
     end_date = f"{release_year + 1}-01-01"
 
@@ -53,6 +53,13 @@ def get_all_teams_from_game(db, game_id, release_year):
                 WHERE game_id = :game_id AND created_at >= :start_date AND created_at < :end_date
             """, game_id=game_id, start_date=start_date, end_date=end_date)
 
+
+def get_all_teams_from_game_id(db, game_id):
+    return db.query("""
+            SELECT *
+            FROM teams
+            where game_id = :game_id
+            """, game_id=game_id)
 
 def get_all_teams_data(db):
     return db.query("""
@@ -77,3 +84,18 @@ def insert_data_into_teams(db, data):
                 "created_at": row["created_at"]
             }
         )
+
+
+def check_for_admin(db, user_id):
+    return db.query_value("""
+        SELECT is_admin
+        FROM users
+        WHERE id = :user_id
+        """, user_id=user_id)
+
+
+def fetch_all_users(db):
+    return db.query("""
+        SELECT *
+        FROM users
+        """)

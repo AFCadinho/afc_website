@@ -54,18 +54,18 @@ CREATE TABLE pokemon (
     name TEXT NOT NULL
 );
 
--- Insert sample teams
-INSERT INTO teams(game_id, name, pokepaste)
-VALUES
-(1, 'ARCANINE ENTERS OU', 'https://pokepast.es/7b2f7c2fa6065676'),
-(1, 'MegaMoltres Duo Dual Defog', 'https://pokepast.es/b93d8a152ef16589'),
-(2, 'UU Intermediate Dual Pivot Spin', 'https://pokepast.es/4df3080c5a8af1b9'),
-(3, 'Lopunny Boost Draga HO', 'https://pokepast.es/e88f7c237ffdff96');
+-- -- Insert sample teams
+-- INSERT INTO teams(game_id, name, pokepaste)
+-- VALUES
+-- (1, 'ARCANINE ENTERS OU', 'https://pokepast.es/7b2f7c2fa6065676'),
+-- (1, 'MegaMoltres Duo Dual Defog', 'https://pokepast.es/b93d8a152ef16589'),
+-- (2, 'UU Intermediate Dual Pivot Spin', 'https://pokepast.es/4df3080c5a8af1b9'),
+-- (3, 'Lopunny Boost Draga HO', 'https://pokepast.es/e88f7c237ffdff96');
 
--- Insert Pokémon for teams
-INSERT INTO pokemon(team_id, name)
-VALUES
--- Pokémon for Arcanine team
-(1, 'Arcanine'), (1, 'Metagross'), (1, 'Rotom-Wash'), (1, 'Gliscor'), (1, 'Chansey'), (1, 'Gallade'),
--- Pokémon for Moltres team
-(2, 'Yanmega'), (2, 'Scizor'), (2, 'Moltres'), (2, 'Gallade'), (2, 'Garchomp'), (2, 'Dragonite');
+-- -- Insert Pokémon for teams
+-- INSERT INTO pokemon(team_id, name)
+-- VALUES
+-- -- Pokémon for Arcanine team
+-- (1, 'Arcanine'), (1, 'Metagross'), (1, 'Rotom-Wash'), (1, 'Gliscor'), (1, 'Chansey'), (1, 'Gallade'),
+-- -- Pokémon for Moltres team
+-- (2, 'Yanmega'), (2, 'Scizor'), (2, 'Moltres'), (2, 'Gallade'), (2, 'Garchomp'), (2, 'Dragonite');

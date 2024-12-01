@@ -6,7 +6,7 @@
 <h2>All Teams</h2>
 <ul>
     {% for team in teams %}
-        <li>{{ team["name"] }} - <a href="{{ team['pokepaste'] }}">View Pokepaste</a></li>
+        <li>{{ team["name"] }} - <a href="{{ team['pokepaste'] }}">View Pokepaste</a> Posted: {{ team["created_at"] }}</li>
     {% endfor %}
 </ul>
 {% if not teams %}

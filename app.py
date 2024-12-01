@@ -12,6 +12,7 @@ app.secret_key = "my_secret_key"
 
 @app.route('/', methods=["GET", "POST"])
 def index():
+
     if "logout" in request.form:
         session.clear()
         print(session)
@@ -38,6 +39,7 @@ def login():
             if player["password"] == password:
                 session["user_id"] = player["id"]
                 session["username"] = name
+                session["is_admin"] = player["is_admin"]
                 flash("You have been successfully logged in!", category="info")
                 return redirect(url_for("index"))
             else:
@@ -71,6 +73,10 @@ def signup():
 
 @app.route("/games", methods=["POST", "GET"])
 def games():
+    if "user_id" not in session:
+        flash("You need to log in to view this page.", "warning")
+        return redirect(url_for('login'))
+    
     games_list = queries.get_all_games(db)
 
     return render_template("games.html", games_list=games_list)
@@ -80,11 +86,13 @@ def games():
 def release_year(game_name):
     if request.method == "POST":
         release_year = request.form["release_year"]
-
         return redirect(url_for("teams", name=game_name,
                  release_year=release_year))
+    
+    game_id = queries.get_game_id(db, game_name)
+    all_teams = queries.get_all_teams_from_game_id(db, game_id)
 
-    return render_template("release_year.html", game_name=game_name)
+    return render_template("release_year.html", game_name=game_name, teams=all_teams)
 
 
 @app.route('/teams/<name>/<release_year>', methods=["GET", "POST"])
@@ -96,17 +104,27 @@ def teams(name, release_year):
     game_id = queries.get_game_id(db, name)
     release_year = int(release_year)
 
-    teams = queries.get_all_teams_from_game(db, game_id, release_year)
+    teams = queries.get_all_teams_from_game_release(db, game_id, release_year)
 
     return render_template("teams.html", teams=teams)
 
 
-def restore_teams_table():
-    data = python_csv.read_csv_to_dict()
-    queries.insert_data_into_teams(db, data)
+@app.route("/admin", methods=["POST", "GET"])
+def admin():
+    if not session["is_admin"]:
+        return redirect(url_for("index"))
+    
+    if request.method == "POST":
+        if "save_teams" in request.form:
+            python_csv.create_csv_from_teams(db)
+        elif "restore_teams" in request.form:
+            python_csv.restore_teams_table(db)
+    
+    users = queries.fetch_all_users(db)
+    
+    return render_template("admin.html", users=users)
 
 
 if __name__ == "__main__":
-    # python_csv.create_csv_from_teams(db)
-    # restore_teams_table()
+
     app.run(debug=True)

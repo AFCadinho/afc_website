@@ -15,4 +15,15 @@
         </select>
         <button type="submit">Submit</button>
     </form>
+
+    <div>
+        {% if teams %}
+        <ul>
+            {% for team in teams %}
+            <li>{{ team["name"] }} - <a href="{{ team['pokepaste'] }}">View Pokepaste</a> Posted: {{ team["created_at"] }}</li>
+            {% endfor %}
+
+        </ul>
+        {% endif %}
+    </div>
 {% endblock %}

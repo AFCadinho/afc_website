@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Admin Zone
+{% endblock %}
+
+{% block content %}
+
+    <div>
+        <a href="{{ url_for('static', filename='csv/teams.csv') }}" download="teams.csv">Download Teams CSV</a>
+    </div>
+
+
+    <div>
+        <form method="POST">
+            <button name="save_teams">Save Team to CSV</button>
+            <button name="restore_teams">Restore Team in DB</button>
+        </form>
+    </div>
+
+    {% if users %}
+    <div>
+        <ol>
+        {% for user in users %}
+            <li>Name: {{ user["name"] }}</li>
+        {% endfor %}     
+        </ol> 
+    </div>
+    {% endif %}
+{% endblock %}
