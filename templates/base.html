@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
+    {% if "username" in session%}
+    <p>You are currently logged in as {{ session["username"].title() }}</p>
+    
+    {% endif %}
     {% with messages = get_flashed_messages(with_categories=true)  %}
         {% if messages %}
             <ul>
@@ -17,14 +21,18 @@
         {% endif %}
     {% endwith %}
     <header>
-        <h1>Pokémon PvP Teams</h1>
+        <h1>
+            <a href="{{ url_for('index') }}">AFC Adinho</a>
+        </h1>
         <nav>
             <a href="{{ url_for('index') }}">Home</a>
             <a href="{{ url_for('teams') }}">Teams</a>
             {% if "user_id" in session %}
             <form method="POST" action="{{ url_for('index') }}">
                 <button name="logout" value="true" >Logout</button>
-            </form>
+            </form>           
+            {% else %}
+            <a href="{{ url_for('signup') }}">Sign Up</a>
             {% endif %}
         </nav>
     </header>

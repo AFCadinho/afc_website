@@ -55,8 +55,8 @@ CREATE TABLE pokemon (
 -- Insert sample teams
 INSERT INTO pokemmo_teams(game_id, name, pokepaste)
 VALUES
-(1, 'Arcanine', 'https://pokepast.es/7b2f7c2fa6065676'),
-(1, 'Moltres', 'https://pokepast.es/b93d8a152ef16589');
+(1, 'ARCANINE ENTERS OU', 'https://pokepast.es/7b2f7c2fa6065676'),
+(1, 'MegaMoltres Duo Dual Defog', 'https://pokepast.es/b93d8a152ef16589');
 
 -- Insert Pokémon for teams
 INSERT INTO pokemon(team_id, name)

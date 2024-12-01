@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Sign Up
+{% endblock %}
+
+{% block content %}
+<h2>Sign Up</h2>
+<p>This platform is for learning and practice purposes only. Please keep the following in mind</p>
+<ul>
+    <li>Do not use real or sensitive passwords.</li>
+    <li>Accounts and data are temporary and will be regularly cleared.</li>
+</ul>
+    <form method="POST">
+        <label>Username: </label>
+        <input type="text" name="username"><br><br>
+
+        <label>Password: </label>
+        <input type="text" name="password"><br><br>
+
+        <button type="submit">Create Account</button>
+    </form>
+{% endblock %}
