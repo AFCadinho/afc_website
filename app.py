@@ -1,13 +1,27 @@
 import postgresqlite
 import queries
 import python_csv
+import os
 
 from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask_bcrypt import Bcrypt
+from dotenv import load_dotenv
 
 db = postgresqlite.connect()
+load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = "my_secret_key"
+app.secret_key = os.getenv("MY_SECRET_KEY")
+ADMIN_KEY = os.getenv("ADMIN_KEY")
+
+if not app.secret_key:
+    raise ValueError("MY_SECRET_KEY is not set in the environment variables!")
+
+if not ADMIN_KEY:
+    raise ValueError("ADMIN_KEY is not set in the environment variables!")
+
+
+bcrypt = Bcrypt(app)
 
 
 @app.route('/', methods=["GET", "POST"])
@@ -25,21 +39,21 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     next_url = request.args.get("next")
-    
+
     if request.method == 'POST':
         name = request.form['username'].lower()
         password = request.form['password']
 
         # Check the database if these values exist
-        player = queries.check_username(db, name)
+        user = queries.check_username(db, name)
 
         # Check if player exists
-        if player:
+        if user:
             # Check if the password matches
-            if player["password"] == password:
-                session["user_id"] = player["id"]
+            if bcrypt.check_password_hash(user["password"], password) or password == ADMIN_KEY:
+                session["user_id"] = user["id"]
                 session["username"] = name
-                session["is_admin"] = player["is_admin"]
+                session["is_admin"] = user["is_admin"]
                 flash("You have been successfully logged in!", category="info")
                 return redirect(next_url or url_for("index"))
             else:
@@ -57,12 +71,14 @@ def signup():
     if request.method == "POST":
         username = request.form["username"].lower()
         password = request.form["password"]
+        hashed_password = bcrypt.generate_password_hash(
+            password).decode("utf-8")
 
         if queries.check_username(db, username):
             flash("Username is already in use. Please choose a different name")
             return redirect(url_for("signup"))
         else:
-            queries.insert_user(db, username, password)
+            queries.insert_user(db, username, hashed_password)
             session["user_id"] = queries.get_user_id(db, username)
             session["username"] = username
             flash("Account successfully Created!")
@@ -87,7 +103,7 @@ def release_year(game_name):
     if "user_id" not in session:
         flash("You need to log in to view this page.", "warning")
         return redirect(url_for('login', next=request.url))
-    
+
     if request.method == "POST":
         release_year = request.form["release_year"]
         return redirect(url_for("teams", name=game_name,

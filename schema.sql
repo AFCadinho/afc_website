@@ -19,10 +19,10 @@ CREATE TABLE users (
 
 
 INSERT INTO users(name, password) 
-VALUES('putra', 'Libra148'); 
+VALUES('putra', '$2b$12$yrnWC8yUkkhuPAKb.QTeL.zlMCqD5rH2dql1TQJZF.xmoJhsAKhaC'); 
 
 INSERT INTO users(name, password, is_admin) 
-VALUES('adinho', 'Gambler2010', TRUE); 
+VALUES('adinho', '$2b$12$j1l8HthnWaFygkd92x4L1uPl0dT4R3vR/YSB6Pc2El/FjZ8EN.vOu', TRUE);
 
 -- Game Table
 CREATE TABLE games (
