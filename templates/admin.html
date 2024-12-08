@@ -7,12 +7,18 @@
 {% block content %}
 
     <div>
-        <a href="{{ url_for('static', filename='csv/teams.csv') }}" download="teams.csv">Download Teams CSV</a>
+        <ul>
+            <li>
+                <a href="{{ url_for('download_file', filename='teams.csv') }}" download="teams.csv">Download Teams CSV</a>
+            </li>
+        </ul>
+        
     </div>
 
 
     <div>
         <form method="POST">
+            <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
             <button name="save_teams">Save Team to CSV</button>
             <button name="restore_teams">Restore Team in DB</button>
         </form>

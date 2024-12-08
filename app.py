@@ -2,8 +2,9 @@ import postgresqlite
 import queries
 import python_csv
 import os
+import secrets
 
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash, send_from_directory
 from flask_bcrypt import Bcrypt
 from dotenv import load_dotenv
 
@@ -23,15 +24,22 @@ if not ADMIN_KEY:
 
 bcrypt = Bcrypt(app)
 
+@app.before_request
+def set_csrf_token():
+    if "csrf_token" not in session:
+        session["csrf_token"] = secrets.token_hex(16)
+
 
 @app.route('/', methods=["GET", "POST"])
 def index():
-
-    if "logout" in request.form:
-        session.clear()
-
-        flash("Successfully logged out", category="info")
-        return redirect(url_for("login"))
+    if request.method == "POST":
+        if not validate_csrf_token():
+            return redirect(url_for("index"))
+        
+        if "logout" in request.form:
+            session.clear()
+            flash("Successfully logged out", category="info")
+            return redirect(url_for("login"))
 
     return render_template("index.html", session=session)
 
@@ -41,6 +49,9 @@ def login():
     next_url = request.args.get("next")
 
     if request.method == 'POST':
+        if not validate_csrf_token():
+            return redirect(url_for("login"))
+
         name = request.form['username'].lower()
         password = request.form['password']
 
@@ -69,6 +80,9 @@ def login():
 @app.route("/signup", methods=["POST", "GET"])
 def signup():
     if request.method == "POST":
+        if not validate_csrf_token():
+            return redirect(url_for("signup"))
+        
         username = request.form["username"].lower()
         password = request.form["password"]
         hashed_password = bcrypt.generate_password_hash(
@@ -93,6 +107,10 @@ def games():
         flash("You need to log in to view this page.", "warning")
         return redirect(url_for('login', next=request.url))
 
+    if request.method == "POST":
+        if not validate_csrf_token():
+            return redirect(url_for("games"))
+    
     games_list = queries.get_all_games(db)
 
     return render_template("games.html", games_list=games_list)
@@ -105,6 +123,10 @@ def release_year(game_name):
         return redirect(url_for('login', next=request.url))
 
     if request.method == "POST":
+        if not validate_csrf_token():
+            return redirect(url_for("release_year", game_name=game_name))
+
+
         release_year = request.form["release_year"]
         return redirect(url_for("teams", name=game_name,
                                 release_year=release_year))
@@ -121,6 +143,10 @@ def teams(name, release_year):
         flash("You need to log in to view this page.", "warning")
         return redirect(url_for('login', next=request.url))
 
+    if request.method == "POST":
+        if not validate_csrf_token():
+            return redirect(url_for("teams", name=name, release_year=release_year))
+
     game_id = queries.get_game_id(db, name)
     release_year = int(release_year)
 
@@ -135,6 +161,9 @@ def admin():
         return redirect(url_for("index"))
 
     if request.method == "POST":
+        if not validate_csrf_token():
+            return redirect(url_for("admin"))
+
         if "save_teams" in request.form:
             python_csv.create_csv_from_teams(db)
         elif "restore_teams" in request.form:
@@ -161,6 +190,9 @@ def view_team(team_id):
                         """, user_id=session["user_id"], team_id=team_id)
 
     if request.method == "POST":
+        if not validate_csrf_token():
+            return redirect(url_for("view_team", team_id=team_id))
+
         user_id = session["user_id"]
         comment_text = request.form["comment"]
 
@@ -172,6 +204,24 @@ def view_team(team_id):
             return redirect(url_for("view_team", team_id=team_id))
 
     return render_template("view_team.html", team=team, comments=comments)
+
+
+def validate_csrf_token():
+    """Validate the CSRF token for POST requests."""
+    submitted_token = request.form.get("csrf_token")
+    if not submitted_token or submitted_token != session.get("csrf_token"):
+        flash("Invalid CSRF token. Please try again.", "error")
+        return False
+    return True
+
+
+@app.route("/download/<filename>")
+def download_file(filename):
+    try:
+        return send_from_directory("csv", filename, as_attachment=True)
+    except FileNotFoundError:
+        return "File not found"
+
 
 
 if __name__ == "__main__":

@@ -32,6 +32,7 @@
             <a href="{{ url_for('admin') }}">Admin</a>   
             {% endif %}
             <form method="POST" action="{{ url_for('index') }}">
+                <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
                 <button name="logout" value="true" >Logout</button>
             </form>           
             {% else %}

@@ -7,6 +7,7 @@
 {% block content %}
     <h2>Choose Year</h2>
     <form action="{{ url_for('release_year', game_name=game_name) }}" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
         <label for="release_year">Year:</label>
         <select name="release_year">
             {% for year in ["pre", "2023", "2024"] %}

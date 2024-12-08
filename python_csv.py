@@ -11,7 +11,7 @@ def create_csv_from_teams(db):
         row_dict = dict(row)
         data.append(row_dict)
     
-    csv_file_path = "static/csv/teams.csv"
+    csv_file_path = "csv/teams.csv"
 
     df = pd.DataFrame(data)
     df.to_csv(csv_file_path, index=False)

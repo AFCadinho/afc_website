@@ -11,6 +11,7 @@ View Team
 <!-- Add comment -->
 <a>Add a Comment</a>
 <form action="{{ url_for('view_team', team_id=team['id']) }}" method="POST">
+    <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
     <textarea name="comment" rows="4" cols="50" placeholder="Write your comment"></textarea><br>
     <button type="submit">Comment</button>
 </form>
