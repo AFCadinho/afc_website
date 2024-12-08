@@ -166,7 +166,9 @@ def admin():
 
         if "save_teams" in request.form:
             python_csv.create_csv_from_teams(db)
+            flash("Teams Table saved is CSV", category="info")
         elif "restore_teams" in request.form:
+            flash("Teams Table restored from CSV", category="info")
             python_csv.restore_teams_table(db)
 
     users = queries.fetch_all_users(db)
@@ -222,6 +224,32 @@ def download_file(filename):
     except FileNotFoundError:
         return "File not found"
 
+
+@app.route("/add_team/<game_name>", methods=["GET", "POST"])
+def add_team(game_name):
+    if "user_id" not in session:
+        flash("You need to log in to view this page.", "warning")
+        return redirect(url_for('login', next=request.url))
+    
+    game_id = queries.get_game_id(db, game_name)
+    
+    if request.method == "POST":
+        if not validate_csrf_token():
+            return redirect(url_for("add_team", game_name=game_name))
+        
+        team_name = request.form.get("team_name")
+        pokepaste = request.form.get("pokepaste")
+
+        print(pokepaste)
+
+        db.execute("""
+            INSERT INTO teams(game_id, name, pokepaste)
+            VALUES (:game_id, :team_name, :pokepaste)
+            """, {"game_id": game_id, "team_name": team_name, "pokepaste": pokepaste})
+        flash(f"Team {team_name} successfully created!")
+        return redirect(url_for("release_year", game_name=game_name))
+
+    return render_template("add_team.html", game_name=game_name)
 
 
 if __name__ == "__main__":

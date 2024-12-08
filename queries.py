@@ -85,6 +85,11 @@ def insert_data_into_teams(db, data):
             }
         )
 
+    # Update the sequence to the maximum id in the table
+    db.execute("""
+        SELECT setval('teams_id_seq', (SELECT MAX(id) FROM teams));
+    """)
+
 
 def check_for_admin(db, user_id):
     return db.query_value("""
