@@ -1,15 +1,18 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Choose Year
+{{ game_name.title() }} Teams
 {% endblock %}
 
 {% block content %}
-    <h2>Choose Year</h2>
+    <h2>{{ game_name.title() }} Teams</h2>
+    {% if session["is_admin"] %}
     <a href="{{ url_for('add_team', game_name=game_name) }}">
         <button>Add Team</button>
     </a>
+    {% endif %}
     <div>
+        <h3>Choose Year</h3>
         <form action="{{ url_for('release_year', game_name=game_name) }}" method="POST">
             <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
             <label for="release_year">Year:</label>
