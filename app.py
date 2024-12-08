@@ -7,6 +7,7 @@ import secrets
 from flask import Flask, render_template, request, redirect, url_for, session, flash, send_from_directory
 from flask_bcrypt import Bcrypt
 from dotenv import load_dotenv
+from datetime import datetime
 
 db = postgresqlite.connect()
 load_dotenv()
@@ -239,13 +240,21 @@ def add_team(game_name):
         
         team_name = request.form.get("team_name")
         pokepaste = request.form.get("pokepaste")
+        created_at = request.form.get("created_at")
 
-        print(pokepaste)
+        if created_at:
+            if created_at:
+                created_at = datetime.strptime(created_at, "%Y-%m-%d").date()
 
-        db.execute("""
-            INSERT INTO teams(game_id, name, pokepaste)
-            VALUES (:game_id, :team_name, :pokepaste)
-            """, {"game_id": game_id, "team_name": team_name, "pokepaste": pokepaste})
+            db.execute("""
+            INSERT INTO teams(game_id, name, pokepaste, created_at)
+            VALUES (:game_id, :team_name, :pokepaste, :created_at)
+            """, {"game_id": game_id, "team_name": team_name, "pokepaste": pokepaste, "created_at": created_at})
+        else:
+            db.execute("""
+                INSERT INTO teams(game_id, name, pokepaste)
+                VALUES (:game_id, :team_name, :pokepaste)
+                """, {"game_id": game_id, "team_name": team_name, "pokepaste": pokepaste})
         flash(f"Team {team_name} successfully created!")
         return redirect(url_for("release_year", game_name=game_name))
 
