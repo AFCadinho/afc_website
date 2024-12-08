@@ -30,6 +30,14 @@ def set_csrf_token():
     if "csrf_token" not in session:
         session["csrf_token"] = secrets.token_hex(16)
 
+def validate_csrf_token():
+    """Validate the CSRF token for POST requests."""
+    submitted_token = request.form.get("csrf_token")
+    if not submitted_token or submitted_token != session.get("csrf_token"):
+        flash("Invalid CSRF token. Please try again.", "error")
+        return False
+    return True
+
 
 @app.route('/', methods=["GET", "POST"])
 def index():
@@ -165,12 +173,47 @@ def admin():
         if not validate_csrf_token():
             return redirect(url_for("admin"))
 
+        # Save Tables
+        table_names = []
+        csv_file_paths = []
         if "save_teams" in request.form:
-            python_csv.create_csv_from_teams(db)
+            csv_file_paths.append("csv/teams.csv")
+            table_names.append("teams")
+            python_csv.create_csv_from_table(db, csv_file_paths, table_names)
             flash("Teams Table saved is CSV", category="info")
-        elif "restore_teams" in request.form:
+        elif "save_users" in request.form:
+            csv_file_paths.append("csv/users.csv")
+            table_names.append("users")
+            python_csv.create_csv_from_table(db, csv_file_paths, table_names)
+            flash("Users Table saved is CSV", category="info")
+        elif "save_comments" in request.form:
+            csv_file_paths.append("csv/comments.csv")
+            table_names.append("comments")
+            python_csv.create_csv_from_table(db, csv_file_paths, table_names)
+            flash("Comments Table saved in CSV", category="info")
+        elif "save_all" in request.form:
+            csv_file_paths = ["csv/teams.csv", "csv/users.csv", "csv/comments.csv"]
+            table_names = ["teams", "users", "comments"]
+            python_csv.create_csv_from_table(db, csv_file_paths, table_names)
+            flash("All Tables saved in their CSV files", category="info")
+
+        # Restore Tables
+        if "restore_teams" in request.form:
+            csv_file_paths.append("csv/teams.csv")
             flash("Teams Table restored from CSV", category="info")
-            python_csv.restore_teams_table(db)
+            python_csv.restore_teams_table(db, csv_file_paths)
+        elif "restore_users" in request.form:
+            flash("Users Table restored from CSV", category="info")
+            csv_file_paths.append("csv/users.csv")
+            python_csv.restore_teams_table(db, csv_file_paths)
+        elif "restore_comments" in request.form:
+            csv_file_paths.append("csv/comments.csv")
+            flash("Comments Table restored from CSV", category="info")
+            python_csv.restore_teams_table(db, csv_file_paths)
+        elif "restore_all" in request.form:
+            flash("All Tables restored from CSV", category="info")
+            csv_file_paths = ["csv/teams.csv", "csv/users.csv", "csv/comments.csv"]
+            python_csv.restore_teams_table(db, csv_file_paths)
 
     users = queries.fetch_all_users(db)
 
@@ -207,15 +250,6 @@ def view_team(team_id):
             return redirect(url_for("view_team", team_id=team_id))
 
     return render_template("view_team.html", team=team, comments=comments)
-
-
-def validate_csrf_token():
-    """Validate the CSRF token for POST requests."""
-    submitted_token = request.form.get("csrf_token")
-    if not submitted_token or submitted_token != session.get("csrf_token"):
-        flash("Invalid CSRF token. Please try again.", "error")
-        return False
-    return True
 
 
 @app.route("/download/<filename>")

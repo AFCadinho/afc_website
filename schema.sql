@@ -18,8 +18,8 @@ CREATE TABLE users (
 );
 
 
-INSERT INTO users(name, password) 
-VALUES('putra', '$2b$12$yrnWC8yUkkhuPAKb.QTeL.zlMCqD5rH2dql1TQJZF.xmoJhsAKhaC'); 
+-- INSERT INTO users(name, password) 
+-- VALUES('putra', '$2b$12$yrnWC8yUkkhuPAKb.QTeL.zlMCqD5rH2dql1TQJZF.xmoJhsAKhaC'); 
 
 INSERT INTO users(name, password, is_admin) 
 VALUES('adinho', '$2b$12$j1l8HthnWaFygkd92x4L1uPl0dT4R3vR/YSB6Pc2El/FjZ8EN.vOu', TRUE);
@@ -62,13 +62,13 @@ CREATE TABLE comments (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
--- -- Insert sample teams
--- INSERT INTO teams(game_id, name, pokepaste)
--- VALUES
--- (1, 'ARCANINE ENTERS OU', 'https://pokepast.es/7b2f7c2fa6065676'),
--- (1, 'MegaMoltres Duo Dual Defog', 'https://pokepast.es/b93d8a152ef16589'),
--- (2, 'UU Intermediate Dual Pivot Spin', 'https://pokepast.es/4df3080c5a8af1b9'),
--- (3, 'Lopunny Boost Draga HO', 'https://pokepast.es/e88f7c237ffdff96');
+-- Insert sample teams
+INSERT INTO teams(game_id, name, pokepaste)
+VALUES
+(1, 'ARCANINE ENTERS OU', 'https://pokepast.es/7b2f7c2fa6065676'),
+(1, 'MegaMoltres Duo Dual Defog', 'https://pokepast.es/b93d8a152ef16589'),
+(2, 'UU Intermediate Dual Pivot Spin', 'https://pokepast.es/4df3080c5a8af1b9'),
+(3, 'Lopunny Boost Draga HO', 'https://pokepast.es/e88f7c237ffdff96');
 
 -- -- Insert Pokémon for teams
 -- INSERT INTO pokemon(team_id, name)

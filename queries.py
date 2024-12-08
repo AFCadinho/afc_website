@@ -68,7 +68,7 @@ def get_all_teams_data(db):
         """)
 
 
-def insert_data_into_teams(db, data):
+def insert_csv_into_teams(db, data):
     for row in data:
         db.execute(
             """
@@ -88,6 +88,49 @@ def insert_data_into_teams(db, data):
     # Update the sequence to the maximum id in the table
     db.execute("""
         SELECT setval('teams_id_seq', (SELECT MAX(id) FROM teams));
+    """)
+
+def insert_csv_into_users(db, data):
+    for row in data:
+        db.execute(
+            """
+            INSERT INTO users (id, name, password, is_admin)
+            VALUES (:id, :name, :password, :is_admin)
+            ON CONFLICT (id) DO NOTHING
+            """,
+            {
+                "id": row["id"],
+                "name": row["name"],
+                "password": row["password"],
+                "is_admin": row["is_admin"],
+            }
+        )
+
+    # Update the sequence to the maximum id in the table
+    db.execute("""
+        SELECT setval('users_id_seq', (SELECT MAX(id) FROM teams));
+    """)
+
+def insert_csv_into_comments(db, data):
+    for row in data:
+        db.execute(
+            """
+            INSERT INTO comments (id, team_id, user_id, comment, created_at)
+            VALUES (:id, :team_id, :user_id, :comment, :created_at)
+            ON CONFLICT (id) DO NOTHING
+            """,
+            {
+                "id": row["id"],
+                "team_id": row["team_id"],
+                "user_id": row["user_id"],
+                "comment": row["comment"],
+                "created_at": row["created_at"]
+            }
+        )
+
+    # Update the sequence to the maximum id in the table
+    db.execute("""
+        SELECT setval('comments_id_seq', (SELECT MAX(id) FROM teams));
     """)
 
 
