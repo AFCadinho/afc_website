@@ -163,3 +163,83 @@ footer a:hover {
 }
 
 
+/* --------- */
+
+.about-section {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.about-section h2 {
+    text-align: center;
+    color: #007bff;
+    margin-bottom: 20px;
+}
+
+.about-content {
+    line-height: 1.6;
+    color: #555;
+    text-align: justify;
+}
+
+.about-image {
+    display: block;
+    margin: 20px auto;
+    max-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+}
+
+.social-icons li {
+    display: inline-block;
+}
+
+.social-icons a {
+    font-size: 24px;
+    color: #555;
+    transition: color 0.3s, transform 0.3s;
+}
+
+.social-icons a:hover {
+    color: #007bff;
+    transform: scale(1.1);
+}
+
+/* General Styling */
+.styled-list {
+    list-style-type: none; /* Remove default bullets */
+    padding: 0;
+    margin: 20px 0;
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Add custom bullet styling */
+.styled-list li {
+    position: relative;
+    padding-left: 25px; /* Indent to make space for the icon */
+    margin-bottom: 10px;
+}
+
+/* Add a custom icon as a bullet */
+.styled-list li::before {
+    content: "✔"; /* Use any symbol, emoji, or character */
+    color: #007bff;
+    font-size: 1.2rem;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+

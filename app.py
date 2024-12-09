@@ -295,6 +295,11 @@ def add_team(game_name):
     return render_template("add_team.html", game_name=game_name)
 
 
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+
 if __name__ == "__main__":
 
     app.run(debug=True)

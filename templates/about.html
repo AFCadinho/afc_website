@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}
+About
+{% endblock %}
+
+{% block content %}
+<section id="socials" class="about-section">
+    <h2>My Socials</h2>
+    <nav>
+        <ul class="social-icons">
+            <li>
+                <a href="https://www.youtube.com/@AFCAdinho?sub_confirmation=1" target="_blank" rel="noopener" title="YouTube">
+                    <i class="fab fa-youtube"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.twitch.tv/afc_adinho" target="_blank" rel="noopener" title="Twitch">
+                    <i class="fab fa-twitch"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.patreon.com/afc_adinho" target="_blank" rel="noopener" title="Patreon">
+                    <i class="fab fa-patreon"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.instagram.com/afc_adinho/" target="_blank" rel="noopener" title="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://discord.com/invite/Z9EmB42" target="_blank" rel="noopener" title="Discord">
+                    <i class="fab fa-discord"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</section>
+
+<section id="about-me" class="about-section">
+    <h2>Adinho</h2>
+    <div class="about-content">
+        <p>
+            Hi, I’m Adinho! I’ve been passionate about competitive Pokémon since 2010, and over the years, I’ve been
+            fortunate to achieve some fun milestones in the game. Here are a few highlights:
+        </p>
+        <ul class="styled-list">
+            <li>Rank 3 on PokeMMO and Pokémon Showdown (Gen 9 OU)—I value efficiency over grinding, so aiming for Rank 1 wasn’t the goal.</li>
+            <li>Rank 1 on PokeOne and Pokémon Revolution Online.</li>
+            <li>Several in-game tournament wins and unofficial Pokémon Showdowns Tournaments.</li>
+        </ul>        
+        <p>
+            Apart from competitive play, I love sharing my journey on YouTube so that I can connect with people who share my
+            enthusiasm for Pokémon. I try to keep my goals fun and balanced rather than grinding endlessly.
+        </p>
+        <p>
+            When I’m not battling or strategizing, you’ll probably find me coding, playing guitar, or watching anime. Thanks for stopping by—I’m always looking forward to meeting more fans and players who share this awesome passion for Pokémon!
+        </p>
+    </div>
+    <img src="{{ url_for('static', filename='images/adinho_walk') }}" alt="Adinho Walking" class="about-image">
+</section>
+
+<section id="about-site" class="about-section">
+    <h2>This Website</h2>
+    <div class="about-content">
+        <p>
+            Welcome to my website! This was initially a project for me to get practice working with databases and tightening up my backend
+            development skills. I've kept the design simple since my focus is mainly on the creation of a solid, functional backend infrastructure.
+        </p>
+        <p>
+            While this is still an early version, I'm excited to share it with you and to continue improving it in due course. Previously, I posted my content on Patreon, but everything will be here now, absolutely free. I have prioritized security and usability to make sure that anyone who visits will have a safe and seamless experience.
+        </p>
+        <p>
+            This site also works as a portfolio project where I put into practice and further develop my technical skills. You'll find Pokémon teams, strategies, and other resources to facilitate connection, collaboration, and improvement in the competitive scene. Thank you for visiting! I'm constantly working on updates, so check back often for new features and content. Let's grow and enjoy the journey together!
+        </p>
+    </div>
+</section>
+{% endblock %}
