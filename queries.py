@@ -108,7 +108,7 @@ def insert_csv_into_users(db, data):
 
     # Update the sequence to the maximum id in the table
     db.execute("""
-        SELECT setval('users_id_seq', (SELECT MAX(id) FROM teams));
+        SELECT setval('users_id_seq', (SELECT MAX(id) FROM users));
     """)
 
 def insert_csv_into_comments(db, data):
@@ -130,7 +130,7 @@ def insert_csv_into_comments(db, data):
 
     # Update the sequence to the maximum id in the table
     db.execute("""
-        SELECT setval('comments_id_seq', (SELECT MAX(id) FROM teams));
+        SELECT setval('comments_id_seq', (SELECT MAX(id) FROM comments));
     """)
 
 
