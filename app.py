@@ -13,6 +13,11 @@ db = postgresqlite.connect()
 load_dotenv()
 
 app = Flask(__name__)
+# Perform initialization tasks
+with app.app_context():
+    print("Restoring all data from CSV files...")
+    python_csv.restore_all_tables_on_startup(db)  # Example function to restore tables
+
 app.secret_key = os.getenv("MY_SECRET_KEY")
 ADMIN_KEY = os.getenv("ADMIN_KEY")
 

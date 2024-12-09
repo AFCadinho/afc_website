@@ -2,17 +2,18 @@ import pandas as pd
 import queries
 import csv
 
+
 def create_csv_from_table(db, csv_file_paths, table_names):
 
     for num in range(len(csv_file_paths)):
-    
+
         table_name = table_names[num]
         csv_file_path = csv_file_paths[num]
         rows = db.query(f"""
                 SELECT *
                 FROM {table_name}
                 """)
-        
+
         data = []
         for row in rows:
             row_dict = dict(row)
@@ -41,3 +42,13 @@ def restore_teams_table(db, csv_file_paths):
             queries.insert_csv_into_users(db, data)
         elif file_path == "csv/comments.csv":
             queries.insert_csv_into_comments(db, data)
+
+
+def restore_all_tables_on_startup(db):
+    csv_file_paths = [
+        "csv/teams.csv",
+        "csv/users.csv",
+        "csv/comments.csv",
+    ]
+    restore_teams_table(db, csv_file_paths)  # Call your existing function
+    print("All tables restored successfully from CSV files.")
