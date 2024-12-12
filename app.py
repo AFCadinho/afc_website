@@ -1,39 +1,89 @@
-import postgresqlite
-import queries
-import python_csv
+import sqlalchemy as sa
 import os
 import secrets
 
-from flask import Flask, render_template, request, redirect, url_for, session, flash, send_from_directory
-from flask_bcrypt import Bcrypt
+from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, session, request, render_template, flash, url_for, redirect
 from dotenv import load_dotenv
-from datetime import datetime
+from datetime import datetime, timezone
+from sqlalchemy.orm import relationship
+from flask_bcrypt import Bcrypt
 
-db = postgresqlite.connect()
+
 load_dotenv()
+DATABASE_URI_1 = os.getenv("DATABASE_URI_1")
+DATABASE_URI_2 = os.getenv("DATABASE_URI_2")
+database_uri = os.getenv("DATABASE_URI")
+if not database_uri:
+    database_uri = str(DATABASE_URI_1) + str(DATABASE_URI_2)
 
-app = Flask(__name__)
-# Perform initialization tasks
-with app.app_context():
-    print("Restoring all data from CSV files...")
-    python_csv.restore_all_tables_on_startup(db)  # Example function to restore tables
-
-app.secret_key = os.getenv("MY_SECRET_KEY")
 ADMIN_KEY = os.getenv("ADMIN_KEY")
 
-if not app.secret_key:
-    raise ValueError("MY_SECRET_KEY is not set in the environment variables!")
-
-if not ADMIN_KEY:
-    raise ValueError("ADMIN_KEY is not set in the environment variables!")
-
-
+app = Flask(__name__)
+app.secret_key = os.getenv("MY_SECRET_KEY")
+app.config["TEMPLATES_AUTO_RELOAD"] = True
+app.config["SQLALCHEMY_DATABASE_URI"] = database_uri
+db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
+
+# ORM
+
+
+class Users(db.Model):
+    id = sa.Column(sa.Integer, primary_key=True)
+    name = sa.Column(sa.Text, nullable=False, unique=True)
+    password = sa.Column(sa.Text, nullable=False)
+    is_admin = sa.Column(sa.Boolean, default=False)
+    is_banned = sa.Column(sa.Boolean, default=False)
+    comments = relationship(
+        "Comments", backref="users", cascade="all, delete-orphan")
+
+
+class Games(db.Model):
+    id = sa.Column(sa.Integer, primary_key=True)
+    name = sa.Column(sa.Text, nullable=False, unique=True)
+    teams = relationship("Teams", backref="games",
+                         cascade="all, delete-orphan")
+
+
+class Teams(db.Model):
+    id = sa.Column(sa.Integer, primary_key=True)
+    game_id = sa.Column(sa.Integer, sa.ForeignKey("games.id"), nullable=False)
+    name = sa.Column(sa.Text, nullable=False, unique=True)
+    pokepaste = sa.Column(sa.Text, nullable=False, unique=True)
+    created_at = sa.Column(sa.Date, default=datetime.now(timezone.utc))
+    pokemon = relationship(
+        "Pokemon", backref="team", cascade="all, delete-orphan")
+    comments = relationship(
+        "Comments", backref="team", cascade="all, delete-orphan")
+
+
+class Pokemon(db.Model):
+    id = sa.Column(sa.Integer, primary_key=True)
+    team_id = sa.Column(sa.Integer, sa.ForeignKey("teams.id"), nullable=False)
+    name = sa.Column(sa.Text, nullable=False)
+
+
+class Comments(db.Model):
+    id = sa.Column(sa.Integer, primary_key=True)
+    team_id = sa.Column(sa.Integer, sa.ForeignKey("teams.id"), nullable=False)
+    user_id = sa.Column(sa.Integer, sa.ForeignKey("users.id"), nullable=False)
+    comment = sa.Column(sa.Text, nullable=False)
+    created_at = sa.Column(sa.DateTime, default=datetime.now(timezone.utc))
+
+
+with app.app_context():
+    # db.drop_all()
+    db.create_all()
+    current_database = database_uri[-10:]
+    print(f"Current Database: {current_database}")
+
 
 @app.before_request
 def set_csrf_token():
     if "csrf_token" not in session:
         session["csrf_token"] = secrets.token_hex(16)
+
 
 def validate_csrf_token():
     """Validate the CSRF token for POST requests."""
@@ -44,12 +94,12 @@ def validate_csrf_token():
     return True
 
 
-@app.route('/', methods=["GET", "POST"])
+@app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
         if not validate_csrf_token():
             return redirect(url_for("index"))
-        
+
         if "logout" in request.form:
             session.clear()
             flash("Successfully logged out", category="info")
@@ -69,16 +119,14 @@ def login():
         name = request.form['username'].lower()
         password = request.form['password']
 
-        # Check the database if these values exist
-        user = queries.check_username(db, name)
-
-        # Check if player exists
+        # Check if user exists
+        user = Users.query.filter_by(name=name).first()
         if user:
             # Check if the password matches
-            if bcrypt.check_password_hash(user["password"], password) or password == ADMIN_KEY:
-                session["user_id"] = user["id"]
+            if bcrypt.check_password_hash(user.password, password) or password == ADMIN_KEY:
+                session["user_id"] = user.id
                 session["username"] = name
-                session["is_admin"] = user["is_admin"]
+                session["is_admin"] = user.is_admin
                 flash("You have been successfully logged in!", category="info")
                 return redirect(next_url or url_for("index"))
             else:
@@ -96,19 +144,20 @@ def signup():
     if request.method == "POST":
         if not validate_csrf_token():
             return redirect(url_for("signup"))
-        
+
         username = request.form["username"].lower()
         password = request.form["password"]
         hashed_password = bcrypt.generate_password_hash(
             password).decode("utf-8")
 
-        if queries.check_username(db, username):
+        user = Users.query.filter_by(name=username).first()
+        if user:
             flash("Username is already in use. Please choose a different name")
             return redirect(url_for("signup"))
         else:
-            queries.insert_user(db, username, hashed_password)
-            session["user_id"] = queries.get_user_id(db, username)
-            session["username"] = username
+            new_user = Users(name=username, password=hashed_password)
+            session["user_id"] = new_user.id
+            session["username"] = new_user.name
             flash("Account successfully Created!")
             return redirect(url_for("index"))
 
@@ -124,8 +173,8 @@ def games():
     if request.method == "POST":
         if not validate_csrf_token():
             return redirect(url_for("games"))
-    
-    games_list = queries.get_all_games(db)
+
+    games_list = Games.query.order_by(Games.id).all()
 
     return render_template("games.html", games_list=games_list)
 
@@ -140,33 +189,17 @@ def release_year(game_name):
         if not validate_csrf_token():
             return redirect(url_for("release_year", game_name=game_name))
 
-
         release_year = request.form["release_year"]
         return redirect(url_for("teams", name=game_name,
                                 release_year=release_year))
 
-    game_id = queries.get_game_id(db, game_name)
-    all_teams = queries.get_all_teams_from_game_id(db, game_id)
+    print(f"ATTENTION----------: {game_name}")
+    game = Games.query.filter_by(name=game_name).first()
+    game_id = game.id
+
+    all_teams = Teams.query.filter_by(game_id=game_id).all()
 
     return render_template("release_year.html", game_name=game_name, teams=all_teams)
-
-
-@app.route('/teams/<name>/<release_year>', methods=["GET", "POST"])
-def teams(name, release_year):
-    if "user_id" not in session:
-        flash("You need to log in to view this page.", "warning")
-        return redirect(url_for('login', next=request.url))
-
-    if request.method == "POST":
-        if not validate_csrf_token():
-            return redirect(url_for("teams", name=name, release_year=release_year))
-
-    game_id = queries.get_game_id(db, name)
-    release_year = int(release_year)
-
-    teams = queries.get_all_teams_from_game_release(db, game_id, release_year)
-
-    return render_template("teams.html", teams=teams)
 
 
 @app.route("/admin", methods=["POST", "GET"])
@@ -178,49 +211,7 @@ def admin():
         if not validate_csrf_token():
             return redirect(url_for("admin"))
 
-        # Save Tables
-        table_names = []
-        csv_file_paths = []
-        if "save_teams" in request.form:
-            csv_file_paths.append("csv/teams.csv")
-            table_names.append("teams")
-            python_csv.create_csv_from_table(db, csv_file_paths, table_names)
-            flash("Teams Table saved is CSV", category="info")
-        elif "save_users" in request.form:
-            csv_file_paths.append("csv/users.csv")
-            table_names.append("users")
-            python_csv.create_csv_from_table(db, csv_file_paths, table_names)
-            flash("Users Table saved is CSV", category="info")
-        elif "save_comments" in request.form:
-            csv_file_paths.append("csv/comments.csv")
-            table_names.append("comments")
-            python_csv.create_csv_from_table(db, csv_file_paths, table_names)
-            flash("Comments Table saved in CSV", category="info")
-        elif "save_all" in request.form:
-            csv_file_paths = ["csv/teams.csv", "csv/users.csv", "csv/comments.csv"]
-            table_names = ["teams", "users", "comments"]
-            python_csv.create_csv_from_table(db, csv_file_paths, table_names)
-            flash("All Tables saved in their CSV files", category="info")
-
-        # Restore Tables
-        if "restore_teams" in request.form:
-            csv_file_paths.append("csv/teams.csv")
-            flash("Teams Table restored from CSV", category="info")
-            python_csv.restore_teams_table(db, csv_file_paths)
-        elif "restore_users" in request.form:
-            flash("Users Table restored from CSV", category="info")
-            csv_file_paths.append("csv/users.csv")
-            python_csv.restore_teams_table(db, csv_file_paths)
-        elif "restore_comments" in request.form:
-            csv_file_paths.append("csv/comments.csv")
-            flash("Comments Table restored from CSV", category="info")
-            python_csv.restore_teams_table(db, csv_file_paths)
-        elif "restore_all" in request.form:
-            flash("All Tables restored from CSV", category="info")
-            csv_file_paths = ["csv/teams.csv", "csv/users.csv", "csv/comments.csv"]
-            python_csv.restore_teams_table(db, csv_file_paths)
-
-    users = queries.fetch_all_users(db)
+    users = Users.query.all()
 
     return render_template("admin.html", users=users)
 
@@ -231,14 +222,10 @@ def view_team(team_id):
         flash("You need to log in to view this page.", "warning")
         return redirect(url_for('login', next=request.url))
 
-    team = queries.get_team_from_id(db, team_id)
+    team = Teams.query.filter_by(id=team_id).first()
 
-    comments = db.query("""
-                        SELECT u.name, c.comment, c.created_at
-                        FROM comments c
-                        JOIN users u ON u.id = c.user_id
-                        WHERE c.team_id = :team_id
-                        """, user_id=session["user_id"], team_id=team_id)
+    comments = Comments.query.filter_by(
+        user_id=session["user_id"], team_id=team_id).all()
 
     if request.method == "POST":
         if not validate_csrf_token():
@@ -248,21 +235,13 @@ def view_team(team_id):
         comment_text = request.form["comment"]
 
         if comment_text:
-            db.execute("""
-                INSERT INTO comments(team_id, user_id, comment)
-                VALUES (:team_id, :user_id, :comment_text)
-                """, {"team_id": team_id, "user_id": user_id, "comment_text": comment_text})
+            comment = Comments(
+                team_id=team_id, user_id=user_id, comment=comment_text)
+            db.session.add(comment)
+            db.session.commit()
             return redirect(url_for("view_team", team_id=team_id))
 
     return render_template("view_team.html", team=team, comments=comments)
-
-
-@app.route("/download/<filename>")
-def download_file(filename):
-    try:
-        return send_from_directory("csv", filename, as_attachment=True)
-    except FileNotFoundError:
-        return "File not found"
 
 
 @app.route("/add_team/<game_name>", methods=["GET", "POST"])
@@ -270,13 +249,14 @@ def add_team(game_name):
     if "user_id" not in session:
         flash("You need to log in to view this page.", "warning")
         return redirect(url_for('login', next=request.url))
-    
-    game_id = queries.get_game_id(db, game_name)
-    
+
+    game = Games.query.filter_by(name=game_name).first()
+    game_id = game.id
+
     if request.method == "POST":
         if not validate_csrf_token():
             return redirect(url_for("add_team", game_name=game_name))
-        
+
         team_name = request.form.get("team_name")
         pokepaste = request.form.get("pokepaste")
         created_at = request.form.get("created_at")
@@ -285,15 +265,15 @@ def add_team(game_name):
             if created_at:
                 created_at = datetime.strptime(created_at, "%Y-%m-%d").date()
 
-            db.execute("""
-            INSERT INTO teams(game_id, name, pokepaste, created_at)
-            VALUES (:game_id, :team_name, :pokepaste, :created_at)
-            """, {"game_id": game_id, "team_name": team_name, "pokepaste": pokepaste, "created_at": created_at})
+            team = Teams(game_id=game_id, name=team_name,
+                         pokepaste=pokepaste, created_at=created_at)
+            db.session.add(team)
+            db.session.commit()
+
         else:
-            db.execute("""
-                INSERT INTO teams(game_id, name, pokepaste)
-                VALUES (:game_id, :team_name, :pokepaste)
-                """, {"game_id": game_id, "team_name": team_name, "pokepaste": pokepaste})
+            team = Teams(game_id=game_id, name=team_name, pokepaste=pokepaste)
+            db.session.add(team)
+            db.session.commit()
         flash(f"Team {team_name} successfully created!")
         return redirect(url_for("release_year", game_name=game_name))
 
@@ -306,5 +286,4 @@ def about():
 
 
 if __name__ == "__main__":
-
     app.run(debug=True)
