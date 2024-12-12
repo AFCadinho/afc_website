@@ -5,44 +5,8 @@
 {% endblock %}
 
 {% block content %}
-
-    <div>
-        <ul>
-            <li>
-                <a href="{{ url_for('download_file', filename='teams.csv') }}" download="teams.csv">Download Teams CSV </a> |
-                <a href="{{ url_for('download_file', filename='users.csv') }}" download="users.csv">Download Users CSV</a> |
-                <a href="{{ url_for('download_file', filename='comments.csv') }}" download="comments.csv">Download Comments CSV</a> |
-            </li>
-        </ul>
-        
-    </div>
-
-
-    <!-- Save to CSV -->
-    <h3>Save from Database to CSV file</h3>
-    <div>
-        <form method="POST">
-            <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
-            <button name="save_teams">Save Teams</button>
-            <button name="save_users">Save Users</button>
-            <button name="save_comments">Save Comments</button>
-            <button name="save_all">Save All</button>
-        </form>
-    </div>
-
-    <!-- Restore from CSV -->
-    <h3>Restore Database from CSV file</h3>
-    <div>
-        <form method="POST">
-            <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
-            <button name="restore_teams">Restore Teams</button>
-            <button name="restore_users">Restore Users</button>
-            <button name="restore_comments">Restore Comments</button>
-            <button name="restore_all">Restore All</button>
-        </form>
-    </div>
-
     {% if users %}
+    <h2>All Users</h2>
     <div>
         <ol>
         {% for user in users %}

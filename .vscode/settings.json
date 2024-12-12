@@ -3,6 +3,7 @@
         "backref",
         "dotenv",
         "pgcli",
+        "pokemmo",
         "pokepaste",
         "setval",
         "sqlalchemy"

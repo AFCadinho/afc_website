@@ -7,7 +7,7 @@
 <nav>
     {% if games_list %}
         {% for game in games_list %}
-            <a href="{{ url_for('release_year', game_name=game) }}">{{ game.title() }}</a> |
+            <a href="{{ url_for('release_year', game_name=game.name) }}">{{ game.name }}</a> |
         {% endfor %}
     {% endif %}
 </nav>
