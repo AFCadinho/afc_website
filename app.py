@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 from datetime import datetime, timezone
 from sqlalchemy.orm import relationship
 from flask_bcrypt import Bcrypt
-
+from datetime import timedelta
 
 load_dotenv()
 DATABASE_URI_1 = os.getenv("DATABASE_URI_1")
@@ -21,10 +21,14 @@ ADMIN_KEY = os.getenv("ADMIN_KEY")
 
 app = Flask(__name__)
 app.secret_key = os.getenv("MY_SECRET_KEY")
+app.permanent_session_lifetime = timedelta(days=30)
+
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["SQLALCHEMY_DATABASE_URI"] = database_uri
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
+
+
 
 # ORM
 
@@ -118,6 +122,7 @@ def login():
 
         name = request.form['username'].lower()
         password = request.form['password']
+        remember_me = request.form.get("remember_me")
 
         # Check if user exists
         user = Users.query.filter_by(name=name).first()
@@ -127,6 +132,12 @@ def login():
                 session["user_id"] = user.id
                 session["username"] = name
                 session["is_admin"] = user.is_admin
+
+                if remember_me:
+                    session.permanent = True
+                else:
+                    session.permanent = False
+
                 flash("You have been successfully logged in!", category="info")
                 return redirect(next_url or url_for("index"))
             else:
