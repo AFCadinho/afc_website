@@ -14,7 +14,7 @@
     
     <div>
         <h3>Choose Year</h3>
-        <form action="{{ url_for('games.release_year', game_name=game_name) }}" method="POST">
+        <form method="POST">
             <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
             <label for="release_year">Year:</label>
             <select name="release_year">
@@ -31,9 +31,9 @@
         <ul>
             {% for team in teams %}
             <li>
-                <a href="{{ url_for('teams.view_team', team_id=team['id']) }}">{{ team["name"] }}</a> - 
-                <a href="{{ team['pokepaste'] }}">View Pokepaste</a> 
-                Posted: {{ team["created_at"] }}
+                <a href="{{ url_for('teams.view_team', team_id=team.id, release_year=team.created_at) }}">{{ team.name }}</a> - 
+                <a href="{{ team.pokepaste }}">View Pokepaste</a> 
+                Posted: {{ team.created_at }}
             </li>
             {% endfor %}
         </ul>

@@ -3,6 +3,7 @@ from app.models import Teams, Comments, Games
 from app import db
 from app.utils import validate_csrf_token
 from datetime import datetime
+from sqlalchemy import extract
 
 bp = Blueprint('teams', __name__)
 
@@ -60,3 +61,29 @@ def add_team(game_name):
         return redirect(url_for("games.release_year", game_name=game_name))
 
     return render_template("add_team.html", game_name=game_name)
+
+
+@bp.route("/<name>/<release_year>", methods=["GET", "POST"])
+def teams(name, release_year):
+    if "user_id" not in session:
+        flash("You need to log in to view this page.", "warning")
+        return redirect(url_for('auth.login', next=request.url))
+
+    if request.method == "POST":
+        if not validate_csrf_token():
+            return redirect(url_for("teams.teams", name=name, release_year=release_year))
+
+    # Fetch game_id by name
+    game = Games.query.filter_by(name=name).first()
+    if not game:
+        flash("Game not found!", "error")
+        return redirect(url_for("games.index"))
+
+    game_id = game.id
+
+
+    # Get all teams for the game and release year
+    teams = Teams.query.filter(extract("YEAR", Teams.created_at) == int(release_year), Teams.game_id == game_id).all()
+
+
+    return render_template("teams.html", teams=teams)

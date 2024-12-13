@@ -23,16 +23,21 @@ def release_year(game_name):
     if "user_id" not in session:
         flash("You need to log in to view this page.", "warning")
         return redirect(url_for('auth.login', next=request.url))
+    game = Games.query.filter_by(name=game_name).first()
+    game_id = game.id
+    print(f"Game ID: {game_id}")
+    all_teams = Teams.query.filter_by(game_id=game_id).all()
 
     if request.method == "POST":
         if not validate_csrf_token():
-            return redirect(url_for("games.release_year", game_name=game_name))
+            return redirect(url_for("games.release_year", game_name=game_name, teams=all_teams))
 
         release_year = request.form["release_year"]
-        return redirect(url_for("teams.view_team", game_name=game_name, release_year=release_year))
-
-    game = Games.query.filter_by(name=game_name).first()
-    game_id = game.id
-    all_teams = Teams.query.filter_by(game_id=game_id).all()
+        return redirect(url_for("teams.teams", name=game_name, release_year=release_year))
 
     return render_template("release_year.html", game_name=game_name, teams=all_teams)
+
+
+@bp.route("/goodbye")
+def goodbye():
+    return "Goodbye"
