@@ -1,10 +1,31 @@
+# Database and data-related files
 data/postgresqlite/pgdata/
 data/postgresqlite/locks/
 data/postgresqlite/postgresqlite.log
 data/postgresqlite/postgresqlite.json
-__pycache__/
-*.pyc
-.env
 afcadinho.db
 dump.sql
+
+# Python-generated files
+__pycache__/
+*.pyc
+
+# Environment variables
+.env
+
+# Temporary or personal files
 cheatsheet.txt
+
+# Editor-specific files
+.vscode/
+
+# Logs and temp files
+*.log
+*.tmp
+
+# System-specific files
+.DS_Store
+Thumbs.db
+
+# Poetry virtual environment
+.venv/

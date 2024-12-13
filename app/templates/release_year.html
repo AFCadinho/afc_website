@@ -7,13 +7,14 @@
 {% block content %}
     <h2>{{ game_name }} Teams</h2>
     {% if session["is_admin"] %}
-    <a href="{{ url_for('add_team', game_name=game_name) }}">
+    <a href="{{ url_for('teams.add_team', game_name=game_name) }}">
         <button>Add Team</button>
     </a>
     {% endif %}
+    
     <div>
         <h3>Choose Year</h3>
-        <form action="{{ url_for('release_year', game_name=game_name) }}" method="POST">
+        <form action="{{ url_for('games.release_year', game_name=game_name) }}" method="POST">
             <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
             <label for="release_year">Year:</label>
             <select name="release_year">
@@ -29,9 +30,12 @@
         {% if teams %}
         <ul>
             {% for team in teams %}
-            <li><a href="{{ url_for('view_team', team_id=team['id'] )}}">{{ team["name"] }}</a> - <a href="{{ team['pokepaste'] }}">View Pokepaste</a> Posted: {{ team["created_at"] }}</li>
+            <li>
+                <a href="{{ url_for('teams.view_team', team_id=team['id']) }}">{{ team["name"] }}</a> - 
+                <a href="{{ team['pokepaste'] }}">View Pokepaste</a> 
+                Posted: {{ team["created_at"] }}
+            </li>
             {% endfor %}
-
         </ul>
         {% endif %}
     </div>

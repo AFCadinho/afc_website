@@ -9,8 +9,8 @@ View Team
 <a href="{{ team.pokepaste }}">Click for Pokepaste</a>
 
 <!-- Add comment -->
-<a>Add a Comment</a>
-<form action="{{ url_for('view_team', team_id=team.id) }}" method="POST">
+<h3>Add a Comment</h3>
+<form action="{{ url_for('teams.view_team', team_id=team.id) }}" method="POST">
     <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
     <textarea name="comment" rows="4" cols="50" placeholder="Write your comment"></textarea><br>
     <button type="submit">Comment</button>
@@ -22,14 +22,13 @@ View Team
 <ul>
     {% for comment in comments %}
     <li>
-        <strong>From: {{ comment.users.name }} </strong>
-        <p>{{ comment.comment }}</p><br>
+        <strong>From: {{ comment.users.name }}</strong>
+        <p>{{ comment.comment }}</p>
         <small>Posted on {{ comment.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
     </li>
     {% endfor %}
 </ul>
 {% else %}
-<p>No Comments yet. Be the first to comment brother!</p>
-
+<p>No comments yet. Be the first to comment!</p>
 {% endif %}
 {% endblock %}
