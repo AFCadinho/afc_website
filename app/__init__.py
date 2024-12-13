@@ -33,9 +33,6 @@ def create_app():
     def set_csrf_token(): # type: ignore
         if "csrf_token" not in session:
             session["csrf_token"] = secrets.token_hex(16)
-            print("New CSRF Token Set:", session["csrf_token"])
-        else:
-            print("Existing CSRF Token:", session["csrf_token"])
 
     with app.app_context():
         # Import and register each Blueprint directly

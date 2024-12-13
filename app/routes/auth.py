@@ -12,7 +12,6 @@ def login():
     if request.method == 'POST':
         if not validate_csrf_token():
             return redirect(url_for("auth.login"))
-        print("Session CSRF Token:", session.get("csrf_token"))
 
         name = request.form['username'].lower()
         password = request.form['password']
