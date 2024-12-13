@@ -5,10 +5,13 @@ import secrets
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, session, request, render_template, flash, url_for, redirect
 from dotenv import load_dotenv
-from datetime import datetime, timezone
+from datetime import datetime
 from sqlalchemy.orm import relationship
 from flask_bcrypt import Bcrypt
 from datetime import timedelta
+from sqlalchemy.sql import func
+from flask_migrate import Migrate
+
 
 load_dotenv()
 DATABASE_URI_1 = os.getenv("DATABASE_URI_1")
@@ -28,9 +31,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = database_uri
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 
-
-
-# ORM
+migrate = Migrate(app, db)
 
 
 class Users(db.Model):
@@ -55,7 +56,7 @@ class Teams(db.Model):
     game_id = sa.Column(sa.Integer, sa.ForeignKey("games.id"), nullable=False)
     name = sa.Column(sa.Text, nullable=False, unique=True)
     pokepaste = sa.Column(sa.Text, nullable=False, unique=True)
-    created_at = sa.Column(sa.Date, default=datetime.now(timezone.utc))
+    created_at = sa.Column(sa.DateTime, server_default=func.now())
     pokemon = relationship(
         "Pokemon", backref="team", cascade="all, delete-orphan")
     comments = relationship(
@@ -73,14 +74,14 @@ class Comments(db.Model):
     team_id = sa.Column(sa.Integer, sa.ForeignKey("teams.id"), nullable=False)
     user_id = sa.Column(sa.Integer, sa.ForeignKey("users.id"), nullable=False)
     comment = sa.Column(sa.Text, nullable=False)
-    created_at = sa.Column(sa.DateTime, default=datetime.now(timezone.utc))
+    created_at = sa.Column(sa.DateTime, server_default=func.now())
 
 
-with app.app_context():
-    # db.drop_all()
-    db.create_all()
-    current_database = database_uri[-10:]
-    print(f"Current Database: {current_database}")
+# with app.app_context():
+#     # db.drop_all()
+#     db.create_all()
+#     current_database = database_uri[-10:]
+#     print(f"Current Database: {current_database}")
 
 
 @app.before_request
@@ -297,4 +298,4 @@ def about():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
