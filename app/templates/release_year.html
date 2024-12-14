@@ -31,7 +31,7 @@
         <ul>
             {% for team in teams %}
             <li>
-                <a href="{{ url_for('teams.view_team', team_id=team.id, release_year=team.created_at) }}">{{ team.name }}</a> - 
+                <a href="{{ url_for('teams.view_team', team_id=team.id) }}">{{ team.name }}</a> - 
                 <a href="{{ team.pokepaste }}">View Pokepaste</a> 
                 Posted: {{ team.created_at }}
             </li>
