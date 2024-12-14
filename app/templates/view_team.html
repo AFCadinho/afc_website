@@ -5,18 +5,35 @@ View Team
 {% endblock %}
 
 {% block content %}
-<h2>{{ team.name }}</h2>
+<h2 class="page_header">{{ team.name }}</h2>
 
-<a href="{{ team.pokepaste }}">Click for Pokepaste</a>
-{% if session["is_admin"] %}
-<form action="{{ url_for('teams.delete_team', team_id=team.id ) }}" method="POST">
-    <button type="submit" class="delete_button">Delete Team</button>
-</form>  
-{% endif %}
+<!-- Pokemon sprites container -->
+<div class="pokemon_team_container">
+    <ol>
+        <div class="image_container">
+            {% for image_url in pokemon_image_dict.values() %}
+            <a href="{{ team.pokepaste }}">
+                <div class="pokemon_image">
+                    <img src="{{ image_url }}" alt="Pokemon">
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </ol>
+</div>
+
+<div class="pokepaste_management_container">
+    <a href="{{ team.pokepaste }}">Click for Pokepaste</a>
+    {% if session["is_admin"] %}
+    <form action="{{ url_for('teams.delete_team', team_id=team.id ) }}" method="POST">
+        <button type="submit" class="delete_button">Delete Team</button>
+    </form>
+    {% endif %}
+</div>
 
 <!-- Add comment -->
 <h3>Add a Comment</h3>
-<form action="{{ url_for('teams.view_team', team_id=team.id) }}" method="POST">
+<form action="{{ url_for('teams.post_team_comment', team_id=team.id) }}" method="POST">
     <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
     <textarea name="comment" rows="4" cols="50" placeholder="Write your comment"></textarea><br>
     <button type="submit">Comment</button>
@@ -24,22 +41,28 @@ View Team
 
 <!-- Display comments -->
 <h3>Comments</h3>
-{% if comments %}
-<ul>
-    {% for comment in comments %}
-    <li>        
-        <strong>From: {{ comment.users.name }}</strong>
-        <p>{{ comment.comment }}</p>
-        <small>Posted on {{ comment.created_at.strftime('%d-%m-%Y %H:%M') }}</small>
-        {% if comment.user_id == session["user_id"] or session["is_admin"] %}
-        <form action="{{ url_for('teams.delete_team_comment', team_id=team.id, comment_id=comment.id) }}" method="POST">
-            <button type="submit" class="delete_button">Delete Comment</button>
-        </form>     
-        {% endif %}
-    </li>
-    {% endfor %}
-</ul>
-{% else %}
-<p>No comments yet. Be the first to comment!</p>
-{% endif %}
+<div class="display_comment_container">
+    {% if comments %}
+    <ul class="comment_list">
+        {% for comment in comments %}
+        <li class="comment_item">
+            <div class="comment_header">
+                <strong class="comment_author">From: {{ comment.users.name }}</strong>
+                <small class="comment_date">Posted on {{ comment.created_at.strftime('%d-%m-%Y %H:%M') }}</small>
+            </div>
+            <p class="comment_text">{{ comment.comment }}</p>
+            {% if comment.user_id == session["user_id"] or session["is_admin"] %}
+            <form action="{{ url_for('teams.delete_team_comment', team_id=team.id, comment_id=comment.id) }}"
+                method="POST" class="delete_comment_form">
+                <button type="submit" class="delete_button">Delete Comment</button>
+            </form>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p class="no_comments_text">No comments yet. Be the first to comment!</p>
+    {% endif %}
+</div>
+
 {% endblock %}

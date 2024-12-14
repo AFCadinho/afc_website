@@ -4,13 +4,18 @@
     Admin Zone
 {% endblock %}
 
+<h2 class="page_header">Admin Zone</h2>
+
 {% block content %}
     {% if users %}
-    <h2>All Users</h2>
-    <div>
-        <ol>
+    <h2 class="section_header">All Users</h2>
+    <div class="users_list_container">
+        <ol class="users_list">
         {% for user in users %}
-            <li><span>Name: {{ user["name"] }}</span>  | <span>is_admin: {{ user["is_admin"] }}</span></li>
+            <li class="user_item">
+                <span class="user_name">Name: {{ user["name"] }}</span>
+                <span class="user_role">| is_admin: {{ user["is_admin"] }}</span>
+            </li>
         {% endfor %}     
         </ol> 
     </div>

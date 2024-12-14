@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-    <h2>{{ game_name }} Teams</h2>
+    <h2 class="page_header">{{ game_name }} Teams</h2>
     {% if session["is_admin"] %}
     <a href="{{ url_for('teams.add_team', game_name=game_name) }}">
         <button>Add Team</button>

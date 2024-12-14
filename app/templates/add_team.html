@@ -5,6 +5,8 @@
 {% endblock %}
 
 {% block content %}
+<h2 class="page_header">Add a Team</h2>
+
 <div>
     <form action="{{ url_for('teams.add_team', game_name=game_name) }}" method="POST">
         <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">

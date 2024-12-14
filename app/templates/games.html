@@ -3,8 +3,8 @@
 {% block title %}Choose Game{% endblock %}
 
 {% block content %}
-<h2>Choose Game</h2>
-<nav>
+<h2 class="page_header">Choose Game</h2>
+<nav class="game_nav_container">
     {% if games_list %}
         {% for game in games_list %}
             <a href="{{ url_for('games.release_year', game_name=game.name) }}">{{ game.name }}</a> |

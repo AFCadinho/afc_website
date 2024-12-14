@@ -21,7 +21,6 @@ def games():
 
 @bp.route("/release_year/<game_name>", methods=["GET", "POST"])
 def release_year(game_name):
-    print(f"Game Name: {game_name}")
     if "user_id" not in session:
         flash("You need to log in to view this page.", "warning")
         return redirect(url_for('auth.login', next=request.url))
@@ -33,7 +32,7 @@ def release_year(game_name):
         return redirect(url_for('games.games'))  # or redirect to another appropriate page
 
     game_id = game.id
-    all_teams = Teams.query.filter_by(game_id=game_id).all()
+    all_teams = Teams.query.filter_by(game_id=game_id).order_by(Teams.created_at.desc()).all()
 
     if request.method == "POST":
         if not validate_csrf_token():

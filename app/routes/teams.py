@@ -2,13 +2,14 @@ from flask import Blueprint, render_template, session, redirect, url_for, flash,
 from app.models import Teams, Comments, Games
 from app import db
 from app.utils import validate_csrf_token
+from app.pokemon_requests import fetch_pokepaste_names, fetch_pokemon_images
 from datetime import datetime
 from sqlalchemy import extract
 
 bp = Blueprint('teams', __name__)
 
 
-@bp.route("/team/<team_id>", methods=["GET", "POST"])
+@bp.route("/team/<team_id>")
 def view_team(team_id):
     if "user_id" not in session:
         flash("You need to log in to view this page.", "warning")
@@ -17,21 +18,32 @@ def view_team(team_id):
     team = Teams.query.filter_by(id=team_id).first()
     comments = Comments.query.filter_by(team_id=team_id).all()
 
-    if request.method == "POST":
-        if not validate_csrf_token():
-            return redirect(url_for("teams.view_team", team_id=team_id))
+    if not team and not team.pokepaste:
+        flash("No Team information available.", category="error")
+        return render_template(url_for("index"))
 
-        user_id = session["user_id"]
-        comment_text = request.form["comment"]
+    pokepaste = team.pokepaste
+    pokemon_names = fetch_pokepaste_names(pokepaste)
+    pokemon_image_dict = fetch_pokemon_images(pokemon_names)
 
-        if comment_text:
-            comment = Comments(
-                team_id=team_id, user_id=user_id, comment=comment_text)
-            db.session.add(comment)
-            db.session.commit()
-            return redirect(url_for("teams.view_team", team_id=team_id))
+    return render_template("view_team.html", team=team, comments=comments, pokemon_image_dict=pokemon_image_dict)
 
-    return render_template("view_team.html", team=team, comments=comments)
+
+@bp.route("/post_comment/<int:team_id>", methods=["POST"])
+def post_team_comment(team_id):
+
+    if not validate_csrf_token():
+        return redirect(url_for("teams.view_team", team_id=team_id))
+
+    user_id = session["user_id"]
+    comment_text = request.form["comment"]
+
+    if comment_text:
+        comment = Comments(
+            team_id=team_id, user_id=user_id, comment=comment_text)
+        db.session.add(comment)
+        db.session.commit()
+    return redirect(url_for("teams.view_team", team_id=team_id))
 
 
 @bp.route("/add_team/<game_name>", methods=["GET", "POST"])
@@ -86,7 +98,7 @@ def teams(name, release_year):
 
     # Get all teams for the game and release year
     teams = Teams.query.filter(extract("YEAR", Teams.created_at) == int(
-        release_year), Teams.game_id == game_id).all()
+        release_year), Teams.game_id == game_id).order_by(Teams.created_at.desc()).all()
 
     return render_template("teams.html", teams=teams)
 
@@ -109,7 +121,8 @@ def delete_team(team_id):
 
 @bp.route("/delete_comment/<int:team_id>/<int:comment_id>", methods=["POST"])
 def delete_team_comment(team_id, comment_id):
-    comment = Comments.query.filter(Comments.id == comment_id, Comments.team_id == team_id).first()
+    comment = Comments.query.filter(
+        Comments.id == comment_id, Comments.team_id == team_id).first()
     db.session.delete(comment)
     db.session.commit()
     flash("Comment Deleted.", category="info")
