@@ -15,8 +15,7 @@ def view_team(team_id):
         return redirect(url_for('auth.login', next=request.url))
 
     team = Teams.query.filter_by(id=team_id).first()
-    comments = Comments.query.filter_by(
-        user_id=session["user_id"], team_id=team_id).all()
+    comments = Comments.query.filter_by(team_id=team_id).all()
 
     if request.method == "POST":
         if not validate_csrf_token():
@@ -106,3 +105,12 @@ def delete_team(team_id):
 
     flash(f"Team {team_name} Successfully Deleted!", category="info")
     return redirect(url_for("games.release_year", game_name=game_name))
+
+
+@bp.route("/delete_comment/<int:team_id>/<int:comment_id>", methods=["POST"])
+def delete_team_comment(team_id, comment_id):
+    comment = Comments.query.filter(Comments.id == comment_id, Comments.team_id == team_id).first()
+    db.session.delete(comment)
+    db.session.commit()
+    flash("Comment Deleted.", category="info")
+    return redirect(url_for("teams.view_team", team_id=team_id))

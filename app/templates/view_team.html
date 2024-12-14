@@ -10,7 +10,7 @@ View Team
 <a href="{{ team.pokepaste }}">Click for Pokepaste</a>
 {% if session["is_admin"] %}
 <form action="{{ url_for('teams.delete_team', team_id=team.id ) }}" method="POST">
-    <button type="submit" id="delet_button">Delete Team</button>
+    <button type="submit" class="delete_button">Delete Team</button>
 </form>  
 {% endif %}
 
@@ -27,10 +27,15 @@ View Team
 {% if comments %}
 <ul>
     {% for comment in comments %}
-    <li>
+    <li>        
         <strong>From: {{ comment.users.name }}</strong>
         <p>{{ comment.comment }}</p>
         <small>Posted on {{ comment.created_at.strftime('%d-%m-%Y %H:%M') }}</small>
+        {% if comment.user_id == session["user_id"] or session["is_admin"] %}
+        <form action="{{ url_for('teams.delete_team_comment', team_id=team.id, comment_id=comment.id) }}" method="POST">
+            <button type="submit" class="delete_button">Delete Comment</button>
+        </form>     
+        {% endif %}
     </li>
     {% endfor %}
 </ul>

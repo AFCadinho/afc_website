@@ -243,3 +243,7 @@ footer a:hover {
     top: 0;
 }
 
+
+.delete_button {
+    background-color: red;
+}
