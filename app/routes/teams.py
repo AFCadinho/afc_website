@@ -7,6 +7,7 @@ from sqlalchemy import extract
 
 bp = Blueprint('teams', __name__)
 
+
 @bp.route("/team/<team_id>", methods=["GET", "POST"])
 def view_team(team_id):
     if "user_id" not in session:
@@ -14,7 +15,8 @@ def view_team(team_id):
         return redirect(url_for('auth.login', next=request.url))
 
     team = Teams.query.filter_by(id=team_id).first()
-    comments = Comments.query.filter_by(user_id=session["user_id"], team_id=team_id).all()
+    comments = Comments.query.filter_by(
+        user_id=session["user_id"], team_id=team_id).all()
 
     if request.method == "POST":
         if not validate_csrf_token():
@@ -24,7 +26,8 @@ def view_team(team_id):
         comment_text = request.form["comment"]
 
         if comment_text:
-            comment = Comments(team_id=team_id, user_id=user_id, comment=comment_text)
+            comment = Comments(
+                team_id=team_id, user_id=user_id, comment=comment_text)
             db.session.add(comment)
             db.session.commit()
             return redirect(url_for("teams.view_team", team_id=team_id))
@@ -53,7 +56,8 @@ def add_team(game_name):
             game_id=game_id,
             name=team_name,
             pokepaste=pokepaste,
-            created_at=datetime.strptime(created_at, "%Y-%m-%d").date() if created_at else None
+            created_at=datetime.strptime(
+                created_at, "%Y-%m-%d").date() if created_at else None
         )
         db.session.add(team)
         db.session.commit()
@@ -81,9 +85,24 @@ def teams(name, release_year):
 
     game_id = game.id
 
-
     # Get all teams for the game and release year
-    teams = Teams.query.filter(extract("YEAR", Teams.created_at) == int(release_year), Teams.game_id == game_id).all()
-
+    teams = Teams.query.filter(extract("YEAR", Teams.created_at) == int(
+        release_year), Teams.game_id == game_id).all()
 
     return render_template("teams.html", teams=teams)
+
+
+@bp.route("/delete_team/<int:team_id>", methods=["POST"])
+def delete_team(team_id):
+    team = Teams.query.filter_by(id=team_id).first()
+    if not team:
+        return "404 Not Found", 404
+
+    game_name = team.games.name
+    team_name = team.name
+    db.session.delete(team)
+    db.session.commit()
+    print("deleted game")
+
+    flash(f"Team {team_name} Successfully Deleted!", category="info")
+    return redirect(url_for("games.release_year", game_name=game_name))

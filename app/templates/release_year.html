@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-{{ game_name.title() }} Teams
+{{ game_name }} Teams
 {% endblock %}
 
 {% block content %}
@@ -33,7 +33,7 @@
             <li>
                 <a href="{{ url_for('teams.view_team', team_id=team.id) }}">{{ team.name }}</a> - 
                 <a href="{{ team.pokepaste }}">View Pokepaste</a> 
-                Posted: {{ team.created_at }}
+                Posted: {{ team.created_at.strftime('%d-%m-%Y') }}
             </li>
             {% endfor %}
         </ul>
