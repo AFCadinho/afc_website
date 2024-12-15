@@ -164,7 +164,8 @@ def filter_teams(game_name):
 def delete_team(team_id):
     team = Teams.query.filter_by(id=team_id).first()
     if not team:
-        return "404 Not Found", 404
+        flash("No Team to delete", category="error")
+        return redirect(url_for("index"))
 
     game_name = team.games.name
     team_name = team.name
@@ -173,7 +174,7 @@ def delete_team(team_id):
     print("deleted game")
 
     flash(f"Team {team_name} Successfully Deleted!", category="info")
-    return redirect(url_for("games.release_year", game_name=game_name))
+    return redirect(url_for("games.filter_page", game_name=game_name))
 
 
 @bp.route("/delete_comment/<int:team_id>/<int:comment_id>", methods=["POST"])
