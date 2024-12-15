@@ -11,12 +11,23 @@
     <form action="{{ url_for('teams.add_team', game_name=game_name) }}" method="POST">
         <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
         
+        <!-- Team's Name -->
         <label for="team_name">Team Name:</label>
         <input type="text" name="team_name" required>
 
+        <!-- Team's Pokepaste -->
         <label for="pokepaste">Pokepaste Link:</label>
         <input type="text" name="pokepaste" required>
+        
+        <!-- Team's Archetype -->
+        <label for="archetype">Archetype</label>
+        <select name="archetype">
+            {% for archetype in archetypes %}
+                <option value="{{ archetype }}">{{ archetype }}</option>
+            {% endfor %}
+        </select>
 
+        <!-- Team's Created at -->
         <label for="created_at">Created at:</label>
         <input type="date" name="created_at">
 

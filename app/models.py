@@ -22,6 +22,7 @@ class Teams(db.Model):
     name = sa.Column(sa.Text, nullable=False, unique=True)
     pokepaste = sa.Column(sa.Text, nullable=False, unique=True)
     created_at = sa.Column(sa.DateTime, server_default=func.now())
+    archetype = sa.Column(sa.Text, nullable=False, server_default="Unknown")
     pokemon = relationship("Pokemon", backref="team", cascade="all, delete-orphan")
     comments = relationship("Comments", backref="team", cascade="all, delete-orphan")
 

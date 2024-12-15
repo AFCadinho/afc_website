@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ game_name }} Teams
+{% endblock %}
+
+{% block content %}
+<h2 class="page_header">{{ game_name }} Teams</h2>
+{% if session["is_admin"] %}
+<a href="{{ url_for('teams.add_team', game_name=game_name) }}">
+    <button>Add Team</button>
+</a>
+{% endif %}
+
+<div class="filter_container">
+    <h3>Filter Search</h3>
+
+    <form action="{{ url_for('teams.filter_teams', game_name=game_name) }}" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
+
+        <!-- Release year -->
+        <label for="release_year">Year:</label>
+        <select name="release_year">
+            {% for year in ["2023", "2024"] %}
+            <option value="{{ year }}" {% if year=="2024" %} selected {% endif %}>{{ year }}</option>
+            {% endfor %}
+        </select>
+        <!-- Archetype -->
+        <label for="archetype">Archetype</label>
+        <select name="archetype">
+            <option value="" disabled selected>Select Archetype (Optional)</option>
+            {% for archetype in pokemon_archetypes %}
+            <option value="{{ archetype }}">{{ archetype }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- Pokemon -->
+        <label for="pokemon_name">Pokemon</label>
+        <input list="pokemon_list" name="pokemon_name" id="pokemon_name"
+            placeholder="Type or select a Pokémon (Optional)">
+        <datalist id="pokemon_list">
+            {% for pokemon_name in pokemon_names %}
+            <option value="{{ pokemon_name }}"></option>
+            {% endfor %}
+        </datalist>
+
+        <!-- Submit Form -->
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+<div>
+    <h2 class="page_header">All Teams</h2>
+    {% if teams %}
+    <ul>
+        {% for team in teams %}
+        <li>
+            <a href="{{ url_for('teams.view_team', team_id=team.id) }}">{{ team.name }}</a> -
+            <a href="{{ team.pokepaste }}">View Pokepaste</a>
+            Posted: {{ team.created_at.strftime('%d-%m-%Y') }}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No teams match the selected filters.</p>
+    {% endif %}
+</div>
+{% endblock %}

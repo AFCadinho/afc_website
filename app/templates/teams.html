@@ -3,13 +3,13 @@
 {% block title %}Teams{% endblock %}
 
 {% block content %}
-<h2 class="page_header">All Teams</h2>
+<h2 class="page_header">Your Search Results for filtered Teams</h2>
 <ul>
     {% for team in teams %}
         <li>
             <a href="{{ url_for('teams.view_team', team_id=team.id) }}">{{ team.name }}</a> - 
             <a href="{{ team.pokepaste }}">View Pokepaste</a> 
-            Posted: {{ team.created_at }}
+            Posted: {{ team.created_at.strftime('%d-%m-%Y') }}
         </li>
     {% endfor %}
 </ul>

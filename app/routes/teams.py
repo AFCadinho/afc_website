@@ -5,6 +5,7 @@ from app.utils import validate_csrf_token
 from app.pokemon_requests import fetch_pokepaste_names, fetch_pokemon_images
 from datetime import datetime
 from sqlalchemy import extract
+from app.constants import VALID_ARCHETYPES
 
 bp = Blueprint('teams', __name__)
 
@@ -62,13 +63,15 @@ def add_team(game_name):
         team_name = request.form.get("team_name")
         pokepaste = request.form.get("pokepaste")
         created_at = request.form.get("created_at")
+        archetype = request.form.get("archetype")
 
         team = Teams(
             game_id=game_id,
             name=team_name,
             pokepaste=pokepaste,
             created_at=datetime.strptime(
-                created_at, "%Y-%m-%d").date() if created_at else None
+                created_at, "%Y-%m-%d").date() if created_at else None,
+            archetype=archetype
         )
         db.session.add(team)
         db.session.commit()
@@ -79,38 +82,82 @@ def add_team(game_name):
         for name in pokepaste_names:
             pokemon = Pokemon(team_id=team.id, name=name)
             pokemon_names.append(pokemon)
-        
+
         db.session.add_all(pokemon_names)
         db.session.commit()
-        flash(f"Each Pokemon from team {team.name} have been added to the Pokemon Table.")
-        return redirect(url_for("games.release_year", game_name=game_name))
+        flash(f"""Each Pokemon from team {
+              team.name} have been added to the Pokemon Table.""")
+        
+        return redirect(url_for("games.filter_page", game_name=game_name))
+    
+    return render_template("add_team.html", game_name=game_name, archetypes=VALID_ARCHETYPES)
 
-    return render_template("add_team.html", game_name=game_name)
 
-
-@bp.route("/<name>/<release_year>", methods=["GET", "POST"])
-def teams(name, release_year):
+@bp.route("/<game_name>/filtered_teams")
+def filtered_teams(game_name):
     if "user_id" not in session:
         flash("You need to log in to view this page.", "warning")
         return redirect(url_for('auth.login', next=request.url))
 
-    if request.method == "POST":
-        if not validate_csrf_token():
-            return redirect(url_for("teams.teams", name=name, release_year=release_year))
+    # Fetch filtered teams from session
+    team_ids = session.get("filtered_teams")
+    if not team_ids:
+        flash("No teams found for the applied filters.", "error")
+        return redirect(url_for("games.filter_page", game_name=game_name))
 
-    # Fetch game_id by name
-    game = Games.query.filter_by(name=name).first()
+    # Re-query to fetch full team objects
+    teams = Teams.query.filter(Teams.id.in_(team_ids)).all()
+
+    return render_template("teams.html", teams=teams, game_name=game_name)
+
+
+@bp.route("/filter_teams/<game_name>", methods=["POST"])
+def filter_teams(game_name):
+    if not validate_csrf_token():
+        return redirect(url_for("general.index"))
+
+    release_year = request.form.get("release_year")
+    pokemon_name = request.form.get("pokemon_name")
+    pokemon_archetype = request.form.get("archetype")
+    print(pokemon_archetype)
+
+    if not release_year:
+        flash("Teams not found", "error")
+        return redirect(url_for("general.index"))
+
+    game = Games.query.filter_by(name=game_name).first()
     if not game:
         flash("Game not found!", "error")
-        return redirect(url_for("games.index"))
+        return redirect(url_for("general.index"))
 
     game_id = game.id
 
-    # Get all teams for the game and release year
-    teams = Teams.query.filter(extract("YEAR", Teams.created_at) == int(
-        release_year), Teams.game_id == game_id).order_by(Teams.created_at.desc()).all()
+    # Start Building the query to fetch teams
+    query = Teams.query.filter(
+        Teams.game_id == game_id,
+        extract("YEAR", Teams.created_at) == int(release_year)
+    ).order_by(Teams.created_at.desc())
 
-    return render_template("teams.html", teams=teams)
+    # Apply pokemon name filter
+    if pokemon_name:
+        query = query.filter(Teams.pokemon.any(
+            Pokemon.name.ilike(f"%{pokemon_name}%")))
+        
+    # Apply archetype filter
+    if pokemon_archetype:
+        query = query.filter(Teams.archetype == pokemon_archetype)
+
+    # Get all teams from the query
+    teams = query.all()
+
+    # Save filtered team IDs in session
+    team_id_list = []
+    for team in teams:
+        team_id_list.append(team.id)
+    session["filtered_teams"] = team_id_list
+
+    # Redirect to the teams route
+    return redirect(url_for("teams.filtered_teams", game_name=game_name))
 
 
 @bp.route("/delete_team/<int:team_id>", methods=["POST"])
