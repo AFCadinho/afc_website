@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, session, redirect, url_for, flash, request
-from app.models import Teams, Comments, Games
+from app.models import Teams, Comments, Games, Pokemon
 from app import db
 from app.utils import validate_csrf_token
 from app.pokemon_requests import fetch_pokepaste_names, fetch_pokemon_images
@@ -73,6 +73,16 @@ def add_team(game_name):
         db.session.add(team)
         db.session.commit()
         flash(f"Team {team_name} successfully created!")
+
+        pokepaste_names = fetch_pokepaste_names(team.pokepaste)
+        pokemon_names = []
+        for name in pokepaste_names:
+            pokemon = Pokemon(team_id=team.id, name=name)
+            pokemon_names.append(pokemon)
+        
+        db.session.add_all(pokemon_names)
+        db.session.commit()
+        flash(f"Each Pokemon from team {team.name} have been added to the Pokemon Table.")
         return redirect(url_for("games.release_year", game_name=game_name))
 
     return render_template("add_team.html", game_name=game_name)
