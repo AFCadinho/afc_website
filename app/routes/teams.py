@@ -87,9 +87,9 @@ def add_team(game_name):
         db.session.commit()
         flash(f"""Each Pokemon from team {
               team.name} have been added to the Pokemon Table.""")
-        
+
         return redirect(url_for("games.filter_page", game_name=game_name))
-    
+
     return render_template("add_team.html", game_name=game_name, archetypes=VALID_ARCHETYPES)
 
 
@@ -119,11 +119,6 @@ def filter_teams(game_name):
     release_year = request.form.get("release_year")
     pokemon_name = request.form.get("pokemon_name")
     pokemon_archetype = request.form.get("archetype")
-    print(pokemon_archetype)
-
-    if not release_year:
-        flash("Teams not found", "error")
-        return redirect(url_for("general.index"))
 
     game = Games.query.filter_by(name=game_name).first()
     if not game:
@@ -134,15 +129,20 @@ def filter_teams(game_name):
 
     # Start Building the query to fetch teams
     query = Teams.query.filter(
-        Teams.game_id == game_id,
-        extract("YEAR", Teams.created_at) == int(release_year)
-    ).order_by(Teams.created_at.desc())
+        Teams.game_id == game_id
+    )
+
+    # Apply release year filter
+    if release_year:
+        query = query.filter(
+            extract("YEAR", Teams.created_at) == int(release_year)
+        ).order_by(Teams.created_at.desc())
 
     # Apply pokemon name filter
     if pokemon_name:
         query = query.filter(Teams.pokemon.any(
             Pokemon.name.ilike(f"%{pokemon_name}%")))
-        
+
     # Apply archetype filter
     if pokemon_archetype:
         query = query.filter(Teams.archetype == pokemon_archetype)
