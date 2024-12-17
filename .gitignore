@@ -29,3 +29,7 @@ Thumbs.db
 
 # Poetry virtual environment
 .venv/
+
+
+# Python files
+test.py

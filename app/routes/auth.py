@@ -3,6 +3,7 @@ from app.models import Users
 from app import db, bcrypt
 from app.utils import validate_csrf_token
 from dotenv import load_dotenv
+from app.forms import SignupForm
 
 import os
 
@@ -43,16 +44,20 @@ def login():
 
 @bp.route("/signup", methods=["POST", "GET"])
 def signup():
-    if request.method == "POST":
-        if not validate_csrf_token():
-            return redirect(url_for("auth.signup"))
-
-        username = request.form["username"].lower()
-        password = request.form["password"]
+    users = Users.query.all()
+    used_names = [user.name for user in users]
+    
+    bad_words = ["donkey", "idiot"]
+    form = SignupForm(bad_word=bad_words, used_names=used_names)
+    
+    if form.validate_on_submit():
+        username = form.name.data
+        password = form.password.data
         hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
 
         if Users.query.filter_by(name=username).first():
             flash("Username is already in use. Please choose a different name")
+            return render_template("signup.html", form=form)
         else:
             new_user = Users(name=username, password=hashed_password)
             db.session.add(new_user)
@@ -63,4 +68,4 @@ def signup():
             flash("Account successfully created!")
             return redirect(url_for("general.index"))
 
-    return render_template("signup.html")
+    return render_template("signup.html", form=form)
