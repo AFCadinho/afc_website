@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, session, redirect, url_for, flash, request
-from app.models import Users
+from app.models import Users, BannedNames
 from app import db, bcrypt
 from app.utils import validate_csrf_token
 from dotenv import load_dotenv
@@ -47,8 +47,10 @@ def signup():
     users = Users.query.all()
     used_names = [user.name for user in users]
     
-    bad_words = ["donkey", "idiot"]
-    form = SignupForm(bad_word=bad_words, used_names=used_names)
+    banned_names_obj = BannedNames.query.all()
+    banned_names = [banned_name.name for banned_name in banned_names_obj]
+
+    form = SignupForm(bad_word=banned_names, used_names=used_names)
     
     if form.validate_on_submit():
         username = form.name.data
