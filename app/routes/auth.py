@@ -12,6 +12,7 @@ admin_key = os.getenv("ADMIN_KEY")
 
 bp = Blueprint('auth', __name__)
 
+
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
     next_url = request.args.get("next")
@@ -46,28 +47,25 @@ def login():
 def signup():
     users = Users.query.all()
     used_names = [user.name for user in users]
-    
+
     banned_names_obj = BannedNames.query.all()
     banned_names = [banned_name.name for banned_name in banned_names_obj]
 
     form = SignupForm(bad_word=banned_names, used_names=used_names)
-    
+
     if form.validate_on_submit():
         username = form.name.data
         password = form.password.data
-        hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
+        hashed_password = bcrypt.generate_password_hash(
+            password).decode("utf-8")
 
-        if Users.query.filter_by(name=username).first():
-            flash("Username is already in use. Please choose a different name")
-            return render_template("signup.html", form=form)
-        else:
-            new_user = Users(name=username, password=hashed_password)
-            db.session.add(new_user)
-            db.session.commit()
+        new_user = Users(name=username, password=hashed_password)
+        db.session.add(new_user)
+        db.session.commit()
 
-            session["user_id"] = new_user.id
-            session["username"] = new_user.name
-            flash("Account successfully created!")
-            return redirect(url_for("general.index"))
+        session["user_id"] = new_user.id
+        session["username"] = new_user.name
+        flash("Account successfully created!")
+        return redirect(url_for("general.index"))
 
     return render_template("signup.html", form=form)
