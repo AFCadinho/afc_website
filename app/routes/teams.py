@@ -2,8 +2,9 @@ from flask import Blueprint, render_template, session, redirect, url_for, flash,
 from app.models import Teams, Comments, Games, Pokemon
 from app import db
 from app.utils import validate_csrf_token
-from app.pokemon_requests import fetch_pokepaste_names, fetch_pokemon_images
+from app.pokemon_requests import fetch_names_from_pokepaste, fetch_pokemon_sprites
 from app.forms.team_forms import TeamForm, FilterTeamForm
+from app.forms.comments_form import CommentForm
 from app.queries.team_queries import get_distinct_pokemon_names
 
 bp = Blueprint('teams', __name__)
@@ -23,10 +24,12 @@ def view_team(team_id):
         return render_template(url_for("index"))
 
     pokepaste = team.pokepaste
-    pokemon_names = fetch_pokepaste_names(pokepaste)
-    pokemon_image_dict = fetch_pokemon_images(pokemon_names)
+    pokemon_names = fetch_names_from_pokepaste(pokepaste)
+    pokemon_image_dict = fetch_pokemon_sprites(pokemon_names)
 
-    return render_template("view_team.html", team=team, comments=comments, pokemon_image_dict=pokemon_image_dict)
+    comment_form = CommentForm()
+
+    return render_template("view_team.html", team=team, comments=comments, pokemon_image_dict=pokemon_image_dict, comment_form=comment_form)
 
 
 @bp.route("/post_comment/<int:team_id>", methods=["POST"])
@@ -74,7 +77,7 @@ def add_team(game_name):
         flash(f"Team {form.name.data} successfully created!")
 
         # Add Each Pokemon individually to Database.
-        pokepaste_names = fetch_pokepaste_names(new_team.pokepaste)     
+        pokepaste_names = fetch_names_from_pokepaste(new_team.pokepaste)     
         pokemon_names = []
         for name in pokepaste_names:
             pokemon = Pokemon(team_id=new_team.id, name=name)

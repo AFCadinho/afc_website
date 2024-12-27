@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def fetch_pokepaste_names(url) -> list:
+def fetch_names_from_pokepaste(url) -> list:
     pokemon_names = []
     try:
         # Get HTML from URL
@@ -24,7 +24,7 @@ def fetch_pokepaste_names(url) -> list:
         return pokemon_names
     
 
-def fetch_pokemon_images(pokemon_names: list) -> dict[str, str]:
+def fetch_pokemon_sprites(pokemon_names: list) -> dict[str, str]:
     images = {}
     base_url = "https://pokeapi.co/api/v2/pokemon/"
 
@@ -33,7 +33,6 @@ def fetch_pokemon_images(pokemon_names: list) -> dict[str, str]:
             response = requests.get(base_url + name.lower())
             response.raise_for_status()
 
-            ## What does this do?
             data = response.json()
             image_url = data["sprites"]["other"]["home"]["front_default"]
             images[name] = image_url

@@ -56,6 +56,8 @@ View Team
             </div>
             <p class="comment_text">{{ comment.comment }}</p>
             {% if comment.user_id == session["user_id"] or session["is_admin"] %}
+            
+            <!-- Delete Comment -->
             <form action="{{ url_for('teams.delete_team_comment', team_id=team.id, comment_id=comment.id) }}"
                 method="POST" class="delete_comment_form">
                 <button type="submit" class="delete_button">Delete Comment</button>
