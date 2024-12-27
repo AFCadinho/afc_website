@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Banned{% endblock %}
+
+{% block content %}
+  <h2>You have been banned!</h2>
+  
+  <div class="ban_info_container">
+    <h3>Reason</h3>
+    <p>{{ban_info.reason}}</p>
+    <span>{{ ban_info.banned_at }}</span>
+  </div>
+  
+  <p>If you believe this was a mistake, please contact support.</p>
+{% endblock %}

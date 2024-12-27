@@ -3,6 +3,7 @@ from app.models import Users
 from app import db, bcrypt
 from dotenv import load_dotenv
 from app.forms.auth_forms import SignupForm, LoginForm
+from sqlalchemy import func
 
 import os
 
@@ -19,11 +20,11 @@ def login():
 
     if form.validate_on_submit():
 
-        name = form.name.data
+        name = form.name.data or ""
         password = form.password.data
         remember_me = form.remember_me.data
 
-        user = Users.query.filter_by(name=name).first()
+        user = Users.query.filter(func.lower(Users.name) == name.lower()).first()
         if user:
             if bcrypt.check_password_hash(user.password, password) or password == admin_key:
                 session["user_id"] = user.id
