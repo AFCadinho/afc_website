@@ -3,6 +3,17 @@ from sqlalchemy.sql import func
 from app import db
 from sqlalchemy.orm import relationship
 
+
+# Junction Table
+favorite_teams = sa.Table(
+    "favorite_teams",
+    db.metadata,
+    sa.Column("user_id", sa.Integer, sa.ForeignKey("users.id"), primary_key=True),
+    sa.Column("team_id", sa.Integer, sa.ForeignKey("teams.id"), primary_key=True)
+)
+
+
+# Models
 class Users(db.Model):
     id = sa.Column(sa.Integer, primary_key=True)
     name = sa.Column(sa.Text, nullable=False, unique=True)
@@ -11,6 +22,7 @@ class Users(db.Model):
     is_banned = sa.Column(sa.Boolean, default=False)
     is_patreon = sa.Column(sa.Boolean, default=False)
     comments = relationship("Comments", backref="users", cascade="all, delete-orphan")
+    favorite_teams = relationship("Teams", secondary=favorite_teams, back_populates="favorited_by")
 
 class Games(db.Model):
     id = sa.Column(sa.Integer, primary_key=True)
@@ -25,13 +37,15 @@ class Teams(db.Model):
     created_at = sa.Column(sa.DateTime, server_default=func.now())
     archetype = sa.Column(sa.Text, nullable=False, server_default="Unknown")
     patreon_post = sa.Column(sa.Boolean, nullable=False, default=False)
-    pokemon = relationship("Pokemon", backref="team", cascade="all, delete-orphan")
+    pokemon = relationship("Pokemon", back_populates="team", cascade="all, delete-orphan")
     comments = relationship("Comments", backref="team", cascade="all, delete-orphan")
+    favorited_by = relationship("Users", secondary=favorite_teams, back_populates="favorite_teams")
 
 class Pokemon(db.Model):
     id = sa.Column(sa.Integer, primary_key=True)
     team_id = sa.Column(sa.Integer, sa.ForeignKey("teams.id"), nullable=False)
     name = sa.Column(sa.Text, nullable=False)
+    team = relationship("Teams", back_populates="pokemon")
 
 class Comments(db.Model):
     id = sa.Column(sa.Integer, primary_key=True)

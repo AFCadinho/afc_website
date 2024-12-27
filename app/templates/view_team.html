@@ -12,7 +12,7 @@ View Team
     <ol>
         <div class="image_container">
             {% for image_url in pokemon_image_dict.values() %}
-            <a href="{{ team.pokepaste }}">
+            <a href="{{ team.pokepaste }}" target="_blank" rel="noopener noreferrer">
                 <div class="pokemon_image">
                     <img src="{{ image_url }}" alt="Pokemon">
                 </div>
@@ -23,8 +23,12 @@ View Team
 </div>
 
 <div class="pokepaste_management_container">
-    <a href="{{ team.pokepaste }}">Click for Pokepaste</a>
+    <a href="{{ team.pokepaste }}" target="_blank" rel="noopener noreferrer">Click for Pokepaste</a>
     {% if session["is_admin"] %}
+    <a href="{{ url_for('teams.edit_team', team_id=team.id) }}">
+        <button type="button" class="edit_button" >Edit Team</button>
+    </a>
+    
     <form action="{{ url_for('teams.delete_team', team_id=team.id ) }}" method="POST">
         <button type="submit" class="delete_button">Delete Team</button>
     </form>

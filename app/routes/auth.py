@@ -1,9 +1,8 @@
 from flask import Blueprint, render_template, session, redirect, url_for, flash, request
 from app.models import Users, BannedNames
 from app import db, bcrypt
-from app.utils import validate_csrf_token
 from dotenv import load_dotenv
-from app.forms import SignupForm
+from app.forms.auth_forms import SignupForm, LoginForm
 
 import os
 
@@ -16,14 +15,13 @@ bp = Blueprint('auth', __name__)
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
     next_url = request.args.get("next")
+    form = LoginForm()
 
-    if request.method == 'POST':
-        if not validate_csrf_token():
-            return redirect(url_for("auth.login"))
+    if form.validate_on_submit():
 
-        name = request.form['username'].lower()
-        password = request.form['password']
-        remember_me = request.form.get("remember_me")
+        name = form.name.data
+        password = form.password.data
+        remember_me = form.remember_me.data
 
         user = Users.query.filter_by(name=name).first()
         if user:
@@ -31,6 +29,7 @@ def login():
                 session["user_id"] = user.id
                 session["username"] = name
                 session["is_admin"] = user.is_admin
+                session["is_patreon"] = user.is_patreon
                 session.permanent = bool(remember_me)
                 flash("You have been successfully logged in!", category="info")
                 return redirect(next_url or url_for("general.index"))
@@ -38,9 +37,9 @@ def login():
                 flash("Wrong password! Try again.", category="error")
         else:
             flash("User doesn't exist. Try again.", category="error")
-        return redirect(url_for("auth.login"))
+        return redirect(url_for("auth.login", form=form))
 
-    return render_template("login.html")
+    return render_template("login.html", form=form)
 
 
 @bp.route("/signup", methods=["POST", "GET"])

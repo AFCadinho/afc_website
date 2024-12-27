@@ -2,7 +2,7 @@ import app.validators as val
 import app.utils as utils
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField, BooleanField, PasswordField
 from wtforms.validators import DataRequired, Length, Regexp, ValidationError
 
 
@@ -17,14 +17,16 @@ class LoginForm(FlaskForm):
                            ),
                            val.validate_username
                        ])
-    password = StringField("Password",
+    password = PasswordField("Password",
                            validators=[
                                DataRequired(),
                            ])
+    remember_me = BooleanField("Remember Me")
+
+    submit = SubmitField("Log In")
 
 
 class SignupForm(FlaskForm):
-    bad_words = []
     name = StringField("Username",
                        validators=[
                            DataRequired(),
@@ -44,7 +46,7 @@ class SignupForm(FlaskForm):
     create_user = SubmitField("Create User")
 
     def __init__(self, bad_word=None, used_names=None, *args, **kwargs):
-        super().__init__(*args, *kwargs)
+        super().__init__(*args, **kwargs)
         self.__bad_words = bad_word or []
         self.__used_names = used_names or []
 
@@ -57,26 +59,9 @@ class SignupForm(FlaskForm):
     def validate_name(self, field):
         if utils.check_bad_word(field, self.__bad_words):
             raise ValidationError(
-                    f"Username not available. Please choose another username")
-        
-        username =  utils.check_if_name_used(field, self.__used_names)
+                f"Username not available. Please choose another username")
+
+        username = utils.check_if_name_used(field, self.__used_names)
         if username:
             raise ValidationError(
-                    f"{username} is already in use. Please choose another name")
-
-        
-
-
-                
-        
-
-
-
-
-
-class FilterSearchTeamForm(FlaskForm):
-    pass
-
-
-class CommentForm(FlaskForm):
-    pass
+                f"{username} is already in use. Please choose another name")

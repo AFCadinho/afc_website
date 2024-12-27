@@ -1,37 +1,79 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Add Team
+{% if edit %}
+Edit Team
+{% else %}
+Add Team
+{% endif %}
 {% endblock %}
 
 {% block content %}
-<h2 class="page_header">Add a Team</h2>
+<h2 class="page_header">
+    {% if edit %}
+    Edit Team
+
+    {% else %}
+    Add Team
+    {% endif %}</h2>
 
 <div>
-    <form action="{{ url_for('teams.add_team', game_name=game_name) }}" method="POST">
-        <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
-        
+    <form method="POST">
+        {{ form.csrf_token }}
+
         <!-- Team's Name -->
-        <label for="team_name">Team Name:</label>
-        <input type="text" name="team_name" required>
+        <p>
+            {{ form.name.label }}
+            {{ form.name }}
+            {% for error in form.name.errors %}
+                <span class="form_errors">{{ error }}</span>
+            {% endfor %}
+        </p>
 
         <!-- Team's Pokepaste -->
-        <label for="pokepaste">Pokepaste Link:</label>
-        <input type="text" name="pokepaste" required>
-        
-        <!-- Team's Archetype -->
-        <label for="archetype">Archetype</label>
-        <select name="archetype">
-            {% for archetype in archetypes %}
-                <option value="{{ archetype }}">{{ archetype }}</option>
+        <p>
+            {{ form.pokepaste.label }}
+            {{ form.pokepaste }}
+            {% for error in form.pokepaste.errors %}
+                <span class="form_errors">{{ error }}</span>
             {% endfor %}
-        </select>
+        </p>
+
+        <!-- Team's Archetype -->
+        <p>
+            {{ form.archetype.label }}
+            {{ form.archetype }}
+            {% for error in form.archetype.errors %}
+                <span class="form_errors">{{ error }}</span>
+            {% endfor %}
+        </p>
 
         <!-- Team's Created at -->
-        <label for="created_at">Created at:</label>
-        <input type="date" name="created_at">
+        <p>
+            {{ form.created_at.label }}
+            {{ form.created_at }}
+            {% for error in form.created_at.errors %}
+                <span class="form_errors">{{ error }}</span>
+            {% endfor %}
+        </p>
 
-        <button type="submit">Create Team</button>
+        <!-- Team's Patreon Post -->
+        <p>
+            {{ form.patreon_post.label }}
+            {{ form.patreon_post }}
+            {% for error in form.patreon_post.errors %}
+                <span class="form_errors">{{ error }}</span>
+            {% endfor %}
+        </p>
+
+        <!-- Submit Button -->
+        <p>
+            {{ form.edit_submit if edit else form.submit }}
+        </p>
     </form>
 </div>
+
+<a href="{{ url_for('games.games') }}">
+    <button type="button">Cancel</button>
+</a>
 {% endblock %}

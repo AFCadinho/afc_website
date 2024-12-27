@@ -16,37 +16,53 @@
     <h3>Filter Search</h3>
 
     <form action="{{ url_for('teams.filter_teams', game_name=game_name) }}" method="POST">
-        <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
+        {{ form.hidden_tag() }}
 
-        <!-- Release year -->
-        <label for="release_year">Year:</label>
-        <select name="release_year">
-            <option value="" disabled selected>Select Year (Optional)</option>
-            {% for year in ["2023", "2024"] %}
-            <option value="{{ year }}">{{ year }}</option>
-            {% endfor %}
-        </select>
         <!-- Archetype -->
-        <label for="archetype">Archetype</label>
-        <select name="archetype">
-            <option value="" disabled selected>Select Archetype (Optional)</option>
-            {% for archetype in pokemon_archetypes %}
-            <option value="{{ archetype }}">{{ archetype }}</option>
-            {% endfor %}
-        </select>
+        <p>
+            {{ form.archetype.label }}
+            {{ form.archetype }}
+            <div>
+                {% for error in form.archetype.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        </p>
 
-        <!-- Pokemon -->
-        <label for="pokemon_name">Pokemon</label>
-        <input list="pokemon_list" name="pokemon_name" id="pokemon_name"
-            placeholder="Type or select a Pokémon (Optional)">
+        <!-- Created After -->
+        <p>
+            {{ form.created_at.label }}
+            {{ form.created_at }}
+            <div>
+                {% for error in form.created_at.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        </p>
+
+        <!-- Pokemon name -->
+        <p>
+            {{ form.pokemon_name.label }}
+            {{ form.pokemon_name(list="pokemon_list") }}
+            <div>
+                {% for error in form.pokemon_name.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        </p>
+
         <datalist id="pokemon_list">
             {% for pokemon_name in pokemon_names %}
-            <option value="{{ pokemon_name }}"></option>
+                <option value="{{ pokemon_name }}">{{ pokemon_name.title() }}</option>
             {% endfor %}
         </datalist>
 
-        <!-- Submit Form -->
-        <button type="submit">Submit</button>
+        <!-- submit -->
+        <p>
+            {{ form.submit }}
+        </p>
+
+
     </form>
 </div>
 

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Banned Names Page
+{% endblock %}
+
+{% block content %}
+<div>
+    <form class="add_banned_names_container">
+        {{ form.csrf_token }}
+        <p>
+            {{ form.name.label }}
+            {{ form.name }}
+        </p>
+    </form>
+</div>
+
+
+<div class="banned_names_container">
+    <h3>Banned Names List</h3>
+    <ol>
+
+        {% for banned_name in banned_names %}
+        <li>
+            {{ banned_name.name }}
+        </li>
+
+        {% endfor %}
+    </ol>
+</div>
+
+{% endblock %}

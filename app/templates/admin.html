@@ -7,7 +7,16 @@
 <h2 class="page_header">Admin Zone</h2>
 
 {% block content %}
-    {% if users %}
+<nav>
+    <ul>
+        <li>
+            <a href="{{ url_for('admin.banned_names_page') }}">Banned Names</a>
+        </li>
+    </ul>
+</nav> 
+
+
+{% if users %}
     <h2 class="section_header">All Users</h2>
     <div class="users_list_container">
         <ol class="users_list">
