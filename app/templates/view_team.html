@@ -26,11 +26,13 @@ View Team
     <a href="{{ team.pokepaste }}" target="_blank" rel="noopener noreferrer">Click for Pokepaste</a>
     {% if session["is_admin"] %}
     <a href="{{ url_for('teams.edit_team', team_id=team.id) }}">
-        <button type="button" class="edit_button" >Edit Team</button>
+        <button type="button" class="edit_button">Edit Team</button>
     </a>
-    
-    <form action="{{ url_for('teams.delete_team', team_id=team.id ) }}" method="POST">
-        <button type="submit" class="delete_button">Delete Team</button>
+
+    <!-- Delete Team -->
+    <form action="{{ url_for('teams.delete_team', team_id=team.id ) }}" method="POST" onsubmit="return confirmDelete()">
+        {{ delete_team_form.hidden_tag() }}
+        {{ delete_team_form.delete_team(class="delete_btn") }}
     </form>
     {% endif %}
 </div>
@@ -38,10 +40,21 @@ View Team
 <!-- Add comment -->
 <h3>Add a Comment</h3>
 <form action="{{ url_for('teams.post_team_comment', team_id=team.id) }}" method="POST">
-    <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
-    <textarea name="comment" rows="4" cols="50" placeholder="Write your comment"></textarea><br>
-    <button type="submit">Comment</button>
+    {{comment_form.hidden_tag() }}
+
+    <p>
+        {{ comment_form.comment.label }}
+        {{ comment_form.comment }}
+    <div>
+        {% for error in comment_form.comment.errors %}
+        <span class="form_errors">{{ error }}</span>
+        {% endfor %}
+    </div>
+    </p>
+
+    <p>{{ comment_form.submit(class="btn") }}</p>
 </form>
+
 
 <!-- Display comments -->
 <h3>Comments</h3>
@@ -56,11 +69,14 @@ View Team
             </div>
             <p class="comment_text">{{ comment.comment }}</p>
             {% if comment.user_id == session["user_id"] or session["is_admin"] %}
-            
+
             <!-- Delete Comment -->
             <form action="{{ url_for('teams.delete_team_comment', team_id=team.id, comment_id=comment.id) }}"
-                method="POST" class="delete_comment_form">
-                <button type="submit" class="delete_button">Delete Comment</button>
+                method="POST" class="delete_comment_form" onsubmit="return confirmDelete()">
+                {{ delete_comment_form.hidden_tag() }}
+                <div>
+                    {{ delete_comment_form.delete_comment(class="delete_btn") }}
+                </div>
             </form>
             {% endif %}
         </li>
@@ -70,5 +86,4 @@ View Team
     <p class="no_comments_text">No comments yet. Be the first to comment!</p>
     {% endif %}
 </div>
-
 {% endblock %}

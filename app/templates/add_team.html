@@ -68,7 +68,7 @@ Add Team
 
         <!-- Submit Button -->
         <p>
-            {{ form.edit_submit if edit else form.submit }}
+            {{ form.edit_submit(class="btn") if edit else form.submit(class="btn") }}
         </p>
     </form>
 </div>

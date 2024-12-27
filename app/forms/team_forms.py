@@ -59,3 +59,7 @@ class FilterTeamForm(FlaskForm):
         # Validate if the Pokémon exists (case insensitive match)
         if field.data and not any(name.lower() == field.data.lower() for name in pokemon_names):
             raise ValidationError("No teams with this Pokémon exist. Please choose another Pokémon name.")
+
+
+class DeleteTeamForm(FlaskForm):
+    delete_team = SubmitField("Delete Team")

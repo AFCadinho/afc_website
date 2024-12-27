@@ -4,6 +4,7 @@ import app.utils as utils
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired, ValidationError
+from app.queries.admin_queries import fetch_banned_names
 
 
 class BannedNamesForm(FlaskForm):
@@ -15,12 +16,12 @@ class BannedNamesForm(FlaskForm):
 
     submit = SubmitField("Add Banned Name")
 
-    def __init__(self, used_names=None, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, *kwargs)
-        self.__used_names = used_names or []
+        self.__banned_names = fetch_banned_names() or []
 
-    def validate_name(self):
-        username = utils.check_if_name_used(self, self.__used_names)
+    def validate_name(self, field):
+        username = utils.check_if_name_used(field, self.__banned_names)
         if username:
             raise ValidationError(
                 f"{username} is already in use. Please choose another name")

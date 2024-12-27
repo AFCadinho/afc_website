@@ -1,10 +1,9 @@
 from flask import Blueprint, render_template, session, redirect, url_for, flash, request
 from app.models import Teams, Comments, Games, Pokemon
 from app import db
-from app.utils import validate_csrf_token
 from app.pokemon_requests import fetch_names_from_pokepaste, fetch_pokemon_sprites
-from app.forms.team_forms import TeamForm, FilterTeamForm
-from app.forms.comments_form import CommentForm
+from app.forms.team_forms import TeamForm, FilterTeamForm, DeleteTeamForm
+from app.forms.comments_form import CommentForm, DeleteCommentForm
 from app.queries.team_queries import get_distinct_pokemon_names
 
 bp = Blueprint('teams', __name__)
@@ -28,25 +27,42 @@ def view_team(team_id):
     pokemon_image_dict = fetch_pokemon_sprites(pokemon_names)
 
     comment_form = CommentForm()
+    delete_comment_form = DeleteCommentForm()
+    delete_team_form = DeleteTeamForm()
 
-    return render_template("view_team.html", team=team, comments=comments, pokemon_image_dict=pokemon_image_dict, comment_form=comment_form)
+    return render_template("view_team.html", team=team, comments=comments, 
+                           pokemon_image_dict=pokemon_image_dict, 
+                           comment_form=comment_form, delete_comment_form=delete_comment_form, delete_team_form=delete_team_form)
 
 
-@bp.route("/post_comment/<int:team_id>", methods=["POST"])
+@bp.route("/post_comment/<int:team_id>", methods=["GET","POST"])
 def post_team_comment(team_id):
+    comment_form = CommentForm()
 
-    if not validate_csrf_token():
-        return redirect(url_for("teams.view_team", team_id=team_id))
+    if comment_form.validate_on_submit():
 
-    user_id = session["user_id"]
-    comment_text = request.form["comment"]
-
-    if comment_text:
+        user_id = session["user_id"]
         comment = Comments(
-            team_id=team_id, user_id=user_id, comment=comment_text)
+            team_id=team_id, user_id=user_id, comment=comment_form.comment.data)
         db.session.add(comment)
         db.session.commit()
-    return redirect(url_for("teams.view_team", team_id=team_id))
+        flash("Comment added successfully!", "success")
+        return redirect(url_for("teams.view_team", team_id=team_id))
+    
+    team = Teams.query.filter_by(id=team_id).first()
+    comments = Comments.query.filter_by(team_id=team_id).all()
+
+    if not team and not team.pokepaste:
+        flash("No Team information available.", category="error")
+        return render_template(url_for("index"))
+    
+    pokepaste = team.pokepaste
+    pokemon_names = fetch_names_from_pokepaste(pokepaste)
+    pokemon_image_dict = fetch_pokemon_sprites(pokemon_names)
+    delete_team_form = DeleteTeamForm()
+    
+    return render_template("view_team.html", team=team, comments=comments, pokemon_image_dict=pokemon_image_dict, 
+                           comment_form=comment_form, delete_form=delete_team_form)
 
 
 @bp.route("/add_team/<game_name>", methods=["GET", "POST"])
@@ -192,26 +208,37 @@ def filter_teams(game_name):
 
 @bp.route("/delete_team/<int:team_id>", methods=["POST"])
 def delete_team(team_id):
+    form = DeleteTeamForm()
     team = Teams.query.filter_by(id=team_id).first()
     if not team:
         flash("No Team to delete", category="error")
         return redirect(url_for("index"))
+    
+    game_name = team.games.name or None
 
-    game_name = team.games.name
-    team_name = team.name
-    db.session.delete(team)
-    db.session.commit()
-    print("deleted game")
+    if form.validate_on_submit():
 
-    flash(f"Team {team_name} Successfully Deleted!", category="info")
+        team_name = team.name
+        db.session.delete(team)
+        db.session.commit()
+        print("deleted game")
+
+        flash(f"Team {team_name} Successfully Deleted!", category="info")
+    
     return redirect(url_for("games.filter_page", game_name=game_name))
 
 
 @bp.route("/delete_comment/<int:team_id>/<int:comment_id>", methods=["POST"])
 def delete_team_comment(team_id, comment_id):
-    comment = Comments.query.filter(
-        Comments.id == comment_id, Comments.team_id == team_id).first()
-    db.session.delete(comment)
-    db.session.commit()
-    flash("Comment Deleted.", category="info")
+    form = DeleteCommentForm()
+
+    if form.validate_on_submit():
+    
+        comment = Comments.query.filter(
+            Comments.id == comment_id, Comments.team_id == team_id).first()
+        db.session.delete(comment)
+        db.session.commit()
+        flash("Comment Deleted.", category="info")
+
+    
     return redirect(url_for("teams.view_team", team_id=team_id))

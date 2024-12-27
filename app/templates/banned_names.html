@@ -5,12 +5,16 @@ Banned Names Page
 {% endblock %}
 
 {% block content %}
-<div>
-    <form class="add_banned_names_container">
+<div class="add_banned_names_container">
+    <form action="{{ url_for('admin.banned_names_page') }}" method="POST">
         {{ form.csrf_token }}
         <p>
             {{ form.name.label }}
             {{ form.name }}
+        </p>
+
+        <p>
+            {{ form.submit(class="btn") }}
         </p>
     </form>
 </div>

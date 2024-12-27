@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, session, redirect, url_for, flash, request
-from app.models import Users, BannedNames
+from app.models import Users
 from app import db, bcrypt
 from dotenv import load_dotenv
 from app.forms.auth_forms import SignupForm, LoginForm
@@ -44,13 +44,8 @@ def login():
 
 @bp.route("/signup", methods=["POST", "GET"])
 def signup():
-    users = Users.query.all()
-    used_names = [user.name for user in users]
 
-    banned_names_obj = BannedNames.query.all()
-    banned_names = [banned_name.name for banned_name in banned_names_obj]
-
-    form = SignupForm(bad_word=banned_names, used_names=used_names)
+    form = SignupForm()
 
     if form.validate_on_submit():
         username = form.name.data

@@ -4,7 +4,8 @@ import app.utils as utils
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, BooleanField, PasswordField
 from wtforms.validators import DataRequired, Length, Regexp, ValidationError
-
+from app.queries.admin_queries import fetch_banned_names
+from app.queries.auth_queries import fetch_used_names
 
 class LoginForm(FlaskForm):
     name = StringField("Username",
@@ -32,8 +33,8 @@ class SignupForm(FlaskForm):
                            DataRequired(),
                            Length(min=3, max=15),
                            Regexp(
-                               regex=r"^[a-zA-Z0-9_-]+$",
-                               message="Username can only contain letters, numbers, underscores, and hyphens."
+                               regex=r"^[a-zA-Z0-9]+$",
+                               message="Username can only contain letters, numbers."
                            ),
                            val.validate_username
                        ])
@@ -45,19 +46,19 @@ class SignupForm(FlaskForm):
 
     create_user = SubmitField("Create User")
 
-    def __init__(self, bad_word=None, used_names=None, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.__bad_words = bad_word or []
-        self.__used_names = used_names or []
+        self.__banned_names = fetch_banned_names() or []
+        self.__used_names = fetch_used_names() or []
 
     def _validate_name(self, field):
-        for bad_word in self.__bad_words:
+        for bad_word in self.__banned_names:
             if bad_word.lower() in field.data.lower():
                 raise ValidationError(
                     "Username not available. Please choose a different one")
 
     def validate_name(self, field):
-        if utils.check_bad_word(field, self.__bad_words):
+        if utils.check_bad_word(field, self.__banned_names):
             raise ValidationError(
                 f"Username not available. Please choose another username")
 

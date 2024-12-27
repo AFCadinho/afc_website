@@ -21,11 +21,7 @@ def admin():
 
 @bp.route("/admin/banned_names", methods=["GET", "POST"])
 def banned_names_page():
-    banned_names = BannedNames.query.all()
-    users = Users.query.all()
-    
-    used_names = [user.name for user in users]
-    form = BannedNamesForm(used_names=used_names)
+    form = BannedNamesForm()
 
     if form.validate_on_submit():
         name = form.name.data
@@ -35,6 +31,7 @@ def banned_names_page():
             db.session.add(new_banned_name)
             db.session.commit()
             flash(f"{new_banned_name.name} Added to Banned Names list.")
-            redirect(url_for("banned_names_page"))
 
+
+    banned_names = BannedNames.query.all()
     return render_template("banned_names.html", banned_names=banned_names, form=form)
