@@ -4,11 +4,13 @@
         "dotenv",
         "favorited",
         "ilike",
+        "onupdate",
         "pgcli",
         "pokemmo",
         "pokepaste",
         "setval",
         "sqlalchemy",
+        "Unban",
         "wtforms"
     ]
 }

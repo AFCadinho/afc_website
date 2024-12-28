@@ -9,6 +9,7 @@
     {{ form.hidden_tag() }}
 
     <!-- Name -->
+    {% if session["is_admin"] %}
     <div>
         {{ form.name.label }}
         {{ form.name }}
@@ -17,7 +18,8 @@
             <span class="form-error">{{ error }}</span>
         </div>
         {% endfor %}
-    </div>
+    </div>   
+    {% endif %}
 
     <!-- Email -->
     <div>
@@ -56,6 +58,6 @@
     <div>{{ form.submit(class="btn") }}</div>
 </form>
 
-<a href="{{ url_for('profile.view_profile') }}" class="cancel-link">Cancel</a>
+<a href="{{ url_for('profile.view_profile', user_id=user.id) }}" class="cancel-link">Cancel</a>
 
 {% endblock %}

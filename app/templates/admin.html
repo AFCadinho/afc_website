@@ -12,21 +12,67 @@
         <li>
             <a href="{{ url_for('admin.banned_names_page') }}">Banned Names</a>
         </li>
+        <li>
+            <a href="{{ url_for('admin.admin_dashboard') }}">Admin Dashboard</a>
+        </li>
     </ul>
 </nav> 
 
 
 {% if users %}
-    <h2 class="section_header">All Users</h2>
-    <div class="users_list_container">
-        <ol class="users_list">
+<table class="user-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Patreon Status</th>
+            <th>Status</th>
+            <th>Actions</th>
+
+        </tr>
+    </thead>
+    <tbody>
         {% for user in users %}
-            <li class="user_item">
-                <span class="user_name">Name: {{ user["name"] }}</span>
-                <span class="user_role">| is_admin: {{ user["is_admin"] }}</span>
-            </li>
-        {% endfor %}     
-        </ol> 
-    </div>
+        <tr class="
+            {% if user.is_admin %}admin-row{% endif %}
+            {% if user.is_banned %}banned-row{% endif %}">
+            <td>{{ user.id }}</td>
+            <td>
+                <a href="{{ url_for('profile.view_profile', user_id=user.id) }}">{{ user.name }}</a></td>
+            <td>{{ user.email or 'N/A' }}</td>
+            <td>
+                {% if user.is_admin %}
+                    <span class="role-badge admin">Admin</span>
+                {% else %}
+                    User
+                {% endif %}
+            </td>
+            <td>
+                {% if user.is_patreon %}
+                    <span class="status-badge patreon">Active</span>
+                {% else %}
+                    <span class="status-badge inactive">Inactive</span>
+                {% endif %}
+            </td>
+            <td>
+                {% if user.is_banned %}
+                    <span class="status-badge banned">Yes</span>
+                {% else %}
+                    <span class="status-active">Active</span>
+                {% endif %}
+            </td>
+            <td>
+                {% if user.is_banned %}
+                    <a href="{{ url_for('admin.ban_user', user_id=user.id) }}" class="btn unban-btn">Info</a>
+                {% else %}
+                    <a href="{{ url_for('admin.ban_user', user_id=user.id) }}" class="btn ban-btn">Ban</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
     {% endif %}
 {% endblock %}

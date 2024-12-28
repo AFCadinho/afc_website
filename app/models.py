@@ -33,8 +33,11 @@ class Bans(db.Model):
     reason = sa.Column(sa.Text, nullable=False, server_default="Prohibited Action")
     banned_at = sa.Column(sa.DateTime, nullable=False, server_default=func.now())
     banned_by = sa.Column(sa.Integer, sa.ForeignKey("users.id"), nullable=False)
+    updated_by = sa.Column(sa.Integer, sa.ForeignKey("users.id"))
+    updated_at = sa.Column(sa.DateTime, server_default=func.now(), onupdate=func.now())
     banned_user = relationship("Users", foreign_keys=[user_id], back_populates="bans_received")
     admin_user = relationship("Users", foreign_keys=[banned_by], back_populates="bans_issued")
+    updater_user = relationship("Users", foreign_keys=[updated_by])
 
 class Games(db.Model):
     id = sa.Column(sa.Integer, primary_key=True)

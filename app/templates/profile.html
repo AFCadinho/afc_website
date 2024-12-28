@@ -12,7 +12,7 @@
         <p><strong>Patreon Status:</strong> {% if user.is_patreon %} Active {% else %} Not a Patron {% endif %}</p>
     </div>
 
-    <a href="{{ url_for('profile.edit_profile') }}" class="edit-btn">Edit Profile</a>
+    <a href="{{ url_for('profile.edit_profile', user_id=user.id) }}" class="edit-btn">Edit Profile</a>
 </section>
 
 {% endblock %}

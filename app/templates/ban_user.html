@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Ban User{% endblock %}
+
+{% block content %}
+{% if user.is_banned %}
+    <h2>Unban {{ user.name }}</h2>
+{% else %}
+    <h2>Ban {{ user.name }}</h2>
+{% endif %}
+
+{% if ban_record %}
+
+<div class="ban_info_container">
+    <ul>
+        <li>Banned by:
+            <span>{{ ban_record.admin_user.name }}</span>
+        </li>
+
+        <li>Banned at:
+            <span>{{ ban_record.banned_at.strftime('%d-%m-%Y %H:%M') }}</span>
+        </li>
+
+        <li>Last updated by:
+            <span>{{ ban_record.updater_user.name or "N/A" }}</span>
+        </li>
+
+        <li>Last updated at:
+            <span>{{ ban_record.updated_at.strftime('%d-%m-%Y %H:%M') or "N\A" }}</span>
+        </li>
+    </ul>
+</div>
+
+{% endif %}
+
+<form method="POST" action="{{ url_for('admin.ban_user', user_id=user.id) }}">
+    {{ form.hidden_tag() }}
+    <div>
+        {{ form.reason.label }}
+        {{ form.reason }}
+        {% for error in form.reason.errors %}
+        <div class="form_errors">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    {% if user.is_banned %}
+    {{ form.unban(class="btn unban-btn") }}
+    {{ form.edit(class="btn unban-btn") }}
+    {% else %}
+    {{ form.ban(class="btn ban-btn") }}
+    {% endif %}
+</form>
+
+    <a href="{{ url_for('admin.admin') }}" class="btn cancel-btn">Cancel</a>
+{% endblock %}

@@ -7,9 +7,9 @@ from app import db, bcrypt
 bp = Blueprint('profile', __name__)
 
 
-@bp.route("/profile")
-def view_profile():
-    user_id = session.get("user_id")
+@bp.route("/profile/<int:user_id>")
+def view_profile(user_id):
+    user_id = user_id
     if not "user_id" in session:
         return redirect(url_for("auth.login"))
     
@@ -18,9 +18,8 @@ def view_profile():
     return render_template("profile.html", user=user)
 
 
-@bp.route("/profile/edit", methods=["GET", "POST"])
-def edit_profile():
-    user_id = session.get("user_id")
+@bp.route("/profile/<int:user_id>/edit", methods=["GET", "POST"])
+def edit_profile(user_id):
     if not "user_id" in session:
         return redirect(url_for("auth.login"))
     
@@ -38,7 +37,7 @@ def edit_profile():
         user.email = str(form.email.data).lower()
         db.session.commit()
         flash("Profile updated successfully!", "success")
-        return redirect(url_for("profile.view_profile"))
+        return redirect(url_for("profile.view_profile", user_id=user.id))
     
-    return render_template("edit_profile.html", form=form)
+    return render_template("edit_profile.html", form=form , user=user)
     

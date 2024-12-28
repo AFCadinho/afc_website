@@ -5,7 +5,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, BooleanField, PasswordField
 from wtforms.validators import DataRequired, Length, Regexp, ValidationError
 from app.queries.admin_queries import fetch_banned_names
-from app.queries.auth_queries import fetch_used_names
+from app.queries.auth_queries import fetch_used_names, check_if_banned
 
 class LoginForm(FlaskForm):
     name = StringField("Username",
@@ -25,6 +25,14 @@ class LoginForm(FlaskForm):
     remember_me = BooleanField("Remember Me")
 
     submit = SubmitField("Log In")
+
+    def validate_name(self, field):
+        input_name = field.data
+
+        if check_if_banned(input_name):
+            raise ValidationError(
+                f"Username '{input_name}' is banned. Unable to login."
+            )
 
 
 class SignupForm(FlaskForm):
@@ -51,13 +59,8 @@ class SignupForm(FlaskForm):
         self.__banned_names = fetch_banned_names() or []
         self.__used_names = fetch_used_names() or []
 
-    def _validate_name(self, field):
-        for bad_word in self.__banned_names:
-            if bad_word.lower() in field.data.lower():
-                raise ValidationError(
-                    "Username not available. Please choose a different one")
-
     def validate_name(self, field):
+        
         if utils.check_bad_word(field, self.__banned_names):
             raise ValidationError(
                 f"Username not available. Please choose another username")

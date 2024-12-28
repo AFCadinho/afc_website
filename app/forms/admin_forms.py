@@ -2,8 +2,8 @@ import app.validators as val
 import app.utils as utils
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired, ValidationError
+from wtforms import StringField, SubmitField, TextAreaField
+from wtforms.validators import DataRequired, ValidationError, Length, Optional
 from app.queries.admin_queries import fetch_banned_names
 
 
@@ -25,3 +25,14 @@ class BannedNamesForm(FlaskForm):
         if username:
             raise ValidationError(
                 f"{username} is already in use. Please choose another name")
+
+
+class BanForm(FlaskForm):
+    reason = TextAreaField("Reason for Ban/Unban",
+                           validators=[
+                               Optional(),
+                               Length(min=5, max=200)
+                           ])
+    ban = SubmitField("Ban")
+    unban = SubmitField("Unban")
+    edit = SubmitField("Edit Ban")
