@@ -409,6 +409,53 @@ footer a:hover {
     transform: scale(1.05);
 }
 
+/* Profile Page Styling */
+.profile-section {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: var(--primary-color);
+}
+
+.user-info p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-color);
+}
+
+.user-info strong {
+    color: var(--primary-color);
+}
+
+.edit-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: white;
+    background-color: var(--primary-color);
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    transition: background-color 0.3s ease, transform 0.2s;
+    text-align: center;
+}
+
+.edit-btn:hover {
+    background-color: var(--secondary-color);
+    transform: scale(1.05);
+}
+
+
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -426,6 +473,23 @@ footer a:hover {
         padding: 10px;
     }
 }
+
+@media (max-width: 768px) {
+    .profile-section {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .user-info p {
+        font-size: 1rem;
+    }
+
+    .edit-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
 
 
 /* General Page Styling */

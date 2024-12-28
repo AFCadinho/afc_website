@@ -1,51 +1,73 @@
 {% extends 'base.html' %}
 
-{% block title %}
-Sign Up
-{% endblock %}
+{% block title %}Edit Profile{% endblock %}
 
 {% block content %}
-<h2 class="page_header">Sign Up</h2>
-<p>This platform is for learning and practice purposes only. Please keep the following in mind:</p>
-<ul>
-    <li>Do not use real or sensitive passwords.</li>
-    <li>Accounts and data are temporary and will be regularly cleared.</li>
-</ul>
+<h1>Edit Profile</h1>
 
-<div class="form_container">
-    <form action="{{ url_for('auth.signup') }}" method="POST" novalidate>
-        {{ form.csrf_token }}
+<form method="POST">
+    {{ form.hidden_tag() }}
 
-        <!-- name -->
-        <p>
-            {{ form.name.label }}<br>
-            {{ form.name }}
-            {% if form.name.errors %}
-            <ul class="form_errors">
+    <!-- Name -->
+    <div class="form-group">
+        {{ form.name.label }}
+        {{ form.name(class="form-input") }}
+        
+        {% if form.name.errors %}
+        <ul class="form_errors">
             {% for error in form.name.errors %}
             <li>{{ error }}</li>
             {% endfor %}
-            </ul>
+        </ul>
         {% endif %}
-        </p>
+    </div>
 
-        <!-- password -->
-        <p>
-            {{ form.password.label }}<br>
-            {{ form.password }}
-            {% if form.password.errors %}
+    <!-- Email -->
+    <div class="form-group">
+        {{ form.email.label }}
+        {{ form.email(class="form-input") }}
+        
+        {% if form.email.errors %}
+        <ul class="form_errors">
+            {% for error in form.email.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+    
+    <!-- Password -->
+    <div class="form-group">
+        {{ form.password.label }}
+        {{ form.password(class="form-input") }}
+        
+        {% if form.password.errors %}
         <ul class="form_errors">
             {% for error in form.password.errors %}
             <li>{{ error }}</li>
             {% endfor %}
         </ul>
         {% endif %}
-        </p>
+    </div>
 
-        <!-- Submit Button -->
-        <p>
-            {{ form.create_user(class="btn") }}
-        </p>
-    </form>
-</div>
+    <!-- Confirm Password -->
+    <div class="form-group">
+        {{ form.confirm_password.label }}
+        {{ form.confirm_password(class="form-input") }}
+        
+        {% if form.confirm_password.errors %}
+        <ul class="form_errors">
+            {% for error in form.confirm_password.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+
+    <!-- Submit and Cancel Buttons -->
+    <div class="button-group">
+        {{ form.submit(class="btn") }}
+        <a href="{{ url_for('profile.view_profile') }}" class="btn-secondary">Cancel</a>
+    </div>
+</form>
 {% endblock %}

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+<h1>Edit Profile</h1>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+
+    <!-- Name -->
+    <div>
+        {{ form.name.label }}
+        {{ form.name }}
+        {% for error in form.name.errors %}
+        <div>
+            <span class="form-error">{{ error }}</span>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Email -->
+    <div>
+        {{ form.email.label }}
+        {{ form.email(class="form-control") }}
+        {% for error in form.email.errors %}
+        <div>
+            <span class="form-error">{{ error }}</span>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <!-- Password -->
+    <div>
+        {{ form.password.label }}
+        {{ form.password }}
+        {% for error in form.password.errors %}
+        <div>
+            <span class="form-error">{{ error }}</span>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Confirm Password -->
+    <div>
+        {{ form.confirm_password.label }}
+        {{ form.confirm_password }}
+        {% for error in form.confirm_password.errors %}
+        <div>
+            <span class="form-error">{{ error }}</span>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Submit Button -->
+    <div>{{ form.submit(class="btn") }}</div>
+</form>
+
+<a href="{{ url_for('profile.view_profile') }}" class="cancel-link">Cancel</a>
+
+{% endblock %}

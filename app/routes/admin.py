@@ -15,7 +15,7 @@ def admin():
         if not validate_csrf_token():
             return redirect(url_for("admin.admin"))
 
-    users = Users.query.all()
+    users = Users.query.order_by(Users.is_admin.desc(), Users.id).all()
     return render_template("admin.html", users=users)
 
 

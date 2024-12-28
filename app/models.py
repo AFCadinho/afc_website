@@ -18,6 +18,7 @@ class Users(db.Model):
     id = sa.Column(sa.Integer, primary_key=True)
     name = sa.Column(sa.Text, nullable=False, unique=True)
     password = sa.Column(sa.Text, nullable=False)
+    email = sa.Column(sa.Text)
     is_admin = sa.Column(sa.Boolean, default=False)
     is_banned = sa.Column(sa.Boolean, default=False)
     is_patreon = sa.Column(sa.Boolean, default=False)
