@@ -23,6 +23,17 @@ class Users(db.Model):
     is_patreon = sa.Column(sa.Boolean, default=False)
     comments = relationship("Comments", backref="users", cascade="all, delete-orphan")
     favorite_teams = relationship("Teams", secondary=favorite_teams, back_populates="favorited_by")
+    bans_received = relationship("Bans", foreign_keys="Bans.user_id", cascade="all , delete-orphan")
+    bans_issued = relationship("Bans", foreign_keys="Bans.banned_by")
+
+class Bans(db.Model):
+    id = sa.Column(sa.Integer, primary_key=True)
+    user_id = sa.Column(sa.Integer, sa.ForeignKey("users.id"), nullable=False)
+    reason = sa.Column(sa.Text, nullable=False, server_default="Prohibited Action")
+    banned_at = sa.Column(sa.DateTime, nullable=False, server_default=func.now())
+    banned_by = sa.Column(sa.Integer, sa.ForeignKey("users.id"), nullable=False)
+    banned_user = relationship("Users", foreign_keys=[user_id], back_populates="bans_received")
+    admin_user = relationship("Users", foreign_keys=[banned_by], back_populates="bans_issued")
 
 class Games(db.Model):
     id = sa.Column(sa.Integer, primary_key=True)
