@@ -22,6 +22,7 @@ class Users(db.Model):
     is_admin = sa.Column(sa.Boolean, default=False)
     is_banned = sa.Column(sa.Boolean, default=False)
     is_patreon = sa.Column(sa.Boolean, default=False)
+    created_at = sa.Column(sa.DateTime, server_default=func.now())
     comments = relationship("Comments", backref="users", cascade="all, delete-orphan")
     favorite_teams = relationship("Teams", secondary=favorite_teams, back_populates="favorited_by")
     bans_received = relationship("Bans", foreign_keys="Bans.user_id", cascade="all , delete-orphan")

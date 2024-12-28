@@ -8,6 +8,7 @@
 <section class="profile-section">
     <div class="user-info">
         <p><strong>Username:</strong> {{ user.name }}</p>
+        <p><strong>Member Since: </strong> {{ user.created_at.strftime('%d-%m-%Y') }} </p>
         <p><strong>Email:</strong> {{ user.email }}</p>
         <p><strong>Patreon Status:</strong> {% if user.is_patreon %} Active {% else %} Not a Patron {% endif %}</p>
     </div>

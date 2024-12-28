@@ -713,3 +713,67 @@ form textarea {
     display: inline-block;
     margin-top: 10px;
 }
+
+/* Banned Names Container */
+.banned_names_container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Header */
+.banned_names_container h3 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #007bff;
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+/* Ordered List */
+.banned_names_container ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* List Items */
+.banned_names_container ol li {
+    padding: 12px 20px;
+    font-size: 1.1rem;
+    color: #555;
+    background-color: #f7f7f7;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover Effect */
+.banned_names_container ol li:hover {
+    background-color: #e9ecef;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.banned_names_container ol li {
+    animation: fadeIn 0.5s ease-in-out;
+}

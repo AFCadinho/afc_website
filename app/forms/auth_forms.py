@@ -3,7 +3,7 @@ import app.utils as utils
 
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, BooleanField, PasswordField
-from wtforms.validators import DataRequired, Length, Regexp, ValidationError
+from wtforms.validators import DataRequired, Length, Regexp, ValidationError, Optional ,Email, EqualTo
 from app.queries.admin_queries import fetch_banned_names
 from app.queries.auth_queries import fetch_used_names, check_if_banned
 
@@ -46,11 +46,23 @@ class SignupForm(FlaskForm):
                            ),
                            val.validate_username
                        ])
-    password = StringField("Password",
+    password = PasswordField("Password",
                            validators=[
                                DataRequired(),
                                Length(min=8, max=20),
+                               EqualTo("confirm_password", message="Passwords must match.")
                            ])
+    
+    confirm_password = PasswordField("Confirm Password",
+                                     validators=[
+                                         Optional()
+                                     ])
+    
+    email = StringField("Email Address (Optional)",
+                        validators=[
+                            Optional(),
+                            Email()
+                        ])
 
     create_user = SubmitField("Create User")
 
