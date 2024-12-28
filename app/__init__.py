@@ -36,12 +36,14 @@ def create_app():
 
     with app.app_context():
         # Import and register each Blueprint directly
-        from app.routes import general, auth, admin, games, teams, profile
+        from app.routes import general, auth, admin, games, teams, profile, patreon, legal
         app.register_blueprint(general.bp)
         app.register_blueprint(auth.bp)
         app.register_blueprint(admin.bp)
         app.register_blueprint(games.bp)
         app.register_blueprint(teams.bp)
         app.register_blueprint(profile.bp)
+        app.register_blueprint(patreon.bp)
+        app.register_blueprint(legal.bp)
 
     return app

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Terms of Service{% endblock %}
+
+{% block content %}
+<div class="legal-container">
+    <h1>Terms of Service</h1>
+    <p>Effective Date: January 1, 2024</p>
+    
+    <h2>1. Acceptance of Terms</h2>
+    <p>By accessing this website, you agree to be bound by the terms and conditions set forth below.</p>
+
+    <h2>2. User Accounts</h2>
+    <p>Users are responsible for keeping their login credentials secure and for all activity under their accounts.</p>
+
+    <h2>3. Prohibited Conduct</h2>
+    <p>Users may not engage in any activity that:</p>
+    <ul>
+        <li>Violates laws or regulations</li>
+        <li>Compromises the security of the website</li>
+        <li>Harms other users</li>
+    </ul>
+
+    <div class="important-notice">
+        Violation of these terms may result in account termination.
+    </div>
+
+    <a href="{{ url_for('general.index') }}" class="return-btn">Return to Home</a>
+</div>
+{% endblock %}

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, session, redirect, url_for, flash, request
+from flask import Blueprint, render_template, session, redirect, url_for, flash, request, send_from_directory
 from app.utils import validate_csrf_token
 
 bp = Blueprint('general', __name__)
@@ -20,3 +20,8 @@ def index():
 @bp.route("/about")
 def about():
     return render_template("about.html")
+
+
+@bp.route('/logo')
+def serve_logo():
+    return send_from_directory('static/images', 'logo.png')

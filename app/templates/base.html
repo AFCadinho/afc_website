@@ -6,6 +6,7 @@
     <title>{% block title %}Pokémon PvP Teams{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}" type="image/png">
 </head>
 <body>
     {% if "username" in session %}
@@ -23,9 +24,11 @@
     {% endwith %}
     
     <header>
-        <h1>
-            <a href="{{ url_for('general.index') }}">AFC Adinho</a>
-        </h1>
+        <div class="logo">
+            <a href="{{ url_for('general.index') }}">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Website Logo">
+            </a>
+        </div>
         <nav>
             <a href="{{ url_for('general.index') }}">Home</a>
             <a href="{{ url_for('games.games') }}">Teams</a>
@@ -58,6 +61,8 @@
         <p>&copy; 2024 Pokémon PvP Teams. All rights reserved.</p>
         <p>This website is a personal hobby project created for learning and practice purposes.</p>
         <p>Feel free to explore, but please note that data and features may be temporary.</p>
+        <a href="{{ url_for('legal.privacy_policy') }}">Privacy Policy</a> | 
+        <a href="{{ url_for('legal.terms_of_service') }}">Terms of Service</a>
     </footer>
     
      <!-- JavaScript for Delete Confirmation -->
