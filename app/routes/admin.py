@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, session, redirect, url_for, request, flash
 from app.models import Users, BannedNames, Bans
 from app.utils import validate_csrf_token
-from app.forms.admin_forms import BannedNamesForm
+from app.forms.admin_forms import BannedNamesForm, DeleteUserForm
 from app import db
 from app.forms.admin_forms import BanForm
 from datetime import datetime
@@ -103,4 +103,20 @@ def ban_user(user_id):
         flash(f"{user.name} was {action} successfully. {'Ban reason updated.' if action == 'updated' else ''}", "success")
         return redirect(url_for("admin.admin"))
 
-    return render_template("ban_user.html", user=user, form=form, ban_record=ban_record)
+    delete_user_form = DeleteUserForm()
+
+    return render_template("ban_user.html", user=user, form=form, ban_record=ban_record, delete_user_form=delete_user_form)
+
+
+@bp.route("/delete_user/<int:user_id>", methods=["POST"])
+def delete_user(user_id):
+    form = DeleteUserForm()
+    user = Users.query.filter_by(id=user_id).first()
+
+    if form.validate_on_submit():
+        db.session.delete(user)
+
+        flash("User Successfully Deleted")
+
+    db.session.commit()    
+    return redirect(url_for('admin.admin'))

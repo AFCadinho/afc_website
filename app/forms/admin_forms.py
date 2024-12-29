@@ -36,3 +36,7 @@ class BanForm(FlaskForm):
     ban = SubmitField("Ban")
     unban = SubmitField("Unban")
     edit = SubmitField("Edit Ban")
+
+
+class DeleteUserForm(FlaskForm):
+    submit = SubmitField("Delete User")
