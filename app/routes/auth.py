@@ -31,6 +31,10 @@ def login():
                 session["username"] = name
                 session["is_admin"] = user.is_admin
                 session["is_patreon"] = user.is_patreon
+
+                if session["is_admin"]:
+                    session["is_patreon"] = True
+
                 session.permanent = bool(remember_me)
                 flash("You have been successfully logged in!", category="info")
                 return redirect(next_url or url_for("general.index"))

@@ -5,6 +5,7 @@ from app.pokemon_requests import fetch_names_from_pokepaste, fetch_pokemon_sprit
 from app.forms.team_forms import TeamForm, FilterTeamForm, DeleteTeamForm
 from app.forms.comments_form import CommentForm, DeleteCommentForm
 from app.queries.team_queries import get_distinct_pokemon_names
+from sqlalchemy import func
 
 bp = Blueprint('teams', __name__)
 
@@ -185,8 +186,11 @@ def filter_teams(game_name):
             query = query.filter(Teams.archetype == pokemon_archetype)
 
         # Get all teams from the query
-        teams = query.all()
+        teams = query.filter(Teams.patreon_post == False).all()
 
+        if session["is_patreon"]:
+            teams = query.all()
+        
         # Save filtered team IDs in session
         team_id_list = []
         for team in teams:
@@ -242,3 +246,27 @@ def delete_team_comment(team_id, comment_id):
 
     
     return redirect(url_for("teams.view_team", team_id=team_id))
+
+
+@bp.route("/filter/patreon_teams<game_name>", methods=["GET"])
+def filter_patreon_teams(game_name):
+    if not session["is_patreon"]:
+        flash("You need to be our Patreon Member to see this page.", "warning")
+        return redirect(url_for('auth.login', next=request.url))
+
+    game = Games.query.filter(func.lower(Games.name)
+                              == func.lower(game_name)).first()
+    
+    if not game:
+        flash(f"Game '{game_name}' not found.", "danger")
+        return redirect(url_for('general.index'))
+
+
+    all_teams = Teams.query.filter(Teams.patreon_post == True,).order_by(Teams.created_at.desc()).all()
+
+
+    pokemon_names = [p[0] for p in get_distinct_pokemon_names(game.id)]
+
+    form = FilterTeamForm(game.id)
+
+    return render_template("filter.html", game_name=game_name, teams=all_teams, form=form, pokemon_names=pokemon_names, patreon_only=True)

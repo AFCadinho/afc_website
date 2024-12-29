@@ -863,3 +863,14 @@ form textarea {
     margin: 20px auto;
     display: block;
 }
+
+
+.small_patreon_logo {
+    width: 25px;
+    height: auto;
+}
+
+.title_patreon_logo {
+    width: 50px;
+    height: auto;
+}
