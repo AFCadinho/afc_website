@@ -24,7 +24,7 @@ class Config:
 
     # Redirect URI changes for local vs production
     PATREON_REDIRECT_URI = (
-        "https://648f-2a02-a449-8136-0-e868-490-b284-df99.ngrok-free.app/oauth/callback"
+        "https://2ffe-2a02-a449-8136-0-e868-490-b284-df99.ngrok-free.app/oauth/callback"
         if IS_LOCAL
         else "https://afcadinho.com/oauth/callback"
     )

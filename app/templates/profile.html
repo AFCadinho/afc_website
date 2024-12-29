@@ -26,7 +26,7 @@
 {% else %}
 <div>
     <h3>Disconnect Patreon</h3>
-    <a href="{{ url_for('patreon.patreon_disconnect') }}" class="btn">Disconnect from Patreon</a>
+    <a href="{{ url_for('patreon.patreon_disconnect', user_id=user.id) }}" class="btn">Disconnect from Patreon</a>
 </div>
 {% endif %}
 

@@ -7,6 +7,7 @@ import os
 import secrets
 from datetime import timedelta
 
+
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 migrate = Migrate()
@@ -36,7 +37,7 @@ def create_app():
 
     with app.app_context():
         # Import and register each Blueprint directly
-        from app.routes import general, auth, admin, games, teams, profile, patreon, legal
+        from app.routes import general, auth, admin, games, teams, profile, legal, patreon
         app.register_blueprint(general.bp)
         app.register_blueprint(auth.bp)
         app.register_blueprint(admin.bp)

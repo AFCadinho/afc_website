@@ -1,9 +1,11 @@
 {
     "cSpell.words": [
+        "apscheduler",
         "backref",
         "dotenv",
         "favorited",
         "ilike",
+        "ondelete",
         "onupdate",
         "pgcli",
         "pokemmo",
@@ -11,6 +13,7 @@
         "setval",
         "sqlalchemy",
         "Unban",
+        "uselist",
         "wtforms"
     ]
 }
