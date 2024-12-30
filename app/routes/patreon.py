@@ -214,9 +214,9 @@ def test_patreon_activation(user_id):
         flash("User needs to link their Patreon to use this function")
         return redirect(url_for("profile.view_profile", user_id=user.id))
     
-    check_if_paid_user(user_id)
-    user.is_patreon = True
-    db.session.commit()
+    if check_if_paid_user(user_id):
+        user.is_patreon = True
+        db.session.commit()
 
     print(f"DEBUG: user {user.name}'s Patreon STATUS IS: {user.is_patreon}. USER ID: {user.id}")
     flash(f"DEBUG: user {user.name}'s Patreon STATUS IS: {user.is_patreon}. USER ID: {user.id}", category="info")
