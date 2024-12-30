@@ -37,9 +37,10 @@ def filter_page(game_name):
 
     all_teams = Teams.query.filter(Teams.patreon_post == False, Teams.game_id == game.id).order_by(Teams.created_at.desc()).all()
 
-    if session["is_patreon"]:
+    if session.get("is_patreon", False):
         all_teams = Teams.query.filter_by(
-            game_id=game.id).filter(Teams.game_id == game.id).order_by(Teams.created_at.desc()).all()
+        game_id=game.id).order_by(Teams.created_at.desc()).all()
+
 
     pokemon_names = [p[0] for p in get_distinct_pokemon_names(game.id)]
 
