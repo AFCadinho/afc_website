@@ -269,7 +269,7 @@ def filter_patreon_teams(game_name):
         return redirect(url_for('general.index'))
 
 
-    all_teams = Teams.query.filter(Teams.patreon_post == True,).order_by(Teams.created_at.desc()).all()
+    all_teams = Teams.query.filter(Teams.patreon_post == True, Teams.game_id == game.id).order_by(Teams.created_at.desc()).all()
 
 
     pokemon_names = [p[0] for p in get_distinct_pokemon_names(game.id, patreon_only)]
