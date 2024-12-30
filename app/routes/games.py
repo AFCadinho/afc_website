@@ -35,13 +35,11 @@ def filter_page(game_name):
         flash(f"Game '{game_name}' not found.", "danger")
         return redirect(url_for('general.index'))
 
-    game_id = game.id
-
-    all_teams = Teams.query.filter(Teams.patreon_post == False,).order_by(Teams.created_at.desc()).all()
+    all_teams = Teams.query.filter(Teams.patreon_post == False, Teams.game_id == game.id).order_by(Teams.created_at.desc()).all()
 
     if session["is_patreon"]:
         all_teams = Teams.query.filter_by(
-            game_id=game_id).order_by(Teams.created_at.desc()).all()
+            game_id=game.id).filter(Teams.game_id == game.id).order_by(Teams.created_at.desc()).all()
 
     pokemon_names = [p[0] for p in get_distinct_pokemon_names(game.id)]
 
