@@ -216,10 +216,13 @@ def test_patreon_activation(user_id):
     
     if check_if_paid_user(user_id):
         user.is_patreon = True
-        db.session.commit()
+    else:
+        user.is_patreon = False
+
+    db.session.commit()
 
     print(f"DEBUG: user {user.name}'s Patreon STATUS IS: {user.is_patreon}. USER ID: {user.id}")
-    flash(f"DEBUG: user {user.name}'s Patreon STATUS IS: {user.is_patreon}. USER ID: {user.id}", category="info")
+    flash(f"DEBUG: user {user.name}'s Patreon STATUS IS: {user.is_patreon}", category="info")
 
 
     return redirect(url_for("profile.view_profile", user_id=user.id))
