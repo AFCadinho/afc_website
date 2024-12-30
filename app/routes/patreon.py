@@ -63,7 +63,6 @@ def patreon_callback():
         user.is_patreon = True
         db.session.commit()
 
-
     flash("Patreon account linked successfully!", "success")
     return redirect(url_for("profile.view_profile", user_id=user.id))
 
@@ -85,14 +84,19 @@ def patreon_disconnect(user_id):
 
 
 def check_if_paid_user(user_id):
+    print(f"ENTERED.... CHECK_IF_PAID_USER")
     user = Users.query.filter_by(id=user_id).first()
+    patreon_token = PatreonToken.query.filter_by(user_id=user_id).first()
     if not user:
         return
-    access_token = user.patreon_token.access_token
-    
-    campaign_id = fetch_patreon_campaign_id(access_token)
+    access_token = patreon_token.access_token
 
-    paid_members = fetch_paid_patron_ids(access_token, campaign_id)
+    creator_access_token = Config.CREATOR_ACCESS_TOKEN
+    campaign_id = fetch_patreon_campaign_id(creator_access_token)
+
+    #### Works till here
+
+    paid_members = fetch_paid_patron_ids(creator_access_token, campaign_id)
 
     patron_id = fetch_patreon_id(access_token)
     if not patron_id:
@@ -100,6 +104,7 @@ def check_if_paid_user(user_id):
 
     if paid_members:
         if patron_id in paid_members:
+            print(f"PATRON IS A PAID MEMBER")
             return True
     
     return False
@@ -122,8 +127,7 @@ def fetch_patreon_campaign_id(access_token):
 
 
 def fetch_paid_patron_ids(access_token, campaign_id):
-    url = f"""https://www.patreon.com/api/oauth2/v2/campaigns/{
-        campaign_id}/members"""
+    url = f"https://www.patreon.com/api/oauth2/v2/campaigns/{campaign_id}/members"
     
     headers = {
         "Authorization": f"Bearer {access_token}"
@@ -145,19 +149,39 @@ def fetch_paid_patron_ids(access_token, campaign_id):
         response = requests.get(url=url, headers=headers, params=params)
         campaign_data = response.json()
 
-        members = campaign_data["data"]
+        # Check if 'data' exists
+        members = campaign_data.get("data", [])
+
+        # Add logic to break if there's no data
+        if not members:
+            break  # Exit loop if no data is returned
 
         for member in members:
-            status = member["attributes"]["patron_status"]
+            status = member.get("attributes", {}).get("patron_status")
             if status == "active_patron":
-                patron_id = member["relationships"]["user"]["data"]["id"]
-                paid_members_ids.add(patron_id)
+                patron_id = (
+                    member.get("relationships", {})
+                    .get("user", {})
+                    .get("data", {})
+                    .get("id")
+                )
+                if patron_id:
+                    paid_members_ids.add(patron_id)
 
-        cursor = campaign_data["meta"]["pagination"]["cursors"].get("Next")
+        # Pagination handling with fail-safe
+        cursor = (
+            campaign_data
+            .get("meta", {})
+            .get("pagination", {})
+            .get("cursors", {})
+            .get("next")
+        )
+
         if not cursor:
-            break
+            break  # Stop the loop if there's no next page
 
     return paid_members_ids
+
 
 
 def fetch_patreon_id(access_token):
@@ -178,3 +202,24 @@ def fetch_patreon_id(access_token):
 @bp.route("/patreon/benefits")
 def patreon_benefits():
     return render_template("patreon_benefits.html")
+
+
+@bp.route("/patreon_test_activation/<int:user_id>")
+def test_patreon_activation(user_id):
+    print("WORKING.....")
+
+    user = Users.query.filter_by(id=user_id).first()
+
+    if not user.is_patreon_linked:
+        flash("User needs to link their Patreon to use this function")
+        return redirect(url_for("profile.view_profile", user_id=user.id))
+    
+    check_if_paid_user(user_id)
+    user.is_patreon = True
+    db.session.commit()
+
+    print(f"DEBUG: user {user.name}'s Patreon STATUS IS: {user.is_patreon}. USER ID: {user.id}")
+    flash(f"DEBUG: user {user.name}'s Patreon STATUS IS: {user.is_patreon}. USER ID: {user.id}", category="info")
+
+
+    return redirect(url_for("profile.view_profile", user_id=user.id))

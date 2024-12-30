@@ -28,3 +28,6 @@ class Config:
         if IS_LOCAL
         else "https://afcadinho.com/oauth/callback"
     )
+
+    CREATOR_ACCESS_TOKEN = os.getenv("PATREON_ACCESS_TOKEN")
+    CREATOR_REFRESH_TOKEN = os.getenv("PATREON_REFRESH_TOKEN")

@@ -64,6 +64,8 @@ def signup():
 
         session["user_id"] = new_user.id
         session["username"] = new_user.name
+        session["is_patreon"] = new_user.is_patreon
+        session["is_admin"] = new_user.is_admin
         flash("Account successfully created!")
         return redirect(url_for("general.index"))
 
