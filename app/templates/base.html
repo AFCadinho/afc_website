@@ -33,6 +33,7 @@
             <a href="{{ url_for('general.index') }}">Home</a>
             <a href="{{ url_for('games.games') }}">Teams</a>
             <a href="{{ url_for('general.about') }}">About</a>
+            <a href="{{ url_for('patreon.patreon_benefits') }}">Exclusive Benefits</a>
             
             {% if "user_id" in session %}
                 <a href="{{ url_for('profile.view_profile', user_id=session['user_id']) }}">My Profile</a>

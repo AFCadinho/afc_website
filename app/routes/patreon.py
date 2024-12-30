@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, session, url_for, flash, request
+from flask import Blueprint, render_template, redirect, session, url_for, flash, request
 from app import db
 from app.models import Users, PatreonToken
 from app.config import Config
@@ -66,7 +66,6 @@ def patreon_callback():
 
     flash("Patreon account linked successfully!", "success")
     return redirect(url_for("profile.view_profile", user_id=user.id))
-
 
 @bp.route("/patreon/<int:user_id>/disconnect")
 def patreon_disconnect(user_id):
@@ -174,3 +173,8 @@ def fetch_patreon_id(access_token):
     response = requests.get(url=url, headers=headers, params=params)
     user_data = response.json()
     return user_data["data"]["id"] # patreon_user_id
+
+
+@bp.route("/patreon/benefits")
+def patreon_benefits():
+    return render_template("patreon_benefits.html")

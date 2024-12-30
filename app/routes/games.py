@@ -47,4 +47,4 @@ def filter_page(game_name):
 
     form = FilterTeamForm(game.id)
 
-    return render_template("filter.html", game_name=game_name, teams=all_teams, form=form, pokemon_names=pokemon_names)
+    return render_template("filter.html", game_name=game_name, teams=all_teams, form=form, pokemon_names=pokemon_names, patreon_only=False)

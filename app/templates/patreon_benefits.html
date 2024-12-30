@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}Support Us on Patreon{% endblock %}
+
+{% block content %}
+<h1>Become a Patron and Unlock Exclusive Perks!</h1>
+
+<div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+</div>
+
+<div>
+    <a href="https://www.patreon.com/afc_adinho">
+        <img src="https://seeklogo.com/images/P/patreon-logo-48DB1CF04F-seeklogo.com.png">
+    </a>
+</div>
+
+<section class="benefits-section">
+    <h2>Why Become a Patron?</h2>
+    <p>As a Patron, you will gain access to:</p>
+    <ul>
+        <li>💎 Exclusive access to unreleased Pokémon PvP teams (At Least 15!)</li>
+        <li>🔥 Exclusive Features on my website!</li>
+        <li>🚀 Exclusive content</li>
+        <li>💬 Private Discord channels for team discussions</li>
+        <li>And More!</li>
+    </ul>
+
+    <div class="cta-section">
+        <h2>Ready to Level Up?</h2>
+        <a href="https://www.patreon.com/afc_adinho" target="_blank" class="patreon-btn">
+            Become a Patron
+        </a>
+    </div>
+</section>
+
+<style>
+    .benefits-section {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 30px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        text-align: left;
+    }
+    .benefits-section ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    .benefits-section li {
+        font-size: 1.1rem;
+        margin-bottom: 15px;
+    }
+    .cta-section {
+        text-align: center;
+        margin-top: 30px;
+    }
+    .patreon-btn {
+        display: inline-block;
+        padding: 15px 30px;
+        font-size: 1.2rem;
+        color: white;
+        background-color: #ff424d;
+        text-decoration: none;
+        border-radius: 8px;
+        transition: background-color 0.3s ease, transform 0.2s;
+    }
+    .patreon-btn:hover {
+        background-color: #e03e47;
+        transform: scale(1.05);
+    }
+</style>
+{% endblock %}

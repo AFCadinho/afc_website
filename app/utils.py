@@ -29,3 +29,10 @@ def check_if_name_used(field, used_names):
         if field.data.lower() == name.lower():
             return typed_name
     return None
+
+
+def convert_string_to_bool(string):
+    if string.lower() == "true":
+        return True
+    else:
+        return False

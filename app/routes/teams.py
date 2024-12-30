@@ -6,6 +6,7 @@ from app.forms.team_forms import TeamForm, FilterTeamForm, DeleteTeamForm
 from app.forms.comments_form import CommentForm, DeleteCommentForm
 from app.queries.team_queries import get_distinct_pokemon_names
 from sqlalchemy import func
+from app.utils import convert_string_to_bool
 
 bp = Blueprint('teams', __name__)
 
@@ -150,12 +151,14 @@ def filtered_teams(game_name):
     return render_template("teams.html", teams=teams, game_name=game_name)
 
 
-@bp.route("/filter_teams/<game_name>", methods=["GET","POST"])
-def filter_teams(game_name):
+@bp.route("/filter_teams/<game_name>/<patreon_only>", methods=["GET","POST"])
+def filter_teams(game_name, patreon_only):
     game = Games.query.filter_by(name=game_name).first()
     if not game:
         flash("Game not found!", "error")
         return redirect(url_for("general.index"))
+    
+    patreon_only = convert_string_to_bool(patreon_only)
     
     form = FilterTeamForm(game.id)
 
@@ -190,6 +193,9 @@ def filter_teams(game_name):
 
         if session["is_patreon"]:
             teams = query.all()
+        
+        if patreon_only:
+            teams = query.filter(Teams.patreon_post == True).all()
         
         # Save filtered team IDs in session
         team_id_list = []
@@ -252,8 +258,9 @@ def delete_team_comment(team_id, comment_id):
 def filter_patreon_teams(game_name):
     if not session["is_patreon"]:
         flash("You need to be our Patreon Member to see this page.", "warning")
-        return redirect(url_for('auth.login', next=request.url))
+        return redirect(url_for('patreon.patreon_benefits'))
 
+    patreon_only = True
     game = Games.query.filter(func.lower(Games.name)
                               == func.lower(game_name)).first()
     
@@ -265,8 +272,8 @@ def filter_patreon_teams(game_name):
     all_teams = Teams.query.filter(Teams.patreon_post == True,).order_by(Teams.created_at.desc()).all()
 
 
-    pokemon_names = [p[0] for p in get_distinct_pokemon_names(game.id)]
+    pokemon_names = [p[0] for p in get_distinct_pokemon_names(game.id, patreon_only)]
 
     form = FilterTeamForm(game.id)
 
-    return render_template("filter.html", game_name=game_name, teams=all_teams, form=form, pokemon_names=pokemon_names, patreon_only=True)
+    return render_template("filter.html", game_name=game_name, teams=all_teams, form=form, pokemon_names=pokemon_names, patreon_only=patreon_only)

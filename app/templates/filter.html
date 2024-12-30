@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-<h2 class="page_header">{{ game_name }} Teams</h2>
+<h2 class="page_header">Filter {{ game_name }} Teams</h2>
 <div>
     {% if not patreon_only %}
     <a href="{{ url_for('teams.filter_patreon_teams', game_name=game_name) }}">
@@ -28,7 +28,7 @@
 <div class="filter_container">
     <h3>Filter Search</h3>
 
-    <form action="{{ url_for('teams.filter_teams', game_name=game_name) if not patreon_only else url_for('teams.filter_patreon_teams', game_name=game_name)  }}" method="POST">
+    <form action="{{ url_for('teams.filter_teams', game_name=game_name, patreon_only=patreon_only)  }}" method="POST">
         {{ form.hidden_tag() }}
 
         <!-- Archetype -->

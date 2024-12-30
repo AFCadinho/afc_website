@@ -874,3 +874,40 @@ form textarea {
     width: 50px;
     height: auto;
 }
+
+
+.benefits-section {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+.benefits-section ul {
+    list-style-type: none;
+    padding: 0;
+}
+.benefits-section li {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+.cta-section {
+    text-align: center;
+    margin-top: 30px;
+}
+.patreon-btn {
+    display: inline-block;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    color: white;
+    background-color: #ff424d;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+.patreon-btn:hover {
+    background-color: #e03e47;
+    transform: scale(1.05);
+}
