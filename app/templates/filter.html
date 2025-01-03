@@ -9,26 +9,36 @@ Filter {{ game_name }} Teams
 {% endblock %}
 
 {% block content %}
-<section class="filter-section" >
-    <div class="cta-card-container">
-        {% if not patreon_only %}
-        <h3>Unreleased Teams</h3>
-        <a href="{{ url_for('teams.filter_patreon_teams', game_name=game_name) }}" class="btn cta-btn">
-            <span>Patreon Only</span>
-            <img src="https://static.vecteezy.com/system/resources/previews/027/127/500/non_2x/patreon-logo-patreon-icon-transparent-free-png.png" class="small_patreon_logo">
-        </a>   
-        {% endif %}
+<section class="filter-section">
+    <!-- Large CTA for Unreleased Teams -->
+    <div class="large-cta-card">
+        <h3>Enjoying the Website?</h3>
+        <p>
+            If this site has helped you,  
+            consider supporting me on <strong>Patreon</strong>.  
+            Your contribution keeps the site alive and growing! 
+        </p>
+        <p>
+            I truly appreciate your support and  
+            will do my best to create the <strong>ultimate experience</strong> for you here.
+        </p>
+        <img src="https://static.vecteezy.com/system/resources/previews/027/127/500/non_2x/patreon-logo-patreon-icon-transparent-free-png.png" alt="Patreon Logo">
+        <a href="{{ url_for('teams.filter_patreon_teams', game_name=game_name) }}" class="btn">
+            Unlock Exclusive Teams
+        </a>
+        
         {% if session["is_admin"] %}
-        <a href="{{ url_for('teams.add_team', game_name=game_name) }}" class="btn">
-            Add Team
+        <a href="{{ url_for('teams.add_team', game_name=game_name) }}" class="btn admin-add-btn">
+            Add New Team
         </a>
         {% endif %}
     </div>
 
+    <!-- Filter Form Section -->
     <div class="filter_container">
         <h3>Filter Search</h3>
 
-        <form action="{{ url_for('teams.filter_teams', game_name=game_name, patreon_only=patreon_only)  }}" method="POST">
+        <form action="{{ url_for('teams.filter_teams', game_name=game_name, patreon_only=patreon_only) }}" method="POST">
             {{ form.hidden_tag() }}
 
             <!-- Archetype -->
@@ -53,7 +63,7 @@ Filter {{ game_name }} Teams
                 </div>
             </p>
 
-            <!-- Pokemon name -->
+            <!-- Pokemon Name -->
             <p>
                 {{ form.pokemon_name.label }}
                 {{ form.pokemon_name(list="pokemon_list") }}
@@ -70,13 +80,15 @@ Filter {{ game_name }} Teams
                 {% endfor %}
             </datalist>
 
-            <!-- submit -->
+            <!-- Submit -->
             <p>
                 {{ form.submit(class="btn") }}
             </p>
         </form>
     </div>
 </section>
+
+
 
 <section class="pokemon-teams-section">
     <div class="pokemon-teams-container">

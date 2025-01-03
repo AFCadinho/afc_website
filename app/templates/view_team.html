@@ -9,10 +9,24 @@ View Team
 {% endblock %}
 
 {% block content %}
-<div class="small-cta-container">
+<div class="pokepaste_management_container">
     {% if team.patreon_post %}
+    <div class="patreon-badge">
         <img src="https://static.vecteezy.com/system/resources/previews/027/127/500/non_2x/patreon-logo-patreon-icon-transparent-free-png.png" class="title-patreon-logo">
         <span>Patreon Exclusive</span>
+    </div>    
+    {% endif %}
+    <a href="{{ team.pokepaste }}" target="_blank" rel="noopener noreferrer" class="pokepaste-link">Click for Pokepaste</a>
+    {% if session["is_admin"] %}
+    <a href="{{ url_for('teams.edit_team', team_id=team.id) }}">
+        <button type="button" class="btn">Edit Team</button>
+    </a>
+
+    <!-- Delete Team -->
+    <form action="{{ url_for('teams.delete_team', team_id=team.id ) }}" method="POST" onsubmit="return confirmDelete()">
+        {{ delete_team_form.hidden_tag() }}
+        {{ delete_team_form.delete_team(class="cta-btn") }}
+    </form>
     {% endif %}
 </div>
 
@@ -20,7 +34,7 @@ View Team
     <!-- Pokemon sprites container -->
     <div class="pokemon_team_container">
             {% for image_url in pokemon_image_dict.values() %}
-            <a href="{{ team.pokepaste }}" target="_blank" rel="noopener noreferrer">
+            <a href="{{ team.pokepaste }}" class="pokeaste-link" target="_blank" rel="noopener noreferrer">
                 <div class="pokemon_image">
                     <img src="{{ image_url }}" alt="Pokemon">
                 </div>
@@ -29,70 +43,50 @@ View Team
     </div>
 </section>
 
-<div class="pokepaste_management_container">
-    <a href="{{ team.pokepaste }}" target="_blank" rel="noopener noreferrer">Click for Pokepaste</a>
-    {% if session["is_admin"] %}
-    <a href="{{ url_for('teams.edit_team', team_id=team.id) }}">
-        <button type="button" class="edit_button">Edit Team</button>
-    </a>
+<!-- Add Comment Section -->
+<section class="comment-section">
+    <div class="add-comment__container">
+        <h3 class="add-comment__header section-header">Add a Comment</h3>
+        <form action="{{ url_for('teams.post_team_comment', team_id=team.id) }}" method="POST">
+            {{ comment_form.hidden_tag() }}
+            {{ comment_form.comment(class="comment-field") }}
+        
+            {% for error in comment_form.comment.errors %}
+            <span class="form_errors">{{ error }}</span>
+            {% endfor %}
 
-    <!-- Delete Team -->
-    <form action="{{ url_for('teams.delete_team', team_id=team.id ) }}" method="POST" onsubmit="return confirmDelete()">
-        {{ delete_team_form.hidden_tag() }}
-        {{ delete_team_form.delete_team(class="delete_btn") }}
-    </form>
-    {% endif %}
-</div>
-
-<!-- Add comment -->
-<h3>Add a Comment</h3>
-<form action="{{ url_for('teams.post_team_comment', team_id=team.id) }}" method="POST">
-    {{comment_form.hidden_tag() }}
-
-    <p>
-        {{ comment_form.comment.label }}
-        {{ comment_form.comment(class="comment-field") }}
-    <div>
-        {% for error in comment_form.comment.errors %}
-        <span class="form_errors">{{ error }}</span>
-        {% endfor %}
+            <div>{{ comment_form.submit(class="btn") }}</div>
+        </form>
     </div>
-    </p>
 
-    <div>{{ comment_form.submit(class="btn") }}</div>
-</form>
+    <!-- Display Comments Section -->
+    <div class="display-comment__container cta-card-container">
+        <h3>Comments</h3>
+        {% if comments %}
+        <ul class="display-comment__list">
+            {% for comment in comments %}
+            <li class="comment_item">
+                <div class="comment_header">
+                    <strong class="comment_author">From: {{ comment.users.name }}</strong>
+                    <small class="comment_date">Posted on: <br> {{ comment.created_at.strftime('%d-%m-%Y %H:%M') }}</small>
+                </div>
+                <p class="comment_text">{{ comment.comment }}</p>
+                {% if comment.user_id == session["user_id"] or session["is_admin"] %}
+                <div class="comments__delete-container">
+                    <form action="{{ url_for('teams.delete_team_comment', team_id=team.id, comment_id=comment.id) }}"
+                        method="POST" class="delete_comment_form" onsubmit="return confirmDelete()">
+                        {{ delete_comment_form.hidden_tag() }}
+                        {{ delete_comment_form.delete_comment(class="btn") }}
+                    </form>
+                </div>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="no_comments_text">No comments yet. Be the first to comment!</p>
+        {% endif %}
+    </div>
+</section>
 
-
-<!-- Display comments -->
-<h3>Comments</h3>
-<div class="display_comment_container">
-    {% if comments %}
-    <ul class="comment_list">
-        {% for comment in comments %}
-        <li class="comment_item">
-            <div class="comment_header">
-                <strong class="comment_author">From: {{ comment.users.name }}</strong>
-                <small class="comment_date">Posted on {{ comment.created_at.strftime('%d-%m-%Y %H:%M') }}</small>
-            </div>
-            <p class="comment_text">{{ comment.comment }}</p>
-            {% if comment.user_id == session["user_id"] or session["is_admin"] %}
-
-            <!-- Delete Comment -->
-            <div class="comments__delete-container">
-                <form action="{{ url_for('teams.delete_team_comment', team_id=team.id, comment_id=comment.id) }}"
-                    method="POST" class="delete_comment_form" onsubmit="return confirmDelete()">
-                    {{ delete_comment_form.hidden_tag() }}
-                    <div>
-                        {{ delete_comment_form.delete_comment(class="cta-btn") }}
-                    </div>
-                </form>
-            </div>
-            {% endif %}
-        </li>
-        {% endfor %}
-    </ul>
-    {% else %}
-    <p class="no_comments_text">No comments yet. Be the first to comment!</p>
-    {% endif %}
-</div>
 {% endblock %}

@@ -10,7 +10,6 @@ body {
     background-color: #1a1a1a;
     color: #d4d4d4;
     font-family: 'Montserrat', sans-serif;
-    line-height: 1.6;
     max-width: 1200px;
     margin: 0 auto;
 }
@@ -71,6 +70,62 @@ body {
 .cta-btn:hover {
     background-color: #c92b33;
     transform: scale(1.05);
+}
+
+/* Flash Messages */
+.flash-messages {
+    list-style: none;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.flash-messages li {
+    margin-bottom: 0.5rem;
+    padding: 1rem;
+    border-radius: 5px;
+    font-weight: 500;
+    color: white;
+}
+
+/* Success Flash */
+.flash-success {
+    background-color: #2dce89;
+}
+
+/* Error Flash */
+.flash-error {
+    background-color: #e63946;
+}
+
+/* Info Flash */
+.flash-info {
+    background-color: #4a90e2;
+}
+
+/* Warning Flash */
+.flash-warning {
+    background-color: #f4a261;
+}
+
+
+/* Main cta Styling */
+.cta-section {
+    background-color: #1f1f1f;
+    text-align: center;
+    padding: 4rem 2rem;
+    margin-top: 3rem;
+}
+
+.cta-section__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
 }
 
 
@@ -159,27 +214,11 @@ body {
     text-decoration: none;
     border-radius: 5px;
     transition: background 0.3s;
+    cursor: pointer;
 }
 
 .btn:hover {
     background: #e63946;
-}
-
-/* Main cta Styling */
-.cta {
-    background-color: #1f1f1f;
-    text-align: center;
-    padding: 4rem 2rem;
-    margin-top: 3rem;
-}
-
-.cta .btn {
-    background-color: #e63946;
-}
-
-
-.cta .btn:hover {
-    background-color: #c92b33;
 }
 
 /* Main Games Styling */
@@ -299,6 +338,7 @@ body {
     transform: scale(1.05);
 }
 
+
 /* Filter Form */
 .filter_container {
     background-color: #1f1f1f;
@@ -364,8 +404,30 @@ form .btn:hover {
     transform: translateY(-3px);
 }
 
+/* Patreon Badge Styling */
+.patreon-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    background-color: #252525;
+    padding: 0.8rem 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+    font-size: 1rem;
+    color: #ff7d31;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: transform 0.3s ease;
+}
 
+.patreon-badge img {
+    width: 40px;
+    height: 40px;
+}
 
+.patreon-badge:hover {
+    transform: translateY(-3px);
+}
 
 
 /* Pokemon Teams Section */
@@ -373,8 +435,6 @@ form .btn:hover {
     margin: 3rem auto;
     max-width: 1100px;
 }
-
-
 
 .pokemon-teams__list {
     display: grid;
@@ -445,6 +505,57 @@ form .btn:hover {
     right: 1rem;
 }
 
+
+/* ViewTeam Pokepaste Management */
+.pokepaste_management_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    background-color: #1f1f1f;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+    max-width: 800px;
+    margin: 2rem auto;
+}
+
+/* Pokepaste Link */
+.pokepaste_management_container .pokepaste-link {
+    background-color: #4a90e2;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background 0.3s ease, transform 0.2s;
+}
+
+.pokepaste-link:hover {
+    background-color: #357ABD;
+    transform: scale(1.05);
+}
+
+
+.pokepaste_management_container form {
+    order: 2;
+}
+
+
+/* Add comment Section  */
+.add-comment__container {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* Show comments section */
+
+
 /* 
 ----------------------------------------------------------------- */
 
@@ -475,20 +586,134 @@ form .btn:hover {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8); /* Enhance hover effect */
 }
 
-.comment-field {
-    width: 80%;
-    height: 80%;
+
+/* Comments Section Styling */
+.comments__delete-container form .btn{
+    width: auto;
 }
 
 
+/* Comment Section Container */
+.comment-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem auto;
+    max-width: 900px;
+}
 
+/* Add Comment Box */
+.add-comment__container {
+    background-color: #252525;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+    width: 100%;
+    max-width: 700px;
+    text-align: center;
+    margin-bottom: 2rem;
+}
 
+.add-comment__header {
+    color: #e63946;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    font-family: 'Oswald', sans-serif;
+}
 
+.comment-field {
+    width: 90%;
+    min-height: 120px;
+    padding: 1rem;
+    border: 1px solid #444;
+    border-radius: 8px;
+    background-color: #121212;
+    color: #d4d4d4;
+    font-size: 1rem;
+    box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.7);
+    margin-bottom: 1rem;
+}
+
+.comment-field:focus {
+    border-color: #e63946;
+    outline: none;
+    box-shadow: 0 0 6px rgba(230, 57, 70, 0.7);
+}
 
 /* 
 ----------------------------------------------------------------- */
 
 
+/* Display Comments Container */
+.display-comment__container {
+    background-color: #252525;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+    padding: 2rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Grid Layout for Comments */
+.display-comment__list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);  /* 3 Columns */
+    gap: 1.5rem;  /* Space between cards */
+    list-style: none;
+    padding: 0;
+}
+
+/* Individual Comment Cards */
+.comment_item {
+    background-color: #1f1f1f;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s;
+}
+
+.comment_item:hover {
+    transform: translateY(-5px);
+}
+
+/* Comment Header Section */
+.comment_header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.comment_author {
+    font-weight: bold;
+    color: #4a90e2;
+}
+
+.comment_date {
+    font-size: 0.9rem;
+    color: #bbb;
+}
+
+/* Comment Text */
+.comment_text {
+    font-size: 1rem;
+    color: #d4d4d4;
+    line-height: 1.5;
+}
+
+/* Delete Button Container */
+.comments__delete-container form .btn {
+    width: auto;
+    padding: 8px 20px;
+    font-size: 0.9rem;
+}
+
+/* Centering the "No Comments" Text */
+.no_comments_text {
+    text-align: center;
+    color: #bbb;
+}
 
 
 
@@ -496,15 +721,6 @@ form .btn:hover {
 .title-patreon-logo {
     height: 80px;
 }
-
-
-
-
-
-
-
-
-
 
 /* Login Styling */
 .login-section, .edit-profile__section {
@@ -579,4 +795,64 @@ footer {
     background-color: #12121212;
     color: #bbb;
     font-family: 'Montserrat', sans-serif;
+}
+
+/* Filter Section Layout */
+.filter-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 3rem;
+    margin: 3rem auto;
+    max-width: 1100px;
+    flex-wrap: wrap;
+}
+
+/* CTA Card - Larger for Unreleased Teams */
+.large-cta-card {
+    flex: 1 1 400px;
+    background-color: #252525;
+    padding: 2.5rem 2rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.7);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.large-cta-card h3 {
+    font-size: 2rem;
+    color: #ff7d31;
+    margin-bottom: 1.2rem;
+    font-family: 'Oswald', sans-serif;
+}
+
+.large-cta-card p {
+    font-size: 1.1rem;
+    color: #d4d4d4;
+    margin-bottom: 1rem;
+}
+
+.large-cta-card .btn {
+    background-color: #e63946;
+    color: white;
+    padding: 12px 30px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.large-cta-card .btn:hover {
+    background-color: #c92b33;
+    transform: scale(1.05);
+}
+
+.large-cta-card img {
+    width: 80px;
+    height: 80px;
+    margin: 0;
 }
