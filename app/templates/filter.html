@@ -4,96 +4,108 @@
 {{ game_name }} Teams
 {% endblock %}
 
+{% block title_page %}
+Filter {{ game_name }} Teams
+{% endblock %}
+
 {% block content %}
-<h2 class="page_header">Filter {{ game_name }} Teams</h2>
-<div>
-    {% if not patreon_only %}
-    <a href="{{ url_for('teams.filter_patreon_teams', game_name=game_name) }}">
-        <button>
-            <span>
-                Unreleased Teams
-            </span>
+<section class="filter-section" >
+    <div class="cta-card-container">
+        {% if not patreon_only %}
+        <h3>Unreleased Teams</h3>
+        <a href="{{ url_for('teams.filter_patreon_teams', game_name=game_name) }}" class="btn cta-btn">
             <span>Patreon Only</span>
             <img src="https://static.vecteezy.com/system/resources/previews/027/127/500/non_2x/patreon-logo-patreon-icon-transparent-free-png.png" class="small_patreon_logo">
-        </button>
-    </a>   
-    {% endif %}
-    {% if session["is_admin"] %}
-    <a href="{{ url_for('teams.add_team', game_name=game_name) }}">
-        <button>Add Team</button>
-    </a>
-    {% endif %}
-</div>
+        </a>   
+        {% endif %}
+        {% if session["is_admin"] %}
+        <a href="{{ url_for('teams.add_team', game_name=game_name) }}" class="btn">
+            Add Team
+        </a>
+        {% endif %}
+    </div>
 
-<div class="filter_container">
-    <h3>Filter Search</h3>
+    <div class="filter_container">
+        <h3>Filter Search</h3>
 
-    <form action="{{ url_for('teams.filter_teams', game_name=game_name, patreon_only=patreon_only)  }}" method="POST">
-        {{ form.hidden_tag() }}
+        <form action="{{ url_for('teams.filter_teams', game_name=game_name, patreon_only=patreon_only)  }}" method="POST">
+            {{ form.hidden_tag() }}
 
-        <!-- Archetype -->
-        <p>
-            {{ form.archetype.label }}
-            {{ form.archetype }}
-            <div>
-                {% for error in form.archetype.errors %}
-                    {{ error }}
+            <!-- Archetype -->
+            <p>
+                {{ form.archetype.label }}
+                {{ form.archetype }}
+                <div>
+                    {% for error in form.archetype.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            </p>
+
+            <!-- Created After -->
+            <p>
+                {{ form.created_at.label }}
+                {{ form.created_at }}
+                <div>
+                    {% for error in form.created_at.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            </p>
+
+            <!-- Pokemon name -->
+            <p>
+                {{ form.pokemon_name.label }}
+                {{ form.pokemon_name(list="pokemon_list") }}
+                <div>
+                    {% for error in form.pokemon_name.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            </p>
+
+            <datalist id="pokemon_list">
+                {% for pokemon_name in pokemon_names %}
+                    <option value="{{ pokemon_name }}">{{ pokemon_name.title() }}</option>
                 {% endfor %}
-            </div>
-        </p>
+            </datalist>
 
-        <!-- Created After -->
-        <p>
-            {{ form.created_at.label }}
-            {{ form.created_at }}
-            <div>
-                {% for error in form.created_at.errors %}
-                    {{ error }}
-                {% endfor %}
-            </div>
-        </p>
+            <!-- submit -->
+            <p>
+                {{ form.submit(class="btn") }}
+            </p>
+        </form>
+    </div>
+</section>
 
-        <!-- Pokemon name -->
-        <p>
-            {{ form.pokemon_name.label }}
-            {{ form.pokemon_name(list="pokemon_list") }}
-            <div>
-                {% for error in form.pokemon_name.errors %}
-                    {{ error }}
-                {% endfor %}
-            </div>
-        </p>
+<section class="pokemon-teams-section">
+    <div class="pokemon-teams-container">
+        <h3>All Teams</h3>
+        {% if teams %}
+        <ul class="pokemon-teams__list">
+            {% for team in teams %}
+            <li>
+                <img src="{{ team.pokemon[0].sprite }}" 
+                     class="pokemon-sprite" 
+                     alt="Pokemon sprite for {{ team.pokemon[0].name }}">
+                
+                <a href="{{ url_for('teams.view_team', team_id=team.id) }}">{{ team.name }}</a> 
 
-        <datalist id="pokemon_list">
-            {% for pokemon_name in pokemon_names %}
-                <option value="{{ pokemon_name }}">{{ pokemon_name.title() }}</option>
+                <p>{{ team.archetype }}</p>
+                <p>Posted: {{ team.created_at.strftime('%d-%m-%Y') }}</p>
+
+                {% if team.patreon_post %}
+                <img src="https://static.vecteezy.com/system/resources/previews/027/127/500/non_2x/patreon-logo-patreon-icon-transparent-free-png.png" 
+                     class="small_patreon_logo" 
+                     alt="Patreon Exclusive">
+                {% endif %}
+            </li>
             {% endfor %}
-        </datalist>
+        </ul>
+        {% else %}
+        <p>No teams match the selected filters.</p>
+        {% endif %}
+    </div>
+</section>
 
-        <!-- submit -->
-        <p>
-            {{ form.submit(class="btn") }}
-        </p>
-    </form>
-</div>
-
-<div class="pokemon_teams_container">
-    <h2 class="page_header">All Teams</h2>
-    {% if teams %}
-    <ul>
-        {% for team in teams %}
-        <li>
-            <a href="{{ url_for('teams.view_team', team_id=team.id) }}">{{ team.name }}</a> -
-            <a href="{{ team.pokepaste }}" target="_blank" rel="noopener noreferrer">View Pokepaste</a>
-            Posted: {{ team.created_at.strftime('%d-%m-%Y') }}
-            {% if team.patreon_post %}
-            <img src="https://static.vecteezy.com/system/resources/previews/027/127/500/non_2x/patreon-logo-patreon-icon-transparent-free-png.png" class="small_patreon_logo">   
-            {% endif %}
-        </li>
-        {% endfor %}
-    </ul>
-    {% else %}
-    <p>No teams match the selected filters.</p>
-    {% endif %}
-</div>
 {% endblock %}

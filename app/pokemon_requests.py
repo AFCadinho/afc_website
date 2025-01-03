@@ -41,3 +41,21 @@ def fetch_pokemon_sprites(pokemon_names: list) -> dict[str, str]:
             print(f"Error fetching image for Pokemon: {name}. Error: {e}")
 
     return images
+
+
+def fetch_sprite_for_name(name: str):
+    base_url = "https://pokeapi.co/api/v2/pokemon/"
+    image_url = None
+    try:
+            response = requests.get(base_url + name.lower())
+            response.raise_for_status()
+
+            data = response.json()
+            image_url = data["sprites"]["other"]["home"]["front_default"] or None
+
+        
+    except Exception as e:
+        print(f"Error fetching image for Pokemon: {name}. Error: {e}")
+
+    return image_url
+

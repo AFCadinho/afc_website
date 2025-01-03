@@ -82,6 +82,7 @@ def add_team(game_name):
     form = TeamForm()
 
     if form.validate_on_submit():
+
         new_team = Teams(
             game_id=game.id,
             name=form.name.data,
@@ -95,10 +96,12 @@ def add_team(game_name):
         flash(f"Team {form.name.data} successfully created!")
 
         # Add Each Pokemon individually to Database.
-        pokepaste_names = fetch_names_from_pokepaste(new_team.pokepaste)     
+        pokepaste_names = fetch_names_from_pokepaste(new_team.pokepaste) 
+        pokemon_image_dict = fetch_pokemon_sprites(pokepaste_names)    
+
         pokemon_names = []
-        for name in pokepaste_names:
-            pokemon = Pokemon(team_id=new_team.id, name=name)
+        for name, url in pokemon_image_dict.items():
+            pokemon = Pokemon(team_id=new_team.id, name=name, sprite=url)
             pokemon_names.append(pokemon)
 
         db.session.add_all(pokemon_names)

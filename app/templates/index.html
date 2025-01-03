@@ -2,18 +2,58 @@
 
 {% block title %}Home{% endblock %}
 
+{% block title_page %}
+Welcome to AFC Adinho's Website
+{% endblock %}
+
 {% block content %}
-<h2 class="page_header">Welcome to my Website</h2>
-<div class="video-container">
-    <div class="video-wrapper">
-        <iframe
-            src="https://www.youtube.com/embed/rak1vVvetqo?si=c7s5JCcj1ucv9pAq"
-            title="YouTube video player"
+<!-- Video Section -->
+<section class="hero">
+    {% if session["is_admin"] %}
+        <form action="{{ url_for('youtube.latest_video') }}" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+            <button type="submit" class="btn cta-btn">Refresh Video</button>
+        </form>
+    {% endif %}
+    <h2 class="section-header">Check Out my most recent video</h2>
+    <div class="hero-content">
+        <iframe width="560" height="315" src="{{ video_url }}"
+            title="{{ video_title }}" frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allowfullscreen
-        ></iframe>
+            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+        </iframe>
     </div>
-</div>
+        <div class="like-prompt">
+            <p>
+                Enjoying the content? A like goes a long way - and it's free!
+                <a href="https://www.youtube.com/embed/vvb_ri7xbpI?si=DtOU3VgcwMEyO4RJ" target="_blank" class="like-link">like the video!</a>
+            </p>
+        </div>
+</section>
+
+<!-- Latest Teams Section -->
+<section class="latest-teams">
+    <h2 class="section-header">Latest PvP Teams</h2>
+    {% for team in pokemon_teams %}
+    <div class="team-card">
+        <img src="{{ team.pokemon[0].sprite }}" alt="{{ team.pokemon[0].name }} Sprite" class="pokemon-sprite">
+        <span class="team-type">Balanced</span>
+        <h3>{{ team.name }}</h3>
+        <p>Featuring: <strong>{{ team.pokemon[0].name }}</strong></p>
+        <p>Remaining Members:<br> {{ team.pokemon[1].name }}, {{ team.pokemon[2].name }}, {{ team.pokemon[3].name }}, {{ team.pokemon[4].name }}, {{ team.pokemon[5].name }}</p>
+        <a href="{{ url_for('teams.view_team', team_id=team.id) }}" class="btn">View Team</a>
+    </div>
+    {% endfor %}
+</section>
+
+
+<!-- Call to Action Section -->
+<section class="cta">
+    <div class="cta-container">
+        <h2>Access Unpublished Teams</h2>
+        <p>Sign up to unlock unreleased PvP teams and more</p>
+        <a href="{{ url_for('patreon.patreon_benefits') }}" class="btn">Get Access</a>
+    </div>
+</section>
 
 {% endblock %}

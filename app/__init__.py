@@ -1,20 +1,22 @@
-from flask import Flask, session
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
 from dotenv import load_dotenv
 import os
-import secrets
 from datetime import timedelta
+from flask_wtf.csrf import CSRFProtect
 
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 migrate = Migrate()
+csrf = CSRFProtect()
 
 def create_app():
     load_dotenv()
     app = Flask(__name__)
+    csrf.init_app(app)
     app.secret_key = os.getenv("MY_SECRET_KEY")
     app.permanent_session_lifetime = timedelta(days=30)
     DATABASE_URI_1 = os.getenv("DATABASE_URI_1")
@@ -29,15 +31,9 @@ def create_app():
     bcrypt.init_app(app)
     migrate.init_app(app, db)
 
-    # Set CSRF token before each request
-    @app.before_request
-    def set_csrf_token(): # type: ignore
-        if "csrf_token" not in session:
-            session["csrf_token"] = secrets.token_hex(16)
-
     with app.app_context():
         # Import and register each Blueprint directly
-        from app.routes import general, auth, admin, games, teams, profile, legal, patreon
+        from app.routes import general, auth, admin, games, teams, profile, legal, patreon, youtube
         app.register_blueprint(general.bp)
         app.register_blueprint(auth.bp)
         app.register_blueprint(admin.bp)
@@ -46,5 +42,6 @@ def create_app():
         app.register_blueprint(profile.bp)
         app.register_blueprint(patreon.bp)
         app.register_blueprint(legal.bp)
+        app.register_blueprint(youtube.bp)
 
     return app

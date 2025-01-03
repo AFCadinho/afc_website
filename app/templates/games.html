@@ -2,13 +2,30 @@
 
 {% block title %}Choose Game{% endblock %}
 
+{% block title_page %}
+    Choose Game
+{% endblock %}
+
+
 {% block content %}
-<h2 class="page_header">Choose Game</h2>
-<nav class="game_nav_container">
-    {% if games_list %}
-        {% for game in games_list %}
-            <a href="{{ url_for('games.filter_page', game_name=game.name) }}">{{ game.name }}</a> |
-        {% endfor %}
-    {% endif %}
-</nav>
+{% if session["is_admin"] %}
+    <form action="#" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+        <button type="submit" class="btn cta-btn">Edit Game</button>
+    </form>
+{% endif %}
+
+<section class="games-section">
+    <nav class="games-nav">
+        <ul>
+        {% if games_list %}
+            {% for game in games_list %}
+            <li>
+                <a href="{{ url_for('games.filter_page', game_name=game.name) }}"> <img src="{{ game.icon }}" class="games-icon" alt="{{ game.name }} logo"> {{ game.name }}</a>
+            </li>
+            {% endfor %}
+        {% endif %}
+        </ul>
+    </nav>
+</section>
 {% endblock %}

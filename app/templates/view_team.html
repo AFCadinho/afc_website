@@ -4,17 +4,21 @@
 View Team
 {% endblock %}
 
-{% block content %}
-<h2 class="page_header">{{ team.name }} 
-    {% if team.patreon_post %}
-        <img src="https://static.vecteezy.com/system/resources/previews/027/127/500/non_2x/patreon-logo-patreon-icon-transparent-free-png.png" class="title_patreon_logo">
-        <span>Patreon Exclusive</span>
-    {% endif %}</h2>
+{% block title_page %}
+{{ team.name }} 
+{% endblock %}
 
-<!-- Pokemon sprites container -->
-<div class="pokemon_team_container">
-    <ol>
-        <div class="image_container">
+{% block content %}
+<div class="small-cta-container">
+    {% if team.patreon_post %}
+        <img src="https://static.vecteezy.com/system/resources/previews/027/127/500/non_2x/patreon-logo-patreon-icon-transparent-free-png.png" class="title-patreon-logo">
+        <span>Patreon Exclusive</span>
+    {% endif %}
+</div>
+
+<section class="view-team-section">
+    <!-- Pokemon sprites container -->
+    <div class="pokemon_team_container">
             {% for image_url in pokemon_image_dict.values() %}
             <a href="{{ team.pokepaste }}" target="_blank" rel="noopener noreferrer">
                 <div class="pokemon_image">
@@ -22,9 +26,8 @@ View Team
                 </div>
             </a>
             {% endfor %}
-        </div>
-    </ol>
-</div>
+    </div>
+</section>
 
 <div class="pokepaste_management_container">
     <a href="{{ team.pokepaste }}" target="_blank" rel="noopener noreferrer">Click for Pokepaste</a>
@@ -48,7 +51,7 @@ View Team
 
     <p>
         {{ comment_form.comment.label }}
-        {{ comment_form.comment }}
+        {{ comment_form.comment(class="comment-field") }}
     <div>
         {% for error in comment_form.comment.errors %}
         <span class="form_errors">{{ error }}</span>

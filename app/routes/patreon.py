@@ -62,6 +62,7 @@ def patreon_callback():
     if check_if_paid_user(user.id):
         user.is_patreon = True
         db.session.commit()
+        session["is_patreon"] = True
 
     flash("Patreon account linked successfully!", "success")
     return redirect(url_for("profile.view_profile", user_id=user.id))
@@ -76,6 +77,7 @@ def patreon_disconnect(user_id):
         user.patreon_user_id = None
         user.is_patreon = False
         user.is_patreon_linked = False
+        session["is_patreon"] = False
         db.session.delete(patreon_token)
         db.session.commit()
         flash("Your Patreon account has been disconnected.", "success")
@@ -93,8 +95,6 @@ def check_if_paid_user(user_id):
 
     creator_access_token = Config.CREATOR_ACCESS_TOKEN
     campaign_id = fetch_patreon_campaign_id(creator_access_token)
-
-    #### Works till here
 
     paid_members = fetch_paid_patron_ids(creator_access_token, campaign_id)
 

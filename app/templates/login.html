@@ -2,57 +2,60 @@
 
 {% block title %}Login{% endblock %}
 
+{% block title_page %}
+    Login
+{% endblock %}
+
 {% block content %}
-<h2 class="page_header">Login</h2>
+<section class="login-section">
+    <div class="login-container">
+        <form action="{{ url_for('auth.login') }}" method="POST" novalidate>
+            {{ form.csrf_token }}
 
-<div>
-    <form action="{{ url_for('auth.login') }}" method="POST" novalidate>
-        {{ form.csrf_token }}
+            <!-- Username -->
+            <p>
+                {{ form.name.label }}<br>
+                {{ form.name }}
+            <ul class="errors">
+                {% for error in form.name.errors %}
+                {{ error }}
+                {% endfor %}
+            </ul>
+            </p>
 
-        <!-- Username -->
-        <p>
-            {{ form.name.label }}<br>
-            {{ form.name }}
-        <ul class="errors">
-            {% for error in form.name.errors %}
-            {{ error }}
-            {% endfor %}
-        </ul>
-        </p>
+            <!-- Password -->
+            <p>
+                {{ form.password.label }}<br>
+                {{ form.password }}
+            <ul class="errors">
+                {% for error in form.password.errors %}
+                {{ error }}
+                {% endfor %}
+            </ul>
+            </p>
 
-        <!-- Password -->
-        <p>
-            {{ form.password.label }}<br>
-            {{ form.password }}
-        <ul class="errors">
-            {% for error in form.password.errors %}
-            {{ error }}
-            {% endfor %}
-        </ul>
-        </p>
+            <!-- Remember Me -->
+            <div class="remember-me-container">
+                {{ form.remember_me.label }}
+                {{ form.remember_me(class="remember-me") }}
+                <ul class="errors">
+                    {% for error in form.remember_me.errors %}
+                    {{ error }}
+                    {% endfor %}
+                </ul>
+            </div>
 
-        <!-- Remember Me -->
-        <p>
-            {{ form.remember_me.label }}<br>
-            {{ form.remember_me }}
-        <ul class="errors">
-            {% for error in form.remember_me.errors %}
-            {{ error }}
-            {% endfor %}
-        </ul>
-        </p>
+            <!-- Submit -->
 
-        <!-- Submit -->
-        <p>
-            {{ form.submit(class="btn") }}
-        <ul class="errors">
-            {% for error in form.name.errors %}
-            {{ error }}
-            {% endfor %}
-        </ul>
-        </p>
-    </form>
-</div>
+                {{ form.submit(class="btn") }}
+            <ul class="errors">
+                {% for error in form.name.errors %}
+                {{ error }}
+                {% endfor %}
+            </ul>
+        </form>
+    </div>
+</section>
 
 <hr>
 <p>Don't have an account? <a href="{{ url_for('auth.signup') }}">Sign Up</a></p>

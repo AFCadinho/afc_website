@@ -70,6 +70,7 @@ class Bans(db.Model):
 class Games(db.Model):
     id = sa.Column(sa.Integer, primary_key=True)
     name = sa.Column(sa.Text, nullable=False, unique=True)
+    icon = sa.Column(sa.Text, server_default="default")
     teams = relationship("Teams", backref="games", cascade="all, delete-orphan")
 
 class Teams(db.Model):
@@ -88,6 +89,7 @@ class Pokemon(db.Model):
     id = sa.Column(sa.Integer, primary_key=True)
     team_id = sa.Column(sa.Integer, sa.ForeignKey("teams.id"), nullable=False)
     name = sa.Column(sa.Text, nullable=False)
+    sprite = sa.Column(sa.Text, server_default="default")
     team = relationship("Teams", back_populates="pokemon")
 
 class Comments(db.Model):
@@ -100,3 +102,10 @@ class Comments(db.Model):
 class BannedNames(db.Model):
     id = sa.Column(sa.Integer, primary_key=True)
     name = sa.Column(sa.Text, nullable=False, unique=True)
+
+class LatestVideo(db.Model):
+    id = sa.Column(sa.Integer, primary_key=True)
+    video_id = sa.Column(sa.Text, unique=True, nullable=False)
+    url = sa.Column(sa.Text, nullable=False)
+    title = sa.Column(sa.Text, nullable=False)
+    updated = sa.Column(sa.DateTime, server_default=func.now(), onupdate=func.now())

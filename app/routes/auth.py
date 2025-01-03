@@ -47,6 +47,18 @@ def login():
     return render_template("login.html", form=form)
 
 
+@bp.route("/logout", methods=["POST"])
+def logout():
+    csrf_token = request.form.get("csrf_token")
+
+    if not csrf_token:
+        return redirect(url_for("general.index"))
+    
+    session.clear()
+    flash("Successfully logged out", category="info")
+    return redirect(url_for("general.index"))
+
+
 @bp.route("/signup", methods=["POST", "GET"])
 def signup():
 
