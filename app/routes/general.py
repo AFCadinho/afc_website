@@ -12,7 +12,8 @@ bp = Blueprint('general', __name__)
 @bp.route("/", methods=["GET", "POST"])
 def index():
     # Make sure every Pokemon has sprite before rendering page
-    if Pokemon.query.filter(Pokemon.sprite == "default"):
+    pokemon = Pokemon.query.filter(Pokemon.sprite == "default").all()
+    if len(pokemon) > 0:
         add_sprites_to_all_pokemon()
 
     video_url = None
@@ -52,8 +53,10 @@ def index():
 
 
 def add_sprites_to_all_pokemon():
+    print("ADD SPRITES TO AL POKEMON FUNCTION")
     pokemon = Pokemon.query.filter(
-        Pokemon.sprite == "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/150.png").all()
+        Pokemon.sprite == "default").all()
+    
     for poke in pokemon:
         poke.sprite = fetch_sprite_for_name(poke.name) or ""
 
