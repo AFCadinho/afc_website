@@ -50,10 +50,16 @@ Welcome to AFC Adinho's Website
 <!-- Call to Action Section -->
 <section class="cta-section">
     <div class="cta-section__container">
-        <h2>Access Unpublished Teams</h2>
-        <p>Sign up to unlock unreleased PvP teams and more</p>
-        <a href="{{ url_for('patreon.patreon_benefits') }}" class="cta-btn">Get Access</a>
+        <h2>🔓 Unlock More Pokémon Teams!</h2>
+        <p>
+            There are currently <strong>{{ patreon_teams_count }}</strong> unreleased PvP teams ready to explore.  
+        </p>
+        <p>
+            By becoming a Patron, you'll get access to these exclusive teams and more.  
+        </p>
+        <a href="{{ url_for('patreon.patreon_benefits') }}" class="cta-btn">Learn More</a>
     </div>
 </section>
+
 
 {% endblock %}

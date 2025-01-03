@@ -2,44 +2,40 @@
 
 {% block title %}My Profile{% endblock %}
 
-{% block content %}
-<h1>My Profile</h1>
-
-{% if session["is_admin"] %}
-<div>
-    <a href="{{ url_for('patreon.test_patreon_activation', user_id = user.id) }}">
-        <button>
-            Test Patreon Link
-        </button>
-    </a>
-</div>
-{% endif %}
-
-
-<section class="profile-section">
-    <div class="user-info">
-        <p><strong>Username:</strong> {{ user.name }}</p>
-        <p><strong>Member Since: </strong> {{ user.created_at.strftime('%d-%m-%Y') }} </p>
-        <p><strong>Email:</strong> {{ user.email }}</p>
-        <p><strong>Patreon Linked:</strong>{% if user.is_patreon_linked %} Linked {% else %} Not Linked {% endif %}</p>
-        <p><strong>Patreon Status:</strong> {% if user.is_patreon %} Active {% else %} Not a Patron {% endif %}</p>
-    </div>
-
-    <a href="{{ url_for('profile.edit_profile', user_id=user.id) }}" class="edit-btn">Edit Profile</a>
-</section>
-
-<!-- Patreon Connect -->
-{% if not user.is_patreon_linked %}
-<div>
-    <h3>Connect Patreon</h3>
-    <a href="{{ url_for('patreon.patreon_login') }}" class="btn">Connect with Patreon</a>
-</div>
-{% else %}
-<div>
-    <h3>Disconnect Patreon</h3>
-    <a href="{{ url_for('patreon.patreon_disconnect', user_id=user.id) }}" class="btn">Disconnect from Patreon</a>
-</div>
-{% endif %}
-
+{% block title_page %}
+My Profile
 {% endblock %}
 
+{% block content %}
+<section class="profile-wrapper">    
+    <div class="profile-card">
+        <div class="user-info">
+            <p><strong>Username:</strong> {{ user.name }}</p>
+            <p><strong>Member Since:</strong> {{ user.created_at.strftime('%d-%m-%Y') }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Patreon Linked:</strong> 
+                {% if user.is_patreon_linked %} Linked {% else %} Not Linked {% endif %}
+            </p>
+            <p><strong>Patreon Status:</strong> 
+                {% if user.is_patreon %} Active {% else %} Not a Patron {% endif %}
+            </p>
+        </div>
+
+        <div class="profile-actions">
+            <a href="{{ url_for('profile.edit_profile', user_id=user.id) }}" class="btn edit-btn">Edit Profile</a>
+        </div>
+        {% if not user.is_patreon_linked %}
+    
+            <h3>Connect to Patreon</h3>
+            <a href="{{ url_for('patreon.patreon_login') }}" class="cta-btn">Connect with Patreon</a>
+    
+        {% else %}
+    
+            <h3>Disconnect Patreon</h3>
+            <a href="{{ url_for('patreon.patreon_disconnect', user_id=user.id) }}" class="cta-btn disconnect-btn">Disconnect from Patreon</a>
+    
+        {% endif %}
+    </div>
+
+</section>
+{% endblock %}

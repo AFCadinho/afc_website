@@ -1,6 +1,37 @@
-from flask import session, request, flash
-
 import re
+
+from functools import wraps
+from flask import session, redirect, url_for, flash, request
+
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if "user_id" not in session:
+            flash("You need to log in to view this page.", "warning")
+            return redirect(url_for('auth.login', next=request.url))
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get("is_admin"):
+            flash("You do not have the required permissions to view this page.", "danger")
+            return redirect(url_for("general.index"))
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+def patreon_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get("is_patreon"):
+            flash("You need to be our Patreon Member to see this page.", "warning")
+            return redirect(url_for('patreon.patreon_benefits', next=request.url))
+        return f(*args, **kwargs)
+    return decorated_function
 
 
 def validate_csrf_token():

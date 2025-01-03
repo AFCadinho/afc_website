@@ -3,11 +3,13 @@ from app.youtube_requests import get_latest_video
 from app.models import LatestVideo
 from datetime import datetime
 from app import db
+from app.utils import admin_required
 
 bp = Blueprint('youtube', __name__)
 
 
 @bp.route("/get_latest_video", methods=["POST"])
+@admin_required
 def latest_video():
     csrf_token = request.form.get("csrf_token")
 

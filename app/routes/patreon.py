@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template, redirect, session, url_for, flash, request
 from app import db
-from app.models import Users, PatreonToken
+from app.models import Users, PatreonToken, Teams
 from app.config import Config
 from datetime import datetime, timedelta, UTC
+from app.utils import login_required, admin_required
 
 import requests
 
@@ -10,6 +11,7 @@ bp = Blueprint('patreon', __name__)
 
 
 @bp.route("/patreon/login")
+@login_required
 def patreon_login():
     patreon_auth_url = (
         f"https://www.patreon.com/oauth2/authorize"
@@ -21,6 +23,7 @@ def patreon_login():
 
 
 @bp.route("/oauth/callback")
+@login_required
 def patreon_callback():
     # Receive code from patreon after redirect
     code = request.args.get("code")
@@ -68,6 +71,7 @@ def patreon_callback():
     return redirect(url_for("profile.view_profile", user_id=user.id))
 
 @bp.route("/patreon/<int:user_id>/disconnect")
+@login_required
 def patreon_disconnect(user_id):
     user = Users.query.filter_by(id=user_id).first()
     patreon_token = PatreonToken.query.filter_by(user_id=user_id).first()
@@ -86,7 +90,6 @@ def patreon_disconnect(user_id):
 
 
 def check_if_paid_user(user_id):
-    print(f"ENTERED.... CHECK_IF_PAID_USER")
     user = Users.query.filter_by(id=user_id).first()
     patreon_token = PatreonToken.query.filter_by(user_id=user_id).first()
     if not user:
@@ -108,6 +111,7 @@ def check_if_paid_user(user_id):
             return True
     
     return False
+
 
 def fetch_patreon_campaign_id(access_token):
     """Return Patreon campaign ID"""
@@ -183,7 +187,6 @@ def fetch_paid_patron_ids(access_token, campaign_id):
     return paid_members_ids
 
 
-
 def fetch_patreon_id(access_token):
     """Return patreon user id"""
 
@@ -201,10 +204,13 @@ def fetch_patreon_id(access_token):
 
 @bp.route("/patreon/benefits")
 def patreon_benefits():
-    return render_template("patreon_benefits.html")
+    teams = Teams.query.filter(Teams.patreon_post == True).all()
+    patreon_teams_count = len(teams)
+    return render_template("patreon_benefits.html", patreon_teams_count=patreon_teams_count)
 
 
 @bp.route("/patreon_test_activation/<int:user_id>")
+@admin_required
 def test_patreon_activation(user_id):
     print("WORKING.....")
 

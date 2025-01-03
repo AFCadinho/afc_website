@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, session, redirect, url_for, flash, request
+from flask import Blueprint, render_template, session, redirect, url_for, flash
 from app.models import Teams, Comments, Games, Pokemon
 from app import db
 from app.pokemon_requests import fetch_names_from_pokepaste, fetch_pokemon_sprites
@@ -6,16 +6,14 @@ from app.forms.team_forms import TeamForm, FilterTeamForm, DeleteTeamForm
 from app.forms.comments_form import CommentForm, DeleteCommentForm
 from app.queries.team_queries import get_distinct_pokemon_names
 from sqlalchemy import func
-from app.utils import convert_string_to_bool
+from app.utils import convert_string_to_bool, login_required, admin_required, patreon_required
 
 bp = Blueprint('teams', __name__)
 
 
 @bp.route("/team/<team_id>")
+@login_required
 def view_team(team_id):
-    if "user_id" not in session:
-        flash("You need to log in to view this page.", "warning")
-        return redirect(url_for('auth.login', next=request.url))
 
     team = Teams.query.filter_by(id=team_id).first()
     comments = Comments.query.filter_by(team_id=team_id).all()
@@ -38,6 +36,7 @@ def view_team(team_id):
 
 
 @bp.route("/post_comment/<int:team_id>", methods=["GET","POST"])
+@login_required
 def post_team_comment(team_id):
     comment_form = CommentForm()
 
@@ -68,11 +67,8 @@ def post_team_comment(team_id):
 
 
 @bp.route("/add_team/<game_name>", methods=["GET", "POST"])
+@admin_required
 def add_team(game_name):
-    if "user_id" not in session:
-        flash("You need to log in to view this page.", "warning")
-        return redirect(url_for('auth.login', next=request.url))
-
     game = Games.query.filter_by(name=game_name).first()
     if not game:
         flash("Game not found.", category="error")
@@ -115,11 +111,8 @@ def add_team(game_name):
 
 
 @bp.route("/edit_team/<int:team_id>", methods=["GET", "POST"])
-def edit_team(team_id):
-    if "user_id" not in session:
-        flash("You need to log in to view this page.", "warning")
-        return redirect(url_for('auth.login'))
-    
+@admin_required
+def edit_team(team_id):    
     team = Teams.query.filter_by(id=team_id).first()
     if not team:
         flash("Team does not exist")
@@ -137,11 +130,8 @@ def edit_team(team_id):
 
 
 @bp.route("/<game_name>/filtered_teams")
+@login_required
 def filtered_teams(game_name):
-    if "user_id" not in session:
-        flash("You need to log in to view this page.", "warning")
-        return redirect(url_for('auth.login', next=request.url))
-
     # Fetch filtered teams from session
     team_ids = session.get("filtered_teams")
     if not team_ids:
@@ -155,6 +145,7 @@ def filtered_teams(game_name):
 
 
 @bp.route("/filter_teams/<game_name>/<patreon_only>", methods=["GET","POST"])
+@login_required
 def filter_teams(game_name, patreon_only):
     game = Games.query.filter_by(name=game_name).first()
     if not game:
@@ -220,6 +211,7 @@ def filter_teams(game_name, patreon_only):
 
 
 @bp.route("/delete_team/<int:team_id>", methods=["POST"])
+@admin_required
 def delete_team(team_id):
     form = DeleteTeamForm()
     team = Teams.query.filter_by(id=team_id).first()
@@ -242,6 +234,7 @@ def delete_team(team_id):
 
 
 @bp.route("/delete_comment/<int:team_id>/<int:comment_id>", methods=["POST"])
+@login_required
 def delete_team_comment(team_id, comment_id):
     form = DeleteCommentForm()
 
@@ -258,10 +251,8 @@ def delete_team_comment(team_id, comment_id):
 
 
 @bp.route("/filter/patreon_teams<game_name>", methods=["GET"])
+@patreon_required
 def filter_patreon_teams(game_name):
-    if not session["is_patreon"]:
-        flash("You need to be our Patreon Member to see this page.", "warning")
-        return redirect(url_for('patreon.patreon_benefits'))
 
     patreon_only = True
     game = Games.query.filter(func.lower(Games.name)

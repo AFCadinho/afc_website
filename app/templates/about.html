@@ -10,28 +10,33 @@ About
     <nav>
         <ul class="social-icons">
             <li>
+                <a href="https://discord.gg/Z9EmB42" target="_blank" rel="noopener" title="Discord">
+                    <i class="fab fa-discord"></i>
+                    <span>Discord</span>
+                </a>
+            </li>
+            <li>
                 <a href="https://www.youtube.com/@AFCAdinho?sub_confirmation=1" target="_blank" rel="noopener" title="YouTube">
                     <i class="fab fa-youtube"></i>
+                    <span>YouTube</span>
                 </a>
             </li>
             <li>
                 <a href="https://www.twitch.tv/afc_adinho" target="_blank" rel="noopener" title="Twitch">
                     <i class="fab fa-twitch"></i>
+                    <span>Twitch</span>
                 </a>
             </li>
             <li>
                 <a href="https://www.patreon.com/afc_adinho" target="_blank" rel="noopener" title="Patreon">
                     <i class="fab fa-patreon"></i>
+                    <span>Patreon</span>
                 </a>
             </li>
             <li>
                 <a href="https://www.instagram.com/afc_adinho/" target="_blank" rel="noopener" title="Instagram">
                     <i class="fab fa-instagram"></i>
-                </a>
-            </li>
-            <li>
-                <a href="https://discord.com/invite/Z9EmB42" target="_blank" rel="noopener" title="Discord">
-                    <i class="fab fa-discord"></i>
+                    <span>Instagram</span>
                 </a>
             </li>
         </ul>
@@ -41,25 +46,22 @@ About
 <section id="about-me" class="about-section">
     <h2>Adinho</h2>
     <div class="about-content">
+        <img src="{{ url_for('static', filename='images/adinho_walk') }}" alt="Adinho Walking" class="about-image-float">
         <p>
             Hi, I’m Adinho! I’ve been passionate about competitive Pokémon since 2010, and over the years, I’ve been
             fortunate to achieve some fun milestones in the game. Here are a few highlights:
         </p>
         <ul class="styled-list">
-            <li>Rank 3 on PokeMMO and Pokémon Showdown (Gen 9 OU)—I value efficiency over grinding, so aiming for Rank 1 wasn’t the goal.</li>
+            <li>Rank 3 on PokeMMO and Pokémon Showdown (Gen 9 OU)—I value efficiency over grinding.</li>
             <li>Rank 1 on PokeOne and Pokémon Revolution Online.</li>
-            <li>Several in-game tournament wins and unofficial Pokémon Showdowns Tournaments.</li>
+            <li>In-game tournament wins and unofficial Showdown tournaments.</li>
         </ul>        
         <p>
-            Apart from competitive play, I love sharing my journey on YouTube so that I can connect with people who share my
-            enthusiasm for Pokémon. I try to keep my goals fun and balanced rather than grinding endlessly.
-        </p>
-        <p>
-            When I’m not battling or strategizing, you’ll probably find me coding, playing guitar, or watching anime. Thanks for stopping by—I’m always looking forward to meeting more fans and players who share this awesome passion for Pokémon!
+            I love sharing my journey on YouTube to connect with fellow Pokémon fans. When I’m not battling, I enjoy coding, playing guitar, and watching anime. Thanks for stopping by!
         </p>
     </div>
-    <img src="{{ url_for('static', filename='images/adinho_walk') }}" alt="Adinho Walking" class="about-image">
 </section>
+
 
 <section id="about-site" class="about-section">
     <h2>This Website</h2>
@@ -76,4 +78,110 @@ About
         </p>
     </div>
 </section>
+
+<style>
+    h2 {
+        text-align: center;
+    } 
+
+    .social-icons {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        list-style: none;
+        margin-top: 2rem;
+      }
+      
+      .social-icons li a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        color: #d4d4d4;
+        font-size: 1rem;
+        transition: color 0.3s, transform 0.3s;
+      }
+      
+      .social-icons li a i {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+      }
+      
+      .social-icons li a:hover {
+        color: #e63946;
+        transform: translateY(-5px);
+      }
+      
+      .social-icons li a span {
+        font-size: 0.9rem;
+      }
+
+      .about-image-float {
+        float: left;
+        margin: 0 1.5rem 1rem 0;  /* Right margin for spacing */
+        max-width: 300px;
+        height: auto;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      }
+      
+      .about-content::after {
+        content: "";
+        display: block;
+        clear: both;
+      }
+      
+      
+      .about-section {
+        margin: 3rem auto;
+        padding: 3rem;
+        max-width: 900px;
+        background-color: #252525;
+        border-radius: 15px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+        line-height: 1.8;
+      }
+      
+      .about-section h2 {
+        font-family: 'Oswald', sans-serif;
+        color: #e63946;
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      .styled-list li {
+        margin-bottom: 1rem;
+        list-style-position: inside;
+      }
+      
+      .about-content p {
+        margin-bottom: 1.5rem;
+      }
+      
+      @media (max-width: 768px) {
+        .social-icons {
+          flex-direction: column;
+          align-items: center;
+        }
+        
+        .about-section {
+          padding: 2rem;
+        }
+      
+        .about-section h2 {
+          font-size: 2rem;
+        }
+        
+        .cta-section {
+          padding: 2rem;
+        }
+        
+        .latest-teams {
+          grid-template-columns: 1fr;
+        }
+      }
+      
+      
+</style>
+
 {% endblock %}

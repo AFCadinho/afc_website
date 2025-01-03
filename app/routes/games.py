@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, session, redirect, url_for, flash, request
+from flask import Blueprint, render_template, session, redirect, url_for, flash
 from app.models import Games, Teams
-from app.utils import validate_csrf_token
+from app.utils import login_required
 from sqlalchemy import func
 from app.forms.team_forms import FilterTeamForm
 from app.queries.team_queries import get_distinct_pokemon_names
@@ -9,25 +9,16 @@ bp = Blueprint('games', __name__)
 
 
 @bp.route("/games", methods=["POST", "GET"])
+@login_required
 def games():
-    if "user_id" not in session:
-        flash("You need to log in to view this page.", "warning")
-        return redirect(url_for('auth.login', next=request.url))
-
-    if request.method == "POST":
-        if not validate_csrf_token():
-            return redirect(url_for("games.games"))
-
     games_list = Games.query.order_by(Games.id).all()
+
     return render_template("games.html", games_list=games_list)
 
 
 @bp.route("/filter/<game_name>", methods=["GET"])
+@login_required
 def filter_page(game_name):
-    if "user_id" not in session:
-        flash("You need to log in to view this page.", "warning")
-        return redirect(url_for('auth.login', next=request.url))
-
     game = Games.query.filter(func.lower(Games.name)
                               == func.lower(game_name)).first()
     

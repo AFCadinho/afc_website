@@ -1,70 +1,819 @@
 /* Global reset */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 /* Body and Layout */
 body {
-    background-color: #1a1a1a;
-    color: #d4d4d4;
-    font-family: 'Montserrat', sans-serif;
-    max-width: 1200px;
-    margin: 0 auto;
+  background-color: #1a1a1a;
+  color: #d4d4d4;
+  font-family: "Montserrat", sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 /* Navbar */
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.5rem 2rem;
-    background-color: #121212;
-    color: white;
-    font-family: 'Montserrat', sans-serif;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  background-color: #121212;
+  color: white;
+  font-family: "Montserrat", sans-serif;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 /* Website Logo */
 .navbar__brand .logo {
-    height: 50px;
+  height: 50px;
 }
 
 .navbar__links ul {
-    display: flex;
-    list-style: none;
+  display: flex;
+  list-style: none;
 }
 
 .navbar__links ul li {
-    margin: 0 1rem;
+  margin: 0 1rem;
 }
 
 .navbar__links ul li a {
-    color: #8fa8c9;
-    text-decoration: none;
-    font-size: 1rem;
-    transition: color 0.3s, border-bottom 0.3s;
-    border-bottom: 2px solid transparent;
+  color: #8fa8c9;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.3s, border-bottom 0.3s;
+  border-bottom: 2px solid transparent;
 }
 
 .navbar__links ul li a:hover {
-    color: #e63946;
-    border-bottom: 2px solid #e63946;
+  color: #e63946;
+  border-bottom: 2px solid #e63946;
 }
 
 .cta-btn {
-    background-color: #e63946;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
+  background-color: #e63946;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 1rem;
+  font-family: "Oswald", sans-serif;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.cta-btn:hover {
+  background-color: #c92b33;
+  transform: scale(1.05);
+}
+
+/* Flash Messages */
+.flash-messages {
+  list-style: none;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 8px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.flash-messages li {
+  margin-bottom: 0.5rem;
+  padding: 1rem;
+  border-radius: 5px;
+  font-weight: 500;
+  color: white;
+}
+
+/* Success Flash */
+.flash-success {
+  background-color: #2dce89;
+}
+
+/* Error Flash */
+.flash-error {
+  background-color: #e63946;
+}
+
+/* Info Flash */
+.flash-info {
+  background-color: #4a90e2;
+}
+
+/* Warning Flash */
+.flash-warning {
+  background-color: #f4a261;
+}
+
+/* Main cta Styling */
+.cta-section {
+  background-color: #1f1f1f;
+  text-align: center;
+  padding: 4rem 2rem;
+  margin-top: 3rem;
+}
+
+.cta-section__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Main Video Section */
+.title-page,
+.section-header {
+  text-align: center;
+  color: #e63946;
+  font-family: "Oswald", sans-serif;
+  margin: 2rem 0;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1rem;
+  background: linear-gradient(135deg, #0f0f0f 0%, #1f1f1f 100%);
+  color: white;
+}
+
+.hero-content iframe {
+  border: red solid 10px;
+}
+
+/* Main Team Section */
+.latest-teams {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  text-align: center;
+  justify-content: center;
+  max-width: 1200px;
+}
+
+.latest-teams > .section-header,
+.pokemon-teams-section div .section-header {
+  grid-column: span 3;
+  margin-bottom: 0;
+}
+
+.latest-teams .team-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #252525;
+  border: 2px solid #333;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3;
+}
+
+.latest-teams .team-card:hover {
+  transform: translate(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8);
+  border-color: #e63946;
+}
+
+.latest-teams .team-card .pokemon-sprite,
+.pokemon-teams__list li .pokemon-sprite {
+  width: 180px;
+  height: 180px;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  border: 2px solid #444;
+}
+
+.latest-teams .team-card h3 {
+  margin: 15px 0;
+  color: #d4d4d4;
+  font-family: "Oswald", sans-serif;
+}
+
+.latest-teams .team-card p {
+  padding: 0 20px 20px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 15px;
+  background-color: #4a90e2;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background 0.3s;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #e63946;
+}
+
+/* Main Games Styling */
+.games-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  padding: 3rem 0;
+  text-align: center;
+}
+
+.games-nav ul {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+  list-style: none;
+}
+
+.games-nav ul li {
+  background-color: #252525;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.games-nav ul li:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8);
+}
+
+.games-nav ul li a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  text-decoration: none;
+  color: #d4d4d4;
+  font-size: 1.2rem;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.games-nav ul li a:hover {
+  color: #e63946;
+}
+
+.games-icon {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+}
+
+/* Main team filter styling */
+.small_patreon_logo {
+  height: 80px;
+}
+
+/* General Section Styling */
+.filter-section {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 3rem;
+  margin: 3rem auto;
+  max-width: 1100px;
+}
+
+/* CTA Card Container */
+.cta-card-container {
+  background-color: #252525;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+  text-align: center;
+  flex: 1 1 320px;
+}
+
+.cta-card-container h3 {
+  color: #e63946;
+  font-family: "Oswald", sans-serif;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.cta-card-container a:hover {
+  background-color: #e63946;
+  transform: scale(1.05);
+  color: #fff;
+}
+
+.cta-card-container img.small_patreon_logo {
+  width: 30px;
+  height: 30px;
+}
+
+/* Admin Button */
+.cta-card-container button {
+  margin-top: 1.5rem;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4a90e2;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.cta-card-container button:hover {
+  background-color: #357abd;
+  transform: scale(1.05);
+}
+
+/* Filter Form */
+.filter_container {
+  background-color: #1f1f1f;
+  padding: 2.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+  flex: 2 1 500px;
+}
+
+.filter_container h3,
+.pokemon-teams-container h3 {
+  font-family: "Oswald", sans-serif;
+  font-size: 2rem;
+  color: #e63946;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+form p {
+  margin-bottom: 1.5rem;
+}
+
+form label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
+  color: #d4d4d4;
+  font-size: 1.1rem;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #555;
+  font-size: 1rem;
+  background-color: #121212;
+  color: #d4d4d4;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+input:focus,
+select:focus {
+  border-color: #e63946;
+  outline: none;
+  box-shadow: 0 0 6px rgba(230, 57, 70, 0.7);
+}
+
+/* Submit Button */
+form .btn {
+  background-color: #e63946;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background 0.3s, transform 0.2s;
+  border: none;
+}
+
+form .btn:hover {
+  background-color: #c92b33;
+  transform: translateY(-3px);
+}
+
+/* Patreon Badge Styling */
+.patreon-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  background-color: #252525;
+  padding: 0.8rem 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+  font-size: 1rem;
+  color: #ff7d31;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: transform 0.3s ease;
+}
+
+.patreon-badge img {
+  width: 40px;
+  height: 40px;
+}
+
+.patreon-badge:hover {
+  transform: translateY(-3px);
+}
+
+/* Pokemon Teams Section */
+.pokemon-teams-section {
+  margin: 3rem auto;
+  max-width: 1100px;
+}
+
+.pokemon-teams__list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-content: center;
+  gap: 2rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pokemon-teams__list li {
+  background-color: #252525;
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+  padding: 1.5rem;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+  grid-row: 1 span;
+}
+
+.pokemon-teams__list li:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8);
+  border-color: #e63946;
+}
+
+/* Team Sprite Styling */
+.pokemon-sprite {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  border: 2px solid #444;
+  background-color: #1a1a1a;
+}
+
+/* Team Name Link */
+.pokemon-teams__list li a {
+  display: block;
+  margin: 1rem 0;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #4a90e2;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.pokemon-teams__list li a:hover {
+  color: #e63946;
+}
+
+/* Archetype Text */
+.pokemon-teams__list li p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  color: #d4d4d4;
+}
+
+/* Patreon Badge */
+.pokemon-teams__list .small_patreon_logo {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+/* ViewTeam Pokepaste Management */
+.pokepaste_management_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  background-color: #1f1f1f;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+  max-width: 800px;
+  margin: 2rem auto;
+}
+
+/* Pokepaste Link */
+.pokepaste_management_container .pokepaste-link {
+  background-color: #4a90e2;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background 0.3s ease, transform 0.2s;
+}
+
+.pokepaste-link:hover {
+  background-color: #357abd;
+  transform: scale(1.05);
+}
+
+.pokepaste_management_container form {
+  order: 2;
+}
+
+/* Add comment Section  */
+.add-comment__container {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Show comments section */
+
+/* 
+----------------------------------------------------------------- */
+
+.pokemon_team_container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 images per row */
+  gap: 0.8rem; /* Reduced gap between images */
+  justify-content: center;
+  align-items: center;
+  margin: 2rem auto;
+  max-width: 900px; /* Optional: Limit max width */
+}
+
+.pokemon_image img {
+  width: 350px; /* Increased image size */
+  height: 350px;
+  object-fit: contain;
+  border-radius: 12px;
+  background-color: #1f1f1f;
+  padding: 8px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.pokemon_image:hover img {
+  transform: scale(1.12); /* Slight hover grow effect */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8); /* Enhance hover effect */
+}
+
+/* Comments Section Styling */
+.comments__delete-container form .btn {
+  width: auto;
+}
+
+/* Comment Section Container */
+.comment-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem auto;
+  max-width: 900px;
+}
+
+/* Add Comment Box */
+.add-comment__container {
+  background-color: #252525;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+  width: 100%;
+  max-width: 700px;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.add-comment__header {
+  color: #e63946;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  font-family: "Oswald", sans-serif;
+}
+
+.comment-field {
+  width: 90%;
+  min-height: 120px;
+  padding: 1rem;
+  border: 1px solid #444;
+  border-radius: 8px;
+  background-color: #121212;
+  color: #d4d4d4;
+  font-size: 1rem;
+  box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.7);
+  margin-bottom: 1rem;
+}
+
+.comment-field:focus {
+  border-color: #e63946;
+  outline: none;
+  box-shadow: 0 0 6px rgba(230, 57, 70, 0.7);
+}
+
+/* 
+----------------------------------------------------------------- */
+
+/* Display Comments Container */
+.display-comment__container {
+  background-color: #252525;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+  padding: 2rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Grid Layout for Comments */
+.display-comment__list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 Columns */
+  gap: 1.5rem; /* Space between cards */
+  list-style: none;
+  padding: 0;
+}
+
+/* Individual Comment Cards */
+.comment_item {
+  background-color: #1f1f1f;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s;
+}
+
+.comment_item:hover {
+  transform: translateY(-5px);
+}
+
+/* Comment Header Section */
+.comment_header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.comment_author {
+  font-weight: bold;
+  color: #4a90e2;
+}
+
+.comment_date {
+  font-size: 0.9rem;
+  color: #bbb;
+}
+
+/* Comment Text */
+.comment_text {
+  font-size: 1rem;
+  color: #d4d4d4;
+  line-height: 1.5;
+}
+
+/* Delete Button Container */
+.comments__delete-container form .btn {
+  width: auto;
+  padding: 8px 20px;
+  font-size: 0.9rem;
+}
+
+/* Centering the "No Comments" Text */
+.no_comments_text {
+  text-align: center;
+  color: #bbb;
+}
+
+/* View Team styling */
+.title-patreon-logo {
+  height: 80px;
+}
+
+/* Login Styling */
+.login-section,
+.edit-profile__section {
+  display: flex;
+  justify-content: center;
+}
+
+.login-container,
+.auth-form {
+  max-width: 600px;
+  background-color: #252525;
+  padding: 2.5rem 3rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+  text-align: center;
+  width: 100%;
+  max-width: 450px;
+  margin-bottom: 2rem;
+}
+
+.login-container form,
+.edit-profile__container form {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.login-section .login-container form .remember-me-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.login-container form .remember-me-container .remember-me {
+  height: 16px;
+  width: 16px;
+}
+
+.login-container form .btn {
+  margin: 2rem 0;
+}
+
+.login-container form p {
+  padding: 0;
+}
+
+/* Sign Up Styling */
+.sign-up__section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sign-up__container form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.sign-up__container form div {
+  width: 100%;
+}
+
+
+.profile-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 1rem;
+}
+
+.profile-card {
+    background-color: #252525;
+    padding: 2.5rem 3rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.7);
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+}
+
+.profile-card p {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.profile-card p strong {
+    color: #e63946;
+}
+
+.edit-btn {
+    background-color: #4a90e2;
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    border-radius: 8px;
     text-decoration: none;
-    font-size: 1rem;
-    font-family: 'Oswald', sans-serif;
-    cursor: pointer;
     transition: background 0.3s, transform 0.2s;
+    display: inline-block;
+}
+
+.edit-btn:hover {
+    background-color: #357abd;
+    transform: scale(1.05);
 }
 
 .cta-btn:hover {
@@ -72,720 +821,74 @@ body {
     transform: scale(1.05);
 }
 
-/* Flash Messages */
-.flash-messages {
-    list-style: none;
-    padding: 1rem;
-    margin: 1rem 0;
-    border-radius: 8px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    text-align: center;
+.disconnect-btn {
+    background-color: #444;
 }
 
-.flash-messages li {
-    margin-bottom: 0.5rem;
-    padding: 1rem;
-    border-radius: 5px;
-    font-weight: 500;
-    color: white;
-}
-
-/* Success Flash */
-.flash-success {
-    background-color: #2dce89;
-}
-
-/* Error Flash */
-.flash-error {
-    background-color: #e63946;
-}
-
-/* Info Flash */
-.flash-info {
-    background-color: #4a90e2;
-}
-
-/* Warning Flash */
-.flash-warning {
-    background-color: #f4a261;
+.disconnect-btn:hover {
+    background-color: #666;
 }
 
 
-/* Main cta Styling */
-.cta-section {
-    background-color: #1f1f1f;
-    text-align: center;
-    padding: 4rem 2rem;
-    margin-top: 3rem;
-}
-
-.cta-section__container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-}
-
-
-/* Main Video Section */
-.title-page, .section-header {
-    text-align: center;
-    color: #e63946;
-    font-family: 'Oswald', sans-serif;
-    margin: 2rem 0;
-}
-
-.hero {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem 1rem;
-    background: linear-gradient(135deg, #0f0f0f 0%, #1f1f1f 100%);
-    color: white;
-}
-
-
-.hero-content iframe {
-    border: red solid 10px;
-}
-
-
-/* Main Team Section */
-.latest-teams {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    text-align: center;
-    justify-content: center;
-    max-width: 1200px;
-}
-
-.latest-teams > .section-header, .pokemon-teams-section div .section-header {
-    grid-column: span 3;
-    margin-bottom: 0;
-}
-
-.latest-teams .team-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #252525;
-    border: 2px solid #333;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
-    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3;
-}
-
-.latest-teams .team-card:hover {
-    transform: translate(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8);
-    border-color: #e63946;
-}
-
-.latest-teams .team-card .pokemon-sprite, .pokemon-teams__list li .pokemon-sprite {
-    width: 180px;
-    height: 180px;
-    margin-bottom: 1rem;
-    border-radius: 10px;
-    border: 2px solid #444;
-}
-
-.latest-teams .team-card h3 {
-    margin: 15px 0;
-    color: #d4d4d4;
-    font-family: 'Oswald', sans-serif;
-}
-
-.latest-teams .team-card p {
-    padding: 0 20px 20px;
-}
-
-.btn {
-    display: inline-block;
-    padding: 10px 20px;
-    margin: 15px;
-    background-color: #4a90e2;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background 0.3s;
-    cursor: pointer;
-}
-
-.btn:hover {
-    background: #e63946;
-}
-
-/* Main Games Styling */
-.games-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-    padding: 3rem 0;
-    text-align: center;
-}
-
-
-.games-nav ul {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 2rem;
-    list-style: none;
-}
-
-.games-nav ul li {
-    background-color: #252525;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.games-nav ul li:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8);
-}
-
-.games-nav ul li a {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1.5rem;
-    text-decoration: none;
-    color: #d4d4d4;
-    font-size: 1.2rem;
-    font-weight: bold;
-    transition: color 0.3s;
-}
-
-.games-nav ul li a:hover {
-    color: #e63946;
-}
-
-.games-icon {
-    width: 80px;
-    height: 80px;
-    margin-bottom: 1rem;
-    border-radius: 10px;
-}
-
-
-
-/* Main team filter styling */
-.small_patreon_logo {
-    height: 80px;
-}
-
-/* General Section Styling */
+/* Filter Section Layout */
 .filter-section {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 3rem;
-    margin: 3rem auto;
-    max-width: 1100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 3rem;
+  margin: 3rem auto;
+  max-width: 1100px;
+  flex-wrap: wrap;
 }
 
-/* CTA Card Container */
-.cta-card-container {
-    background-color: #252525;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
-    text-align: center;
-    flex: 1 1 320px;
+/* CTA Card - Larger for Unreleased Teams */
+.large-cta-card {
+  flex: 1 1 400px;
+  background-color: #252525;
+  padding: 2.5rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.7);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.cta-card-container h3 {
-    color: #e63946;
-    font-family: 'Oswald', sans-serif;
-    font-size: 1.8rem;
-    margin-bottom: 1.5rem;
+.large-cta-card h3 {
+  font-size: 2rem;
+  color: #ff7d31;
+  margin-bottom: 1.2rem;
+  font-family: "Oswald", sans-serif;
 }
 
-
-.cta-card-container a:hover {
-    background-color: #e63946;
-    transform: scale(1.05);
-    color: #fff;
+.large-cta-card p {
+  font-size: 1.1rem;
+  color: #d4d4d4;
+  margin-bottom: 1rem;
 }
 
-.cta-card-container img.small_patreon_logo {
-    width: 30px;
-    height: 30px;
+.large-cta-card .btn {
+  background-color: #e63946;
+  color: white;
+  padding: 12px 30px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.3s, transform 0.2s;
 }
 
-/* Admin Button */
-.cta-card-container button {
-    margin-top: 1.5rem;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #4a90e2;
-    color: white;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s, transform 0.2s;
+.large-cta-card .btn:hover {
+  background-color: #c92b33;
+  transform: scale(1.05);
 }
 
-.cta-card-container button:hover {
-    background-color: #357ABD;
-    transform: scale(1.05);
+.large-cta-card img {
+  width: 80px;
+  height: 80px;
+  margin: 0;
 }
-
-
-/* Filter Form */
-.filter_container {
-    background-color: #1f1f1f;
-    padding: 2.5rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
-    flex: 2 1 500px;
-}
-
-.filter_container h3, .pokemon-teams-container h3 {
-    font-family: 'Oswald', sans-serif;
-    font-size: 2rem;
-    color: #e63946;
-    margin-bottom: 1.5rem;
-    text-align: center;
-}
-
-form p {
-    margin-bottom: 1.5rem;
-}
-
-form label {
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-    display: block;
-    color: #d4d4d4;
-    font-size: 1.1rem;
-}
-
-input, select {
-    width: 100%;
-    padding: 10px;
-    margin-top: 0.5rem;
-    border-radius: 5px;
-    border: 1px solid #555;
-    font-size: 1rem;
-    background-color: #121212;
-    color: #d4d4d4;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.7);
-}
-
-input:focus, select:focus {
-    border-color: #e63946;
-    outline: none;
-    box-shadow: 0 0 6px rgba(230, 57, 70, 0.7);
-}
-
-/* Submit Button */
-form .btn {
-    background-color: #e63946;
-    color: white;
-    padding: 12px 24px;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    text-transform: uppercase;
-    transition: background 0.3s, transform 0.2s;
-    border: none;
-}
-
-form .btn:hover {
-    background-color: #c92b33;
-    transform: translateY(-3px);
-}
-
-/* Patreon Badge Styling */
-.patreon-badge {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    background-color: #252525;
-    padding: 0.8rem 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
-    font-size: 1rem;
-    color: #ff7d31;
-    font-weight: 600;
-    text-transform: uppercase;
-    transition: transform 0.3s ease;
-}
-
-.patreon-badge img {
-    width: 40px;
-    height: 40px;
-}
-
-.patreon-badge:hover {
-    transform: translateY(-3px);
-}
-
-
-/* Pokemon Teams Section */
-.pokemon-teams-section {
-    margin: 3rem auto;
-    max-width: 1100px;
-}
-
-.pokemon-teams__list {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    justify-content: center;
-    gap: 2rem;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.pokemon-teams__list li {
-    background-color: #252525;
-    border-radius: 10px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
-    padding: 1.5rem;
-    text-align: center;
-    transition: transform 0.3s, box-shadow 0.3s;
-    position: relative;
-    grid-row: 1 span;
-}
-
-.pokemon-teams__list li:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8);
-    border-color: #e63946;
-}
-
-/* Team Sprite Styling */
-.pokemon-sprite {
-    width: 120px;
-    height: 120px;
-    object-fit: contain;
-    margin-bottom: 1rem;
-    border-radius: 10px;
-    border: 2px solid #444;
-    background-color: #1a1a1a;
-}
-
-/* Team Name Link */
-.pokemon-teams__list li a {
-    display: block;
-    margin: 1rem 0;
-    font-size: 1.4rem;
-    font-weight: bold;
-    color: #4a90e2;
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-.pokemon-teams__list li a:hover {
-    color: #e63946;
-}
-
-/* Archetype Text */
-.pokemon-teams__list li p {
-    margin: 0.5rem 0;
-    font-size: 1rem;
-    color: #d4d4d4;
-}
-
-/* Patreon Badge */
-.pokemon-teams__list .small_patreon_logo {
-    width: 30px;
-    height: 30px;
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-}
-
-
-/* ViewTeam Pokepaste Management */
-.pokepaste_management_container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    background-color: #1f1f1f;
-    padding: 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
-    max-width: 800px;
-    margin: 2rem auto;
-}
-
-/* Pokepaste Link */
-.pokepaste_management_container .pokepaste-link {
-    background-color: #4a90e2;
-    color: white;
-    padding: 12px 24px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-size: 1rem;
-    font-weight: 600;
-    transition: background 0.3s ease, transform 0.2s;
-}
-
-.pokepaste-link:hover {
-    background-color: #357ABD;
-    transform: scale(1.05);
-}
-
-
-.pokepaste_management_container form {
-    order: 2;
-}
-
-
-/* Add comment Section  */
-.add-comment__container {
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-
-/* Show comments section */
-
-
-/* 
------------------------------------------------------------------ */
-
-
-.pokemon_team_container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 images per row */
-    gap: 0.8rem; /* Reduced gap between images */
-    justify-content: center;
-    align-items: center;
-    margin: 2rem auto;
-    max-width: 900px; /* Optional: Limit max width */
-}
-
-.pokemon_image img {
-    width: 350px;  /* Increased image size */
-    height: 350px;
-    object-fit: contain;
-    border-radius: 12px;
-    background-color: #1f1f1f;
-    padding: 8px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.pokemon_image:hover img {
-    transform: scale(1.12); /* Slight hover grow effect */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8); /* Enhance hover effect */
-}
-
-
-/* Comments Section Styling */
-.comments__delete-container form .btn{
-    width: auto;
-}
-
-
-/* Comment Section Container */
-.comment-section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 2rem auto;
-    max-width: 900px;
-}
-
-/* Add Comment Box */
-.add-comment__container {
-    background-color: #252525;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
-    width: 100%;
-    max-width: 700px;
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-.add-comment__header {
-    color: #e63946;
-    font-size: 1.8rem;
-    margin-bottom: 1.5rem;
-    font-family: 'Oswald', sans-serif;
-}
-
-.comment-field {
-    width: 90%;
-    min-height: 120px;
-    padding: 1rem;
-    border: 1px solid #444;
-    border-radius: 8px;
-    background-color: #121212;
-    color: #d4d4d4;
-    font-size: 1rem;
-    box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.7);
-    margin-bottom: 1rem;
-}
-
-.comment-field:focus {
-    border-color: #e63946;
-    outline: none;
-    box-shadow: 0 0 6px rgba(230, 57, 70, 0.7);
-}
-
-/* 
------------------------------------------------------------------ */
-
-
-/* Display Comments Container */
-.display-comment__container {
-    background-color: #252525;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
-    padding: 2rem;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-/* Grid Layout for Comments */
-.display-comment__list {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);  /* 3 Columns */
-    gap: 1.5rem;  /* Space between cards */
-    list-style: none;
-    padding: 0;
-}
-
-/* Individual Comment Cards */
-.comment_item {
-    background-color: #1f1f1f;
-    border-radius: 8px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-    transition: transform 0.3s;
-}
-
-.comment_item:hover {
-    transform: translateY(-5px);
-}
-
-/* Comment Header Section */
-.comment_header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-}
-
-.comment_author {
-    font-weight: bold;
-    color: #4a90e2;
-}
-
-.comment_date {
-    font-size: 0.9rem;
-    color: #bbb;
-}
-
-/* Comment Text */
-.comment_text {
-    font-size: 1rem;
-    color: #d4d4d4;
-    line-height: 1.5;
-}
-
-/* Delete Button Container */
-.comments__delete-container form .btn {
-    width: auto;
-    padding: 8px 20px;
-    font-size: 0.9rem;
-}
-
-/* Centering the "No Comments" Text */
-.no_comments_text {
-    text-align: center;
-    color: #bbb;
-}
-
-
-
-/* View Team styling */
-.title-patreon-logo {
-    height: 80px;
-}
-
-/* Login Styling */
-.login-section, .edit-profile__section {
-    display: flex;
-    justify-content: center;
-}
-
-.login-container, .auth-form {
-    max-width: 600px;
-    background-color: #252525;
-    padding: 2.5rem 3rem;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
-    text-align: center;
-    width: 100%;
-    max-width: 450px;
-    margin-bottom: 2rem;
-}
-
-.login-container form, .edit-profile__container form  {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-}
-
-.login-section .login-container form .remember-me-container {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-
-}
-
-.login-container form .remember-me-container .remember-me {
-    height: 16px;
-    width: 16px;
-}
-
-.login-container form .btn {
-    margin: 2rem 0;
-}
-
-
-.login-container form p {
-    padding: 0;
-}
-
-
-/* Sign Up Styling */
-.sign-up__section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.sign-up__container form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.sign-up__container form div {
-    width: 100%;
-}
-
 
 
 /* Footer styling */
@@ -794,65 +897,5 @@ footer {
     padding: 1rem;
     background-color: #12121212;
     color: #bbb;
-    font-family: 'Montserrat', sans-serif;
-}
-
-/* Filter Section Layout */
-.filter-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 3rem;
-    margin: 3rem auto;
-    max-width: 1100px;
-    flex-wrap: wrap;
-}
-
-/* CTA Card - Larger for Unreleased Teams */
-.large-cta-card {
-    flex: 1 1 400px;
-    background-color: #252525;
-    padding: 2.5rem 2rem;
-    border-radius: 12px;
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.7);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.large-cta-card h3 {
-    font-size: 2rem;
-    color: #ff7d31;
-    margin-bottom: 1.2rem;
-    font-family: 'Oswald', sans-serif;
-}
-
-.large-cta-card p {
-    font-size: 1.1rem;
-    color: #d4d4d4;
-    margin-bottom: 1rem;
-}
-
-.large-cta-card .btn {
-    background-color: #e63946;
-    color: white;
-    padding: 12px 30px;
-    font-size: 1.2rem;
-    font-weight: 600;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: background 0.3s, transform 0.2s;
-}
-
-.large-cta-card .btn:hover {
-    background-color: #c92b33;
-    transform: scale(1.05);
-}
-
-.large-cta-card img {
-    width: 80px;
-    height: 80px;
-    margin: 0;
-}
+    font-family: "Montserrat", sans-serif;
+  }

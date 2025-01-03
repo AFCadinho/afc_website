@@ -39,6 +39,10 @@ def index():
     pokemon_teams = Teams.query.filter(Teams.patreon_post == False).order_by(
         Teams.created_at.desc()).limit(3).all()
 
+    # For count All Current Patreon Only Teams
+    patreon_teams = Teams.query.filter(Teams.patreon_post == True).all()
+    patreon_teams_count = len(patreon_teams)
+
     if session.get("is_patreon"):
         pokemon_teams = Teams.query.order_by(
             Teams.created_at.desc()).limit(3).all()
@@ -46,7 +50,8 @@ def index():
     if pokemon_teams:
         for team in pokemon_teams:
             random.shuffle(team.pokemon)
-        return render_template("index.html", session=session, pokemon_teams=pokemon_teams, video_url=video_url, video_title=video_title)
+        return render_template("index.html", session=session, pokemon_teams=pokemon_teams, video_url=video_url, 
+                               video_title=video_title, patreon_teams_count=patreon_teams_count)
 
     flash("No Pokemon Teams available.", category="error")
     return redirect(url_for("general.index"))
@@ -56,7 +61,7 @@ def add_sprites_to_all_pokemon():
     print("ADD SPRITES TO AL POKEMON FUNCTION")
     pokemon = Pokemon.query.filter(
         Pokemon.sprite == "default").all()
-    
+
     for poke in pokemon:
         poke.sprite = fetch_sprite_for_name(poke.name) or ""
 

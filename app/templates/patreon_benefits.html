@@ -2,81 +2,133 @@
 
 {% block title %}Support Us on Patreon{% endblock %}
 
+{% block title_page %}
+Unlock Exclusive Content and Perks!
+{% endblock %}
+
 {% block content %}
-<h1>Become a Patron and Unlock Exclusive Perks!</h1>
-
-<div>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <ul>
-                {% for category, message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
-</div>
-
-<div>
-    <a href="https://www.patreon.com/afc_adinho">
-        <img src="https://seeklogo.com/images/P/patreon-logo-48DB1CF04F-seeklogo.com.png">
-    </a>
-</div>
 
 <section class="benefits-section">
-    <h2>Why Become a Patron?</h2>
-    <p>As a Patron, you will gain access to:</p>
-    <ul>
-        <li>💎 Exclusive access to unreleased Pokémon PvP teams (At Least 15!)</li>
-        <li>🔥 Exclusive Features on my website!</li>
-        <li>🚀 Exclusive content</li>
-        <li>💬 Private Discord channels for team discussions</li>
-        <li>And More!</li>
+    <h2 class="section-header">Why Become a Patron?</h2>
+    <p>By becoming a Patron, you'll unlock:</p>
+    <ul class="benefits-list">
+        <li>💎 Early Access to unreleased Pokémon PvP teams (Currently: <strong>{{ patreon_teams_count }}</strong> )</li>
+        <li>🔥 Exclusive Features and perks on this website</li>
+        <li>🚀 Insider access to private Discord channels for team discussions</li>
+        <li>🎁 Special Patreon-only giveaways and content</li>
     </ul>
 
     <div class="cta-section">
-        <h2>Ready to Level Up?</h2>
-        <a href="https://www.patreon.com/afc_adinho" target="_blank" class="patreon-btn">
-            Become a Patron
-        </a>
+        <h2 class="cta-header">A Massive Wave of Teams Awaits – Are You Ready?</h2>
+        <div class="patreon-logo-container">
+            <a href="https://www.patreon.com/afc_adinho" target="_blank" class="patreon-link">
+                <img src="https://lh4.googleusercontent.com/proxy/DZm6XRYljQs_K-BvHQ-mTSYCxY3WIpUHa0t8140WdUfXWw3SKeQYFfcO6h6M1fcjvS5y6pfGU2wNJSF1jls1qpuRVpJh1E0V7UfgIoWHGdCN4wqYNNFXoTlTz2cLasaXLNWqMCfJDh2esF5Bsw"
+                    alt="Support us on Patreon" class="patreon-logo">
+                <span class="patreon-overlay">Click to Support</span>
+            </a>
+        </div>
     </div>
 </section>
 
 <style>
-    .benefits-section {
-        max-width: 800px;
-        margin: 40px auto;
-        padding: 30px;
-        background-color: white;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        text-align: left;
+    .patreon-logo-container {
+        text-align: center;
+        margin: 40px 0;
+        position: relative;
+        display: inline-block
     }
-    .benefits-section ul {
+
+    .patreon-logo {
+        max-width: 250px;
+        height: auto;
+        transition: transform 0.3s ease;
+        border: 4px solid transparent;
+        border-radius: 12px;
+    }
+
+    .patreon-logo:hover {
+        transform: scale(1.1);
+        box-shadow: 0 8px 24px rgba(255, 66, 77, 0.8);
+        border-color: #ff424d;
+    }
+
+    .patreon-overlay {
+        position: absolute;
+        bottom: -20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #ff424d;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-size: 1rem;
+        opacity: 0;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    
+    .patreon-link:hover .patreon-overlay {
+        opacity: 1;
+        transform: translateX(-50%) translateY(-5px);
+    }
+
+    .benefits-section {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 40px;
+        background-color: #1f1f1f;
+        border-radius: 12px;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.8);
+        text-align: center;
+        color: #d4d4d4;
+    }
+
+    .section-header {
+        font-size: 2rem;
+        color: #ff424d;
+        margin-bottom: 20px;
+        font-family: 'Oswald', sans-serif;
+    }
+
+    .benefits-section p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        line-height: 1.8;
+    }
+
+    .benefits-list {
         list-style-type: none;
         padding: 0;
     }
-    .benefits-section li {
+
+    .benefits-list li {
         font-size: 1.1rem;
         margin-bottom: 15px;
     }
+
     .cta-section {
-        text-align: center;
-        margin-top: 30px;
+        margin-top: 40px;
     }
+
+    .cta-header {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+    }
+
     .patreon-btn {
         display: inline-block;
-        padding: 15px 30px;
-        font-size: 1.2rem;
+        padding: 15px 35px;
+        font-size: 1.3rem;
         color: white;
         background-color: #ff424d;
         text-decoration: none;
-        border-radius: 8px;
-        transition: background-color 0.3s ease, transform 0.2s;
+        border-radius: 10px;
+        transition: background-color 0.3s ease, transform 0.3s;
     }
+
     .patreon-btn:hover {
         background-color: #e03e47;
-        transform: scale(1.05);
+        transform: scale(1.08);
     }
 </style>
+
 {% endblock %}

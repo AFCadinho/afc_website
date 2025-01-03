@@ -5,11 +5,13 @@ from app.forms.admin_forms import BannedNamesForm, DeleteUserForm
 from app import db
 from app.forms.admin_forms import BanForm
 from datetime import datetime
+from app.utils import admin_required
 
 bp = Blueprint('admin', __name__)
 
 
 @bp.route("/admin", methods=["POST", "GET"])
+@admin_required
 def admin():
     if not session.get("is_admin"):
         return redirect(url_for("general.index"))
@@ -29,6 +31,7 @@ def admin():
 
 
 @bp.route("/admin/dashboard")
+@admin_required
 def admin_dashboard():
     user_count = Users.query.count()  # Count total users
     admin_count = Users.query.filter_by(is_admin=True).count()  # Count admins
@@ -43,7 +46,9 @@ def admin_dashboard():
 
 
 @bp.route("/admin/banned_names", methods=["GET", "POST"])
+@admin_required
 def banned_names_page():
+    
     form = BannedNamesForm()
 
     if form.validate_on_submit():
@@ -61,6 +66,7 @@ def banned_names_page():
 
 
 @bp.route("/ban_user/<int:user_id>", methods=["GET","POST"])
+@admin_required
 def ban_user(user_id):
     user = Users.query.filter_by(id=user_id).first()
     if not user:
@@ -109,6 +115,7 @@ def ban_user(user_id):
 
 
 @bp.route("/delete_user/<int:user_id>", methods=["POST"])
+@admin_required
 def delete_user(user_id):
     form = DeleteUserForm()
     user = Users.query.filter_by(id=user_id).first()
