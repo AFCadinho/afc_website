@@ -59,7 +59,7 @@ View Team
     </div>
     </p>
 
-    <p>{{ comment_form.submit(class="btn") }}</p>
+    <div>{{ comment_form.submit(class="btn") }}</div>
 </form>
 
 
@@ -78,13 +78,15 @@ View Team
             {% if comment.user_id == session["user_id"] or session["is_admin"] %}
 
             <!-- Delete Comment -->
-            <form action="{{ url_for('teams.delete_team_comment', team_id=team.id, comment_id=comment.id) }}"
-                method="POST" class="delete_comment_form" onsubmit="return confirmDelete()">
-                {{ delete_comment_form.hidden_tag() }}
-                <div>
-                    {{ delete_comment_form.delete_comment(class="delete_btn") }}
-                </div>
-            </form>
+            <div class="comments__delete-container">
+                <form action="{{ url_for('teams.delete_team_comment', team_id=team.id, comment_id=comment.id) }}"
+                    method="POST" class="delete_comment_form" onsubmit="return confirmDelete()">
+                    {{ delete_comment_form.hidden_tag() }}
+                    <div>
+                        {{ delete_comment_form.delete_comment(class="cta-btn") }}
+                    </div>
+                </form>
+            </div>
             {% endif %}
         </li>
         {% endfor %}

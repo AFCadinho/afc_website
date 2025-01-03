@@ -2,79 +2,83 @@
 
 {% block title %}Edit Profile{% endblock %}
 
+{% block title_page %}
+Sign Up
+{% endblock %}
+
 {% block content %}
-<h1>Sign Up</h1>
 
-<form method="POST">
-    {{ form.hidden_tag() }}
+<section class="sign-up__section">
+    <div class="sign-up__container auth-form">
+        <form method="POST">
+            {{ form.hidden_tag() }}
 
-    <!-- Name -->
-    <div class="form-group">
-        {{ form.name.label }}
-        {{ form.name(class="form-input") }}
+            <!-- Name -->
+            <div class="form-group">
+                {{ form.name.label }}
+                {{ form.name(class="form-input") }}
 
-        {% if form.name.errors %}
-        <ul class="form_errors">
-            {% for error in form.name.errors %}
-            <li>{{ error }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-    </div>
+                {% if form.name.errors %}
+                <ul class="form_errors">
+                    {% for error in form.name.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
 
-    <!-- Email -->
-    <div class="form-group">
-        {{ form.email.label }}
-        {{ form.email(class="form-input") }}
+            <!-- Email -->
+            <div class="form-group">
+                {{ form.email.label }}
+                {{ form.email(class="form-input") }}
 
-        {% if form.email.errors %}
-        <ul class="form_errors">
-            {% for error in form.email.errors %}
-            <li>{{ error }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-    </div>
+                {% if form.email.errors %}
+                <ul class="form_errors">
+                    {% for error in form.email.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
 
-    <!-- Password -->
-    <div class="form-group">
-        {{ form.password.label }}
-        {{ form.password(class="form-input") }}
+            <!-- Password -->
+            <div class="form-group">
+                {{ form.password.label }}
+                {{ form.password(class="form-input") }}
 
-        {% if form.password.errors %}
-        <ul class="form_errors">
-            {% for error in form.password.errors %}
-            <li>{{ error }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-    </div>
+                {% if form.password.errors %}
+                <ul class="form_errors">
+                    {% for error in form.password.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
 
-    <!-- Confirm Password -->
-    <div class="form-group">
-        {{ form.confirm_password.label }}
-        {{ form.confirm_password(class="form-input") }}
+            <!-- Confirm Password -->
+            <div class="form-group">
+                {{ form.confirm_password.label }}
+                {{ form.confirm_password(class="form-input") }}
 
-        {% if form.confirm_password.errors %}
-        <ul class="form_errors">
-            {% for error in form.confirm_password.errors %}
-            <li>{{ error }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-    </div>
+                {% if form.confirm_password.errors %}
+                <ul class="form_errors">
+                    {% for error in form.confirm_password.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
 
-    <!-- Submit and Cancel Buttons -->
-    {% if session["user_id"] %}
-    <div class="button-group">
-        {{ form.submit(class="btn") }}
-        <a href="{{ url_for('profile.view_profile') }}" class="btn-secondary">Cancel</a>
-    </div>
-    {% else %}
-    {{ form.create_user(class="btn") }}
-    {% endif %}
-
-
-
-</form>
+            <!-- Submit and Cancel Buttons -->
+            {% if session["user_id"] %}
+            <div class="button-group">
+                {{ form.submit(class="btn btn-small") }}
+                <a href="{{ url_for('profile.view_profile') }}" class="btn-secondary">Cancel</a>
+            </div>
+            {% else %}
+            {{ form.create_user(class="btn btn-small") }}
+            {% endif %}
+        </form>
+</div>
+</section>
 {% endblock %}

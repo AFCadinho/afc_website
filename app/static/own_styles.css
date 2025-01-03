@@ -507,16 +507,24 @@ form .btn:hover {
 
 
 /* Login Styling */
-.login-section {
+.login-section, .edit-profile__section {
     display: flex;
     justify-content: center;
 }
 
-.login-container {
+.login-container, .auth-form {
     max-width: 600px;
+    background-color: #252525;
+    padding: 2.5rem 3rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+    text-align: center;
+    width: 100%;
+    max-width: 450px;
+    margin-bottom: 2rem;
 }
 
-.login-container form  {
+.login-container form, .edit-profile__container form  {
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -544,10 +552,23 @@ form .btn:hover {
 }
 
 
+/* Sign Up Styling */
+.sign-up__section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
+.sign-up__container form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
-
-
+.sign-up__container form div {
+    width: 100%;
+}
 
 
 

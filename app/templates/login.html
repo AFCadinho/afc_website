@@ -8,7 +8,7 @@
 
 {% block content %}
 <section class="login-section">
-    <div class="login-container">
+    <div class="login-container auth-form">
         <form action="{{ url_for('auth.login') }}" method="POST" novalidate>
             {{ form.csrf_token }}
 
@@ -53,11 +53,8 @@
                 {{ error }}
                 {% endfor %}
             </ul>
+            <p>Don't have an account? <a href="{{ url_for('auth.signup') }}">Sign Up</a></p>
         </form>
     </div>
 </section>
-
-<hr>
-<p>Don't have an account? <a href="{{ url_for('auth.signup') }}">Sign Up</a></p>
-<p>Return to <a href="{{ url_for('general.index') }}">Home</a></p>
 {% endblock %}
